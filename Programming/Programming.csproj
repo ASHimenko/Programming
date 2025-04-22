@@ -52,9 +52,12 @@
     <Compile Include="Model\EducationForm.cs" />
     <Compile Include="Model\Flight.cs" />
     <Compile Include="Model\Genre.cs" />
+    <Compile Include="Model\Geometry\CollisionManager.cs" />
+    <Compile Include="Model\Geometry\Point2D.cs" />
+    <Compile Include="Model\Geometry\Rectangle.cs" />
+    <Compile Include="Model\Geometry\RectangleFactory.cs" />
     <Compile Include="Model\Movie.cs" />
     <Compile Include="Model\Point2D.cs" />
-    <Compile Include="Model\Rectangle.cs" />
     <Compile Include="Model\Season.cs" />
     <Compile Include="Model\SmartphoneManufacturer.cs" />
     <Compile Include="Model\Song.cs" />
@@ -93,6 +96,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Model\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

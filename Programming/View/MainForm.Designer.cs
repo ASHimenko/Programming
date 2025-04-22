@@ -578,6 +578,7 @@
             this.HeightTextBox.Name = "HeightTextBox";
             this.HeightTextBox.Size = new System.Drawing.Size(100, 22);
             this.HeightTextBox.TabIndex = 13;
+            this.HeightTextBox.TextChanged += new System.EventHandler(this.HeightTextBox_TextChanged);
             // 
             // WidthRecTextBox
             // 
@@ -592,6 +593,7 @@
             this.YTextBox.Name = "YTextBox";
             this.YTextBox.Size = new System.Drawing.Size(100, 22);
             this.YTextBox.TabIndex = 11;
+            this.YTextBox.TextChanged += new System.EventHandler(this.YTextBox_TextChanged);
             // 
             // XTextBox
             // 
@@ -599,6 +601,7 @@
             this.XTextBox.Name = "XTextBox";
             this.XTextBox.Size = new System.Drawing.Size(100, 22);
             this.XTextBox.TabIndex = 10;
+            this.XTextBox.TextChanged += new System.EventHandler(this.XTextBox_TextChanged);
             // 
             // IdRecTextBox
             // 

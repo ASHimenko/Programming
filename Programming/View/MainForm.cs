@@ -1,14 +1,17 @@
 ﻿using Programming.Model;
+using Programming.Model.Geometry;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ModelRectangle = Programming.Model.Rectangle;
+using static Programming.MainForm;
+using ModelRectangle = Programming.Model.Geometry.Rectangle;
 
 namespace Programming
 {
@@ -23,18 +26,19 @@ namespace Programming
         private readonly List<ModelRectangle> rectangles;
         private Random _random;
         private ModelRectangle currentRectangle;
-        private readonly List<Panel> _rectanglePanels;
+        private readonly List<Panel> rectanglePanels;
 
         public MainForm()
         {
             InitializeComponent();
 
-            _rectanglePanels = new List<Panel>();
+            Programming.Model.Geometry.Rectangle.ResetCounter();
+
+            rectanglePanels = new List<Panel>();
             rectangles = new List<ModelRectangle>();
-            _rectanglePanels = new List<Panel>();
             _random = new Random();
 
-            RectanglesListBox.SelectedIndexChanged += RectanglesListBox_SelectedIndexChanged;
+            RectanglesListBox1.SelectedIndexChanged += RectanglesListBox1_SelectedIndexChanged;
 
             SeasonComboBox.DataSource = Enum.GetValues(typeof(Season));
             SeasonComboBox.SelectedIndex = 0;
@@ -54,7 +58,7 @@ namespace Programming
             {
                 double length = random.Next(1, 100);
                 double width = random.Next(1, 100);
-                Point2D center = new Point2D(random.Next(0, 100), random.Next(0, 100));
+                Model.Geometry.Point2D center = new Model.Geometry.Point2D(random.Next(0, 100), random.Next(0, 100));
                 _rectangles[i] = new ModelRectangle(length, width, "White", center);
                 RectanglesListBox.Items.Add($"Rectangle {i + 1}");
             }
@@ -83,6 +87,11 @@ namespace Programming
             RemoveRectangleButton.Click += RemoveRectangleButton_Click;
             RectanglesListBox1.SelectedIndexChanged += RectanglesListBox1_SelectedIndexChanged;
 
+            // Подписка на события изменения текста
+            LengthTextBox.TextChanged += HeightTextBox_TextChanged;
+            WidthRecTextBox.TextChanged += WidthTextBox_TextChanged;
+            CenterXTextBox.TextChanged += XTextBox_TextChanged;
+            CenterYTextBox.TextChanged += YTextBox_TextChanged;
 
         }
 
@@ -182,17 +191,19 @@ namespace Programming
 
         private void UpdateRectangleFields()
         {
-            LengthTextBox.Text = _currentRectangle.Length.ToString();
-            WidthTextBox.Text = _currentRectangle.Width.ToString();
-            ColorTextBox.Text = _currentRectangle.Color.ToString();
-            CenterXTextBox.Text = _currentRectangle.Center.X.ToString();
-            CenterYTextBox.Text = _currentRectangle.Center.Y.ToString();
-            IdTextBox.Text = _currentRectangle.Id.ToString();
+            if (_currentRectangle != null)
+            {
+                LengthTextBox.Text = _currentRectangle.Length.ToString();
+                WidthTextBox.Text = _currentRectangle.Width.ToString();
+                CenterXTextBox.Text = _currentRectangle.Center.X.ToString();
+                CenterYTextBox.Text = _currentRectangle.Center.Y.ToString();
+                IdTextBox.Text = _currentRectangle.Id.ToString();
+            }
         }
 
         private void UpdateMovieFields()
         {
-            if (_currentRectangle != null)
+            if (_currentMovie != null)
             {
                 TitleTextBox.Text = _currentMovie.Title;
                 DurationTextBox.Text = _currentMovie.DurationMinutes.ToString();
@@ -266,6 +277,7 @@ namespace Programming
 
         // lab 5
 
+        
         private void ClearRectangleFields()
         {
             HeightTextBox.Text = "";
@@ -276,134 +288,219 @@ namespace Programming
         }
         private void AddRectangleButton_Click_1(object sender, EventArgs e)
         {
-            try
+            var newRect = RectangleFactory.Randomize(CanvasPanel.Width, CanvasPanel.Height);
+            rectangles.Add(newRect);
+
+            RectanglesListBox1.Items.Add($"ID: {newRect.Id}  X: {newRect.Center.X} Y: {newRect.Center.Y}  W: {newRect.Width} H: {newRect.Length}");
+
+            var rectPanel = new Panel
             {
-                // Создаем новый временный список
-                var tempList = _rectangles.ToList();
+                Width = (int)newRect.Width,
+                Height = (int)newRect.Length,
+                Location = new Point((int)(newRect.Center.X - newRect.Width / 2), (int)(newRect.Center.Y - newRect.Length / 2)),
+                BackColor = Color.FromArgb(127, 127, 255, 127),
+                Tag = rectangles.Count - 1
+            };
 
-                double height = _random.Next(30, 100);
-                double width = _random.Next(30, 100);
-                int centerX = _random.Next(15, CanvasPanel.Width - (int)width / 2 - 15);
-                int centerY = _random.Next(15, CanvasPanel.Height - (int)height / 2 - 15);
+            rectanglePanels.Add(rectPanel);
+            CanvasPanel.Controls.Add(rectPanel);
 
-                // Добавляем новый прямоугольник
-                var newRect = new ModelRectangle(height, width, "White", new Point2D(centerX, centerY));
-                tempList.Add(newRect);
-                _rectangles = tempList.ToArray(); // Возвращаем обратно в массив
+            FindCollisions();
 
-                // Создаем панель
-                var panel = new Panel
-                {
-                    Location = new Point(centerX - (int)width / 2, centerY - (int)height / 2),
-                    Size = new Size((int)width, (int)height),
-                    BackColor = Color.FromArgb(127, 127, 255, 127), // Полупрозрачный зеленый
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Tag = _rectangles.Length - 1 // Сохраняем индекс
-                };
+            RemoveRectangleButton.Enabled = true;
 
-                CanvasPanel.Controls.Add(panel);
-                UpdateRectanglesList();
-                FindCollisions();
-                RemoveRectangleButton.Enabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка: {ex.Message}");
-            }
         }
+
 
         private void FindCollisions()
         {
-            foreach (Control control in CanvasPanel.Controls)
+            // Проверяем инициализацию коллекций
+            if (rectanglePanels == null || rectangles == null)
+                return;
+
+            // Проверяем соответствие количества элементов
+            if (rectanglePanels.Count != rectangles.Count)
+                return;
+
+            // Сначала все прямоугольники зеленые
+            for (int i = 0; i < rectanglePanels.Count; i++)
             {
-                if (control is Panel panel)
-                {
-                    panel.BackColor = Color.FromArgb(127, 127, 255, 127);
-                }
+                rectanglePanels[i].BackColor = Color.FromArgb(127, 127, 255, 127);
             }
 
-            // Проверяем пересечения
-            for (int i = 0; i < _rectangles.Length; i++)
+            // Проверяем пересечения между всеми парами прямоугольников
+            for (int i = 0; i < rectangles.Count; i++)
             {
-                for (int j = i + 1; j < _rectangles.Length; j++)
+                for (int j = i + 1; j < rectangles.Count; j++)
                 {
-                    if (IsCollision(_rectangles[i], _rectangles[j]))
-                    {
-                        // Находим соответствующие панели
-                        var panel1 = CanvasPanel.Controls.OfType<Panel>()
-                            .FirstOrDefault(p => (int)p.Tag == i);
-                        var panel2 = CanvasPanel.Controls.OfType<Panel>()
-                            .FirstOrDefault(p => (int)p.Tag == j);
+                    // Проверяем инициализацию прямоугольников
+                    if (rectangles[i] == null || rectangles[j] == null)
+                        continue;
 
-                        if (panel1 != null) panel1.BackColor = Color.FromArgb(127, 255, 127, 127);
-                        if (panel2 != null) panel2.BackColor = Color.FromArgb(127, 255, 127, 127);
+                    // Проверяем инициализацию панелей
+                    if (rectanglePanels[i] == null ||   rectanglePanels[j] == null)
+                        continue;
+
+                    if (CollisionManager.IsCollision(rectangles[i], rectangles[j]))
+                    {
+                        rectanglePanels[i].BackColor = Color.FromArgb(127, 255, 127, 127);
+                        rectanglePanels[j].BackColor = Color.FromArgb(127, 255, 127, 127);
                     }
                 }
             }
         }
-
-        private bool IsCollision(ModelRectangle a, ModelRectangle b)
-        {
-            return Math.Abs(a.Center.X - b.Center.X) < (a.Width + b.Width) / 2 &&
-                   Math.Abs(a.Center.Y - b.Center.Y) < (a.Length + b.Length) / 2;
-        }
-
+        
         private void RemoveRectangleButton_Click(object sender, EventArgs e)
         {
-            if (RectanglesListBox.SelectedIndex == -1) return;
+            if (RectanglesListBox1.SelectedIndex == -1) return;
 
-            int index = RectanglesListBox.SelectedIndex;
+            int index = RectanglesListBox1.SelectedIndex;
 
             // Удаляем панель
-            var panelToRemove = CanvasPanel.Controls.OfType<Panel>()
-                .FirstOrDefault(p => (int)p.Tag == index);
-            if (panelToRemove != null)
+            if (rectanglePanels[index] != null)
             {
-                CanvasPanel.Controls.Remove(panelToRemove);
+                CanvasPanel.Controls.Remove(rectanglePanels[index]);
+                rectanglePanels.RemoveAt(index);
             }
 
-            // Обновляем массив
-            var tempList = _rectangles.ToList();
-            tempList.RemoveAt(index);
-            _rectangles = tempList.ToArray();
+            // Удаляем прямоугольник
+            rectangles.RemoveAt(index);
+
+            // Обновляем ListBox
+            RectanglesListBox1.Items.RemoveAt(index);
 
             // Обновляем теги у оставшихся панелей
-            for (int i = 0; i < CanvasPanel.Controls.Count; i++)
+            for (int i = 0; i < rectanglePanels.Count; i++)
             {
-                if (CanvasPanel.Controls[i] is Panel panel)
-                {
-                    panel.Tag = i;
-                }
+                rectanglePanels[i].Tag = i;
             }
 
-            UpdateRectanglesList();
             FindCollisions();
-
-            if (_rectangles.Length == 0)
-            {
-                ClearRectangleFields();
-                RemoveRectangleButton.Enabled = false;
-            }
+            RemoveRectangleButton.Enabled = rectangles.Count > 0;
         }
 
-        private void UpdateRectanglesList()
-        {
-            RectanglesListBox.Items.Clear();
-            for (int i = 0; i < _rectangles.Length; i++)
-            {
-                RectanglesListBox.Items.Add($"Rectangle {i + 1}");
-            }
-        }
+        
 
         private void RectanglesListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (RectanglesListBox1.SelectedIndex != -1 &&
-                RectanglesListBox1.SelectedIndex < rectangles.Count)
+            int selectedIndex = RectanglesListBox1.SelectedIndex;
+            if (selectedIndex != -1)
             {
-                _currentRectangle = _rectangles[RectanglesListBox1.SelectedIndex];
-                UpdateRectangleFields();
+                currentRectangle = rectangles[selectedIndex];
+                UpdateRectangleInfo(currentRectangle);
+            }
+            else
+            {
+                ClearRectangleFields();
             }
         }
 
+        private void UpdateRectangleInfo(ModelRectangle rectangle)
+        {
+            LengthTextBox.Text = rectangle.Length.ToString();
+            WidthTextBox.Text = rectangle.Width.ToString();
+            CenterXTextBox.Text = rectangle.Center.X.ToString();
+            CenterYTextBox.Text = rectangle.Center.Y.ToString();
+            IdTextBox.Text = rectangle.Id.ToString();
+        }
+        private void HeightTextBox_TextChanged(object sender, EventArgs e)
+        {
+            
+            if (currentRectangle != null && double.TryParse(HeightTextBox.Text, out double length))
+            {
+                currentRectangle.Length = length;
+                HeightTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+                
+        }
+
+        private void WidthRecTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && double.TryParse(WidthRecTextBox.Text, out double width))
+            {
+                currentRectangle.Width = width;
+                WidthRecTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+
+
+        }
+
+        private void XTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && int.TryParse(XTextBox.Text, out int x))
+            {
+                // Используем новый метод вместо прямого доступа
+                currentRectangle.UpdateCenter(x, currentRectangle.Center.Y);
+                XTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+        }
+
+        private void YTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && int.TryParse(YTextBox.Text, out int y))
+            {
+                // Используем новый метод вместо прямого доступа
+                currentRectangle.UpdateCenter(_currentRectangle.Center.X, y);
+                YTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+        }
+
+        public class Rectangle
+        {
+           private static int _idCounter = 1;
+    
+            public int Id { get; } 
+            public double Height { get; set; }
+            public double Width { get; set; }
+            public Model.Geometry.Point2D Center { get; private set; }
+
+            public void UpdateCenter(int x, int y)
+            {
+                Center = new Model.Geometry.Point2D(x, y);
+            }
+
+
+
+            public Rectangle(double height, double width, Model.Geometry.Point2D center)
+            {
+                if (_idCounter == int.MaxValue)
+                {
+                    _idCounter = 1; // Сброс при достижении максимума
+                }
+                Id = _idCounter++;
+
+                Id = _idCounter++;
+                Height = height;
+                Width = width;
+                Center = center;
+            }
+                                   
+        }
+
+        private void UpdatePanelVisuals()
+        {
+            if (currentRectangle == null) return;
+
+            int index = rectangles.IndexOf(currentRectangle);
+            if (index >= 0 && index < rectanglePanels.Count)
+            {
+                var panel = rectanglePanels[index];
+                panel.Location = new Point(
+                    (int)(currentRectangle.Center.X - currentRectangle.Width / 2),
+                    (int)(currentRectangle.Center.Y - currentRectangle.Length / 2));
+                panel.Size = new Size(
+                    (int)currentRectangle.Width,
+                    (int)currentRectangle.Length);
+
+                FindCollisions();
+            }
+        }
+
+        
+        
     }
 }
