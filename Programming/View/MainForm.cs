@@ -38,7 +38,7 @@ namespace Programming
             rectangles = new List<ModelRectangle>();
             _random = new Random();
 
-            RectanglesListBox1.SelectedIndexChanged += RectanglesListBox1_SelectedIndexChanged;
+            //RectanglesListBox1.SelectedIndexChanged += RectanglesListBox1_SelectedIndexChanged;
 
             SeasonComboBox.DataSource = Enum.GetValues(typeof(Season));
             SeasonComboBox.SelectedIndex = 0;
@@ -77,7 +77,7 @@ namespace Programming
             CenterYTextBox.ReadOnly = true;
             IdTextBox.ReadOnly = true;
 
-
+/*
             // Настройка начального состояния
             ClearRectangleFields();
             RemoveRectangleButton.Enabled = false;
@@ -92,7 +92,7 @@ namespace Programming
             WidthRecTextBox.TextChanged += WidthTextBox_TextChanged;
             CenterXTextBox.TextChanged += XTextBox_TextChanged;
             CenterYTextBox.TextChanged += YTextBox_TextChanged;
-
+*/
         }
 
         private void EnumsListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -277,7 +277,7 @@ namespace Programming
 
         // lab 5
 
-        
+/*
         private void ClearRectangleFields()
         {
             HeightTextBox.Text = "";
@@ -314,14 +314,7 @@ namespace Programming
 
         private void FindCollisions()
         {
-            // Проверяем инициализацию коллекций
-            if (rectanglePanels == null || rectangles == null)
-                return;
-
-            // Проверяем соответствие количества элементов
-            if (rectanglePanels.Count != rectangles.Count)
-                return;
-
+            
             // Сначала все прямоугольники зеленые
             for (int i = 0; i < rectanglePanels.Count; i++)
             {
@@ -333,13 +326,6 @@ namespace Programming
             {
                 for (int j = i + 1; j < rectangles.Count; j++)
                 {
-                    // Проверяем инициализацию прямоугольников
-                    if (rectangles[i] == null || rectangles[j] == null)
-                        continue;
-
-                    // Проверяем инициализацию панелей
-                    if (rectanglePanels[i] == null ||   rectanglePanels[j] == null)
-                        continue;
 
                     if (CollisionManager.IsCollision(rectangles[i], rectangles[j]))
                     {
@@ -458,6 +444,7 @@ namespace Programming
             public double Width { get; set; }
             public Model.Geometry.Point2D Center { get; private set; }
 
+            //Обновляет координаты центра фигуры
             public void UpdateCenter(int x, int y)
             {
                 Center = new Model.Geometry.Point2D(x, y);
@@ -471,8 +458,7 @@ namespace Programming
                 {
                     _idCounter = 1; // Сброс при достижении максимума
                 }
-                Id = _idCounter++;
-
+                
                 Id = _idCounter++;
                 Height = height;
                 Width = width;
@@ -498,9 +484,7 @@ namespace Programming
 
                 FindCollisions();
             }
-        }
+        }*/
 
-        
-        
     }
 }
