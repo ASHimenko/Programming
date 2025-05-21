@@ -191,7 +191,6 @@
             this.InputTextBox.Name = "InputTextBox";
             this.InputTextBox.Size = new System.Drawing.Size(144, 20);
             this.InputTextBox.TabIndex = 2;
-            this.InputTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // ResultLabel
             // 

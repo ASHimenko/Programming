@@ -13,14 +13,19 @@ using ModelRectangle = Programming.Model.Geometry.Rectangle;
 
 namespace Programming.View
 {
+    /// <summary>
+    /// Пользовательский элемент управления для работы с пересечением прямоугольников
+    /// </summary>
     public partial class RectanglesCollisionControl : UserControl
     {
-
         private readonly List<ModelRectangle> rectangles;
         private readonly List<Panel> rectanglePanels;
         private readonly Random _random;
         private ModelRectangle currentRectangle;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса RectanglesCollisionControl
+        /// </summary>
         public RectanglesCollisionControl()
         {
             InitializeComponent();
@@ -30,16 +35,11 @@ namespace Programming.View
             _random = new Random();
         }
 
-        
-
-        private void ClearRectangleFields()
-        {
-            HeightTextBox.Text = "";
-            WidthRecTextBox.Text = "";
-            XTextBox.Text = "";
-            YTextBox.Text = "";
-            IdRecTextBox.Text = "";
-        }
+        /// <summary>
+        /// Обработчик события нажатия кнопки добавления прямоугольника
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Данные события</param>
         private void AddRectangleButton_Click_1(object sender, EventArgs e)
         {
             var newRect = RectangleFactory.Randomize(CanvasPanel.Width, CanvasPanel.Height);
@@ -62,35 +62,14 @@ namespace Programming.View
             FindCollisions();
 
             RemoveRectangleButton.Enabled = true;
-
         }
 
-
-        private void FindCollisions()
-        {
-
-            // Сначала все прямоугольники зеленые
-            for (int i = 0; i < rectanglePanels.Count; i++)
-            {
-                rectanglePanels[i].BackColor = Color.FromArgb(127, 127, 255, 127);
-            }
-
-            // Проверяем пересечения между всеми парами прямоугольников
-            for (int i = 0; i < rectangles.Count; i++)
-            {
-                for (int j = i + 1; j < rectangles.Count; j++)
-                {
-
-                    if (CollisionManager.IsCollision(rectangles[i], rectangles[j]))
-                    {
-                        rectanglePanels[i].BackColor = Color.FromArgb(127, 255, 127, 127);
-                        rectanglePanels[j].BackColor = Color.FromArgb(127, 255, 127, 127);
-                    }
-                }
-            }
-        }
-
-        private void RemoveRectangleButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик события нажатия кнопки удаления прямоугольника
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Данные события</param>
+        private void RemoveRectangleButton_Click_1(object sender, EventArgs e)
         {
             if (RectanglesListBox1.SelectedIndex == -1) return;
 
@@ -119,9 +98,12 @@ namespace Programming.View
             RemoveRectangleButton.Enabled = rectangles.Count > 0;
         }
 
-
-
-        private void RectanglesListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик события изменения выбранного элемента в списке прямоугольников
+        /// </summary>
+        /// <param name="sender">Источник события</param>
+        /// <param name="e">Данные события</param>
+        private void RectanglesListBox1_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             int selectedIndex = RectanglesListBox1.SelectedIndex;
             if (selectedIndex != -1)
@@ -135,6 +117,47 @@ namespace Programming.View
             }
         }
 
+        /// <summary>
+        /// Очищает текстовые поля с информацией о прямоугольнике
+        /// </summary>
+        private void ClearRectangleFields()
+        {
+            HeightTextBox.Text = "";
+            WidthRecTextBox.Text = "";
+            XTextBox.Text = "";
+            YTextBox.Text = "";
+            IdRecTextBox.Text = "";
+        }
+
+        /// <summary>
+        /// Находит и отмечает пересекающиеся прямоугольники
+        /// </summary>
+        private void FindCollisions()
+        {
+            // Сначала все прямоугольники зеленые
+            for (int i = 0; i < rectanglePanels.Count; i++)
+            {
+                rectanglePanels[i].BackColor = Color.FromArgb(127, 127, 255, 127);
+            }
+
+            // Проверяем пересечения между всеми парами прямоугольников
+            for (int i = 0; i < rectangles.Count; i++)
+            {
+                for (int j = i + 1; j < rectangles.Count; j++)
+                {
+                    if (CollisionManager.IsCollision(rectangles[i], rectangles[j]))
+                    {
+                        rectanglePanels[i].BackColor = Color.FromArgb(127, 255, 127, 127);
+                        rectanglePanels[j].BackColor = Color.FromArgb(127, 255, 127, 127);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Обновляет информацию о прямоугольнике в текстовых полях
+        /// </summary>
+        /// <param name="rectangle">Прямоугольник для отображения</param>
         private void UpdateRectangleInfo(ModelRectangle rectangle)
         {
             HeightTextBox.Text = rectangle.Length.ToString();
@@ -143,69 +166,50 @@ namespace Programming.View
             YTextBox.Text = rectangle.Center.Y.ToString();
             IdRecTextBox.Text = rectangle.Id.ToString();
         }
-        private void HeightTextBox_TextChanged(object sender, EventArgs e)
-        {
 
-            if (currentRectangle != null && double.TryParse(HeightTextBox.Text, out double length))
-            {
-                currentRectangle.Length = length;
-                HeightTextBox.BackColor = Color.White;
-                UpdatePanelVisuals();
-            }
-
-        }
-
-        private void WidthRecTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (currentRectangle != null && double.TryParse(WidthRecTextBox.Text, out double width))
-            {
-                currentRectangle.Width = width;
-                WidthRecTextBox.BackColor = Color.White;
-                UpdatePanelVisuals();
-            }
-
-
-        }
-
-        private void XTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (currentRectangle != null && int.TryParse(XTextBox.Text, out int x))
-            {
-                // Используем новый метод вместо прямого доступа
-                currentRectangle.UpdateCenter(x, currentRectangle.Center.Y);
-                XTextBox.BackColor = Color.White;
-                UpdatePanelVisuals();
-            }
-        }
-
-        private void YTextBox_TextChanged(object sender, EventArgs e)
-        {
-            if (currentRectangle != null && int.TryParse(YTextBox.Text, out int y))
-            {
-                // Используем новый метод вместо прямого доступа
-                currentRectangle.UpdateCenter(currentRectangle.Center.X, y);
-                YTextBox.BackColor = Color.White;
-                UpdatePanelVisuals();
-            }
-        }
-
+        /// <summary>
+        /// Представляет прямоугольник с уникальным идентификатором
+        /// </summary>
         public class Rectangle
         {
             private static int _idCounter = 1;
 
+            /// <summary>
+            /// Уникальный идентификатор прямоугольника
+            /// </summary>
             public int Id { get; }
+
+            /// <summary>
+            /// Высота прямоугольника
+            /// </summary>
             public double Height { get; set; }
+
+            /// <summary>
+            /// Ширина прямоугольника
+            /// </summary>
             public double Width { get; set; }
+
+            /// <summary>
+            /// Центр прямоугольника
+            /// </summary>
             public Model.Geometry.Point2D Center { get; private set; }
 
-            //Обновляет координаты центра фигуры
+            /// <summary>
+            /// Обновляет координаты центра фигуры
+            /// </summary>
+            /// <param name="x">Координата X центра</param>
+            /// <param name="y">Координата Y центра</param>
             public void UpdateCenter(int x, int y)
             {
                 Center = new Model.Geometry.Point2D(x, y);
             }
 
-
-
+            /// <summary>
+            /// Создает новый экземпляр прямоугольника
+            /// </summary>
+            /// <param name="height">Высота</param>
+            /// <param name="width">Ширина</param>
+            /// <param name="center">Центральная точка</param>
             public Rectangle(double height, double width, Model.Geometry.Point2D center)
             {
                 if (_idCounter == int.MaxValue)
@@ -218,9 +222,11 @@ namespace Programming.View
                 Width = width;
                 Center = center;
             }
-
         }
 
+        /// <summary>
+        /// Обновляет визуальное отображение прямоугольника на панели
+        /// </summary>
         private void UpdatePanelVisuals()
         {
             if (currentRectangle == null) return;
@@ -239,14 +245,57 @@ namespace Programming.View
                 FindCollisions();
             }
         }
-        private void RectanglesCollisionControl_Load(object sender, EventArgs e)
-        {
 
+        /// <summary>
+        /// Обработчик изменения текста в поле высоты
+        /// </summary>
+        private void HeightTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && double.TryParse(HeightTextBox.Text, out double length))
+            {
+                currentRectangle.Length = length;
+                HeightTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
         }
 
-        private void AddRectangleButton_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Обработчик изменения текста в поле ширины
+        /// </summary>
+        private void WidthRecTextBox_TextChanged(object sender, EventArgs e)
         {
+            if (currentRectangle != null && double.TryParse(WidthRecTextBox.Text, out double width))
+            {
+                currentRectangle.Width = width;
+                WidthRecTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+        }
 
+        /// <summary>
+        /// Обработчик изменения текста в поле координаты X
+        /// </summary>
+        private void XTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && int.TryParse(XTextBox.Text, out int x))
+            {
+                currentRectangle.UpdateCenter(x, currentRectangle.Center.Y);
+                XTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
+        }
+
+        /// <summary>
+        /// Обработчик изменения текста в поле координаты Y
+        /// </summary>
+        private void YTextBox_TextChanged(object sender, EventArgs e)
+        {
+            if (currentRectangle != null && int.TryParse(YTextBox.Text, out int y))
+            {
+                currentRectangle.UpdateCenter(currentRectangle.Center.X, y);
+                YTextBox.BackColor = Color.White;
+                UpdatePanelVisuals();
+            }
         }
     }
 }
