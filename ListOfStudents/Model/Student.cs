@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ListOfStudents.Model
 {
+    [Serializable]
     public class Student
     {
         public string FullName { get; set; }
