@@ -75,7 +75,7 @@
             this.LengthTextBox = new System.Windows.Forms.TextBox();
             this.RectanglesListBox = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.rectanglesCollisionControl1 = new Programming.View.RectanglesCollisionControl();
+            this.RectanglesCollisionControl = new Programming.View.RectanglesCollisionControl();
             this.MainTabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -580,7 +580,7 @@
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.rectanglesCollisionControl1);
+            this.tabPage2.Controls.Add(this.RectanglesCollisionControl);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
@@ -591,11 +591,11 @@
             // 
             // rectanglesCollisionControl1
             // 
-            this.rectanglesCollisionControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.rectanglesCollisionControl1.Location = new System.Drawing.Point(0, 0);
-            this.rectanglesCollisionControl1.Name = "rectanglesCollisionControl1";
-            this.rectanglesCollisionControl1.Size = new System.Drawing.Size(606, 528);
-            this.rectanglesCollisionControl1.TabIndex = 0;
+            this.RectanglesCollisionControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.RectanglesCollisionControl.Location = new System.Drawing.Point(0, 0);
+            this.RectanglesCollisionControl.Name = "rectanglesCollisionControl";
+            this.RectanglesCollisionControl.Size = new System.Drawing.Size(606, 528);
+            this.RectanglesCollisionControl.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -604,7 +604,7 @@
             this.ClientSize = new System.Drawing.Size(614, 554);
             this.Controls.Add(this.MainTabControl);
             this.Margin = new System.Windows.Forms.Padding(2);
-            this.Name = "MainForm";
+            this.Name = "MainForm1";
             this.Text = "Form1";
             this.MainTabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -673,7 +673,7 @@
         private System.Windows.Forms.ListBox MoviesListBox;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TabPage tabPage2;
-        private View.RectanglesCollisionControl rectanglesCollisionControl1;
+        private View.RectanglesCollisionControl RectanglesCollisionControl;
     }
 }
 
