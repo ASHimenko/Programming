@@ -368,7 +368,12 @@ namespace Programming
             // Установка выбранного элемента в списке по найденному индексу
             RectanglesListBox.SelectedIndex = maxWidthIndex;
         }
-       
+
+        private void RectanglesCollisionControl_Load(object sender, EventArgs e)
+        {
+
+        }
+
 
 
         // lab 5

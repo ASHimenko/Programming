@@ -1,72 +1,67 @@
-﻿using System;
+﻿using ObjectOrientedPractics.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ObjectOrientedPractics.Services.IdGenerator;
 
 namespace ObjectOrientedPractics.Model
 {
     public class Item
     {
         private readonly int _id;
-        private string _name;
-        private string _info;
-        private double _cost;
-
-        public static class IdGenerator
-        {
-            private static int _currentId = 0;
-
-            public static int GetNextId()
-            {
-                return ++_currentId;
-            }
-
-        }
-
-        public Item(string name, string info, double cost)
-        {
-            _id = IdGenerator.GetNextId();
-            Name = name;
-            Info = info;
-            Cost = cost;
-
-        }
-
+        public string Name;
+        public string Info;
+        public double Cost;
         public int Id => _id;
-
-        public string Name
+        public string name
         {
-            get => _name;
+            get => Name;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new ArgumentException("Название товара не может быть пустым");
 
-                ValueValidator.AssertStringOnLength(value, 200, nameof(Name));
-                _name = value;
+                ValueValidator.AssertStringOnLength(value, 200, nameof(name));
+                Name = value;
             }
         }
 
-        public string Info
+        public string info
         {
-            get => _info;
+            get => Info;
             set
             {
-                ValueValidator.AssertStringOnLength(value, 1000, nameof(Info));
-                _info = value;
+                ValueValidator.AssertStringOnLength(value, 1000, nameof(info));
+                Info = value;
             }
         }
 
-        public double Cost
+        public double cost
         {
-            get => _cost;
+            get => Cost;
             set
             {
                 if (value < 0 || value > 100000)
                     throw new ArgumentException("Стоимость товара должна быть в диапазоне от 0 до 100000");
-                _cost = value;
+                Cost = value;
             }
+        }
+        
+        public string DisplayInfo => $"ID: {Id} - {Name} - {Cost:C}";
+        public Item(string _name, string _info, double _cost)
+        {
+            _id = IdGenerator.GetNextId();
+            name = _name;
+            info = _info;
+            cost = _cost;
+
+        }
+
+        public override string ToString()
+        {
+            return DisplayInfo;
         }
     }
 }

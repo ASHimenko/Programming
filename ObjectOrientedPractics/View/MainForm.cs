@@ -15,6 +15,10 @@ namespace ObjectOrientedPractics
         public MainForm()
         {
             InitializeComponent();
+
+            
         }
+
+        
     }
 }
