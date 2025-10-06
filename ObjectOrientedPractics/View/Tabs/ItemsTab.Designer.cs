@@ -41,7 +41,6 @@
             this.buttonAddItems = new System.Windows.Forms.Button();
             this.buttonRemoveItems = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.buttonEditItems = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -153,7 +152,7 @@
             // 
             // buttonRemoveItems
             // 
-            this.buttonRemoveItems.Location = new System.Drawing.Point(276, 486);
+            this.buttonRemoveItems.Location = new System.Drawing.Point(135, 486);
             this.buttonRemoveItems.Name = "buttonRemoveItems";
             this.buttonRemoveItems.Size = new System.Drawing.Size(117, 48);
             this.buttonRemoveItems.TabIndex = 3;
@@ -170,21 +169,10 @@
             this.label5.TabIndex = 4;
             this.label5.Text = "Items";
             // 
-            // buttonEditItems
-            // 
-            this.buttonEditItems.Location = new System.Drawing.Point(135, 486);
-            this.buttonEditItems.Name = "buttonEditItems";
-            this.buttonEditItems.Size = new System.Drawing.Size(135, 48);
-            this.buttonEditItems.TabIndex = 5;
-            this.buttonEditItems.Text = "Edit";
-            this.buttonEditItems.UseVisualStyleBackColor = true;
-            this.buttonEditItems.Click += new System.EventHandler(this.buttonEditItems_Click);
-            // 
             // ItemsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonEditItems);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.buttonRemoveItems);
             this.Controls.Add(this.buttonAddItems);
@@ -214,6 +202,5 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox textBoxInfo;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Button buttonEditItems;
     }
 }

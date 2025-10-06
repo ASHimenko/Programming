@@ -9,9 +9,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static ObjectOrientedPractics.Model.Item;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -22,11 +19,6 @@ namespace ObjectOrientedPractics.View.Tabs
         private Item _currentItem;
 
         /// <summary>
-        /// Флаг режима редактирования.
-        /// </summary>
-        private bool _isEditing = false;
-
-        /// <summary>
         /// Инициализирует новый экземпляр класса ItemsTab.
         /// </summary>
         public ItemsTab()
@@ -34,13 +26,14 @@ namespace ObjectOrientedPractics.View.Tabs
             InitializeComponent();
         }
 
-        /// <summary>
-        /// Обработчик события загрузки вкладки.
-        /// </summary>
-        private void ItemsTab_Load(object sender, EventArgs e)
+        public List<Item> Items
         {
-            UpdateListBox();
-            ClearInputs();
+            get { return _items; }
+            set
+            {
+                _items = value;
+                UpdateListBox();
+            }
         }
 
         /// <summary>
@@ -48,77 +41,20 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void buttonAddItems_Click(object sender, EventArgs e)
         {
-            try
-            {
-                var name = textBoxName.Text;
-                var info = textBoxInfo.Text;
-                var cost = double.Parse(textBoxCost.Text);
-                var newItem = new Item(name, info, cost);
-                _items.Add(newItem);
+            var name = textBoxName.Text;
+            var info = textBoxInfo.Text;
+            var cost = double.Parse(textBoxCost.Text);
+            _currentItem = new Item(name, info, cost);
+            _items.Add(_currentItem);
 
-                UpdateListBox();
-                ClearInputs();
+            UpdateListBox();
 
-                _currentItem = null;
-                ItemsListBox.ClearSelected();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Ошибка при создании товара: {ex.Message}", "Ошибка",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            _currentItem = null;
+            UpdateInputs();
+
+
         }
 
-        /// <summary>
-        /// Обработчик нажатия кнопки "Редактировать/Сохранить".
-        /// </summary>
-        private void buttonEditItems_Click(object sender, EventArgs e)
-        {
-            if (_isEditing)
-            {
-                // Режим сохранения изменений
-                try
-                {
-                    _currentItem.Name = textBoxName.Text;
-                    _currentItem.Info = textBoxInfo.Text;
-                    _currentItem.Cost = double.Parse(textBoxCost.Text);
-
-                    _isEditing = false;
-                    buttonEditItems.Text = "Edit";
-                    ItemsListBox.Enabled = true;
-                    buttonAddItems.Enabled = true;
-                    buttonRemoveItems.Enabled = true;
-
-                    UpdateListBox();
-                    MessageBox.Show("Изменения сохранены", "Успех",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    _currentItem = null;
-                    ItemsListBox.ClearSelected();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка при сохранении: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            else
-            {
-                // Режим начала редактирования
-                if (_currentItem == null)
-                {
-                    MessageBox.Show("Выберите товар для редактирования", "Внимание",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                _isEditing = true;
-                buttonEditItems.Text = "Save";
-                ItemsListBox.Enabled = false;
-                buttonAddItems.Enabled = false;
-                buttonRemoveItems.Enabled = false;
-            }
-        }
 
         /// <summary>
         /// Обработчик нажатия кнопки "Удалить товар".
@@ -154,11 +90,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 _currentItem = _items[ItemsListBox.SelectedIndex];
                 UpdateInputs();
             }
-            else
-            {
-                _currentItem = null;
-                ClearInputs();
-            }
         }
 
         /// <summary>
@@ -182,6 +113,13 @@ namespace ObjectOrientedPractics.View.Tabs
                 textBoxInfo.Text = _currentItem.Info;
                 textBoxCost.Text = _currentItem.Cost.ToString();
             }
+            else
+            {
+                textBoxName.Clear();
+                textBoxInfo.Clear();
+                textBoxCost.Clear();
+
+            }
         }
 
         /// <summary>
@@ -189,15 +127,12 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox()
         {
-            int selectedIndex = ItemsListBox.SelectedIndex;
-            ItemsListBox.DataSource = null;
-            ItemsListBox.DataSource = _items;
-
-            // Восстанавливаем выделение после обновления
-            if (selectedIndex >= 0 && selectedIndex < _items.Count)
+            ItemsListBox.Items.Clear();
+            foreach (var item in _items)
             {
-                ItemsListBox.SelectedIndex = selectedIndex;
+                ItemsListBox.Items.Add(item);
             }
+        
         }
 
         /// <summary>
@@ -205,11 +140,12 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void textBoxName_TextChanged(object sender, EventArgs e)
         {
-            if (_currentItem != null && !string.IsNullOrEmpty(textBoxName.Text))
+            if (_currentItem != null)
             {
                 try
                 {
                     _currentItem.Name = textBoxName.Text;
+                    UpdateListBox();
                     
                 }
                 catch (Exception ex)
@@ -225,11 +161,12 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void textBoxInfo_TextChanged(object sender, EventArgs e)
         {
-            if (_currentItem != null && !string.IsNullOrEmpty(textBoxInfo.Text))
+            if (_currentItem != null)
             {
                 try
                 {
                     _currentItem.Info = textBoxInfo.Text;
+                    UpdateListBox();
                     
                 }
                 catch (Exception ex)
@@ -250,6 +187,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 try
                 {
                     _currentItem.Cost = double.Parse(textBoxCost.Text);
+                    UpdateListBox();
                     
                 }
                 catch (Exception ex)
