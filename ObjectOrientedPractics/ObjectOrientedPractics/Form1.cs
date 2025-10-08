@@ -1,5 +1,4 @@
-﻿using ObjectOrientedPractics.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,15 +10,11 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics
 {
-    public partial class MainForm : Form
+    public partial class Form1 : Form
     {
-        private Store _store = new Store();
-        public MainForm()
+        public Form1()
         {
             InitializeComponent();
-            itemsTab1.Items = _store.Items;
-            customersTab1.Customers = _store.Customers;
         }
-
     }
 }

@@ -56,13 +56,16 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox()
         {
-            CustomersListBox.Items.Clear();
+            CustomerListBox.Items.Clear();
             foreach (var customer in _customers)
             {
-                CustomersListBox.Items.Add(customer);
+                CustomerListBox.Items.Add(customer);
             }
         }
 
+        /// <summary>
+        /// Обновляет добавляет покупателей в ListBox.
+        /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
             var currentAddress = addressControl.Address;
@@ -83,26 +86,21 @@ namespace ObjectOrientedPractics.View.Tabs
             addressControl.ClearFields();
         }
 
+        /// <summary>
+        /// Обновляет удаляет покупателей в ListBox.
+        /// </summary>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (CustomersListBox.SelectedIndex != -1)
+            if (CustomerListBox.SelectedIndex != -1)
             {
-                _customers.RemoveAt(CustomersListBox.SelectedIndex);
+                _customers.RemoveAt(CustomerListBox.SelectedIndex);
                 UpdateListBox();
                 _currentCustomer = null;
                 UpdateCustomerInfo();
             }
         }
 
-        private void CustomersListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (CustomersListBox.SelectedIndex != -1 && CustomersListBox.SelectedIndex < _customers.Count)
-            {
-                _currentCustomer = _customers[CustomersListBox.SelectedIndex];
-                UpdateCustomerInfo();
         
-            }
-        }
 
         private void FullNameTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -113,6 +111,14 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
-        
+        private void CustomerListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (CustomerListBox.SelectedIndex != -1 && CustomerListBox.SelectedIndex < _customers.Count)
+            {
+                _currentCustomer = _customers[CustomerListBox.SelectedIndex];
+                UpdateCustomerInfo();
+
+            }
+        }
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F4A31F48-6D83-47C1-BA60-062F60BE13AB}</ProjectGuid>
+    <ProjectGuid>{B7A90AE9-BEFD-4EA9-8FA3-D3FE5CBE4D4B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ObjectOrientedPractics</RootNamespace>
     <AssemblyName>ObjectOrientedPractics</AssemblyName>
@@ -51,6 +51,8 @@
     <Compile Include="Model\Customer.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Model\Store.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IdGenerator.cs" />
     <Compile Include="Services\ValueValidator.cs" />
     <Compile Include="View\Controls\AddressControl.cs">
@@ -65,8 +67,6 @@
     <Compile Include="View\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="View\Tabs\CustomersTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +113,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
