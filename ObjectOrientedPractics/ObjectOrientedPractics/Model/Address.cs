@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -47,7 +48,15 @@ namespace ObjectOrientedPractics.Model
         public string Index
         {
             get { return _index; }
-            set { _index = value; }
+            set 
+            { 
+                //if (value < 100000 || value > 999999)
+                //{
+                //    MessageBox.Show("Почтовой индекс должен быть шестизначным числом", "Ошибка",
+                //        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //}
+                _index = value; 
+            }
         }
 
         /// <summary>

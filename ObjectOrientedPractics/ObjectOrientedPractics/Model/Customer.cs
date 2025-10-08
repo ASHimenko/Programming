@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static ObjectOrientedPractics.Services.IdGenerator;
 
 namespace ObjectOrientedPractics.Model
@@ -42,10 +43,12 @@ namespace ObjectOrientedPractics.Model
             get => _fullName;
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Полное имя покупателя не может быть пустым");
-
-                ValueValidator.AssertStringOnLength(value, 200, nameof(FullName));
+                if (value.Length > 200)
+                {
+                    MessageBox.Show("Имя покупателя не должно превышать 200 символов", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    
                 _fullName = value;
             }
         }
@@ -58,7 +61,7 @@ namespace ObjectOrientedPractics.Model
             get => _address;
             set
             {
-                _address = value ?? throw new ArgumentNullException(nameof(Address), "Адрес не может быть пустым");
+                _address = value;
             }
         }
 

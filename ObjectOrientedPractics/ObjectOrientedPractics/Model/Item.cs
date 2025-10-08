@@ -75,6 +75,12 @@ namespace ObjectOrientedPractics.Model
                     MessageBox.Show("Стоимость товара должна быть в диапазоне от 0 до 100000", "Ошибка",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
+
+                if (!double.TryParse(value.ToString(), out _))
+                {
+                    MessageBox.Show("Стоимость товара должна быть вещественным числом", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                     
                 _cost = value;
             }
