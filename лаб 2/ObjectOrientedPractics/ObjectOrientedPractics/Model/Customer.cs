@@ -15,7 +15,7 @@ namespace ObjectOrientedPractics.Model
     {
         private readonly int _id;
         private string _fullName;
-        private Address _address;
+        private Address _address= new Address();
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
