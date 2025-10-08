@@ -55,6 +55,15 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text)
+                || string.IsNullOrWhiteSpace(InfoTextBox.Text)
+                || string.IsNullOrWhiteSpace(CostTextBox.Text))
+            {
+                MessageBox.Show("Все поля должны быть заполнены", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var name = NameTextBox.Text;
             var info = InfoTextBox.Text;
             var cost = double.Parse(CostTextBox.Text);
@@ -66,6 +75,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             _currentItem = null;
             UpdateInputs();
+
         }
 
         /// <summary>
@@ -154,16 +164,8 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_currentItem != null)
             {
-                try
-                {
-                    _currentItem.Name = NameTextBox.Text;
-                    UpdateListBox();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Name = NameTextBox.Text;
+                UpdateListBox();
             }
         }
 
@@ -174,16 +176,8 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_currentItem != null)
             {
-                try
-                {
-                    _currentItem.Info = InfoTextBox.Text;
-                    UpdateListBox();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Info = InfoTextBox.Text;
+                UpdateListBox();
             }
         }
 
@@ -192,19 +186,12 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (_currentItem != null && !string.IsNullOrEmpty(CostTextBox.Text))
+            if (_currentItem != null)
             {
-                try
-                {
-                    _currentItem.Cost = double.Parse(CostTextBox.Text);
-                    UpdateListBox();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Cost = double.Parse(CostTextBox.Text);
+                UpdateListBox();
             }
+            
         }
 
         /// <summary>

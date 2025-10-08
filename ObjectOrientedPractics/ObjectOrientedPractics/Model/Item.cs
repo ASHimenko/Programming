@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static ObjectOrientedPractics.Services.IdGenerator;
 
 namespace ObjectOrientedPractics.Model
@@ -36,10 +37,10 @@ namespace ObjectOrientedPractics.Model
             get => _name;
             set
             {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Название товара не может быть пустым");
+                if (value.Length > 200)
+                    MessageBox.Show("Название товара должно содержать до 200 символов", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                ValueValidator.AssertStringOnLength(value, 200, nameof(Name));
                 _name = value;
             }
         }
@@ -52,7 +53,11 @@ namespace ObjectOrientedPractics.Model
             get => _info;
             set
             {
-                ValueValidator.AssertStringOnLength(value, 1000, nameof(Info));
+                if (value.Length > 1000)
+                {
+                    MessageBox.Show("Описание товара должно содержать до 1000 символов", "Ошибка", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
                 _info = value;
             }
         }
@@ -66,15 +71,14 @@ namespace ObjectOrientedPractics.Model
             set
             {
                 if (value < 0 || value > 100000)
-                    throw new ArgumentException("Стоимость товара должна быть в диапазоне от 0 до 100000");
+                {
+                    MessageBox.Show("Стоимость товара должна быть в диапазоне от 0 до 100000", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                    
                 _cost = value;
             }
         }
-
-        /// <summary>
-        /// Возвращает строковое представление товара.
-        /// </summary>
-        public string DisplayInfo => $"ID: {_id} - {Name} - {Cost:C}, {Category}";
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Item"/>.
@@ -91,6 +95,11 @@ namespace ObjectOrientedPractics.Model
             Cost = cost;
             Category = category;
         }
+
+        /// <summary>
+        /// Возвращает строковое представление товара.
+        /// </summary>
+        public string DisplayInfo => $"ID: {_id} - {Name} - {Cost:C}, {Category}";
 
         /// <summary>
         /// Возвращает строковое представление товара.

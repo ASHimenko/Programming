@@ -106,8 +106,16 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_currentCustomer != null)
             {
-                _currentCustomer.FullName = FullNameTextBox.Text;
-                UpdateListBox();
+                try 
+                {
+                    _currentCustomer.FullName = FullNameTextBox.Text;
+                    UpdateListBox();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
