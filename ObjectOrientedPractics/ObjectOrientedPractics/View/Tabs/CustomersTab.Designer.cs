@@ -43,12 +43,12 @@
             this.IDTextBox = new System.Windows.Forms.TextBox();
             this.contextMenuStrip3 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.label4 = new System.Windows.Forms.Label();
-            //this.CustomersListBox = new System.Windows.Forms.ListBox();
             this.AddButton = new System.Windows.Forms.Button();
             this.RemoveButton = new System.Windows.Forms.Button();
             this.CustomerListBox = new System.Windows.Forms.ListBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.CustomersGroupBox = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
+            this.CustomersGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // contextMenuStrip1
@@ -70,9 +70,9 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.FullNameTextBox);
             this.groupBox1.Controls.Add(this.IDTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(435, 21);
+            this.groupBox1.Location = new System.Drawing.Point(478, 36);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(616, 268);
+            this.groupBox1.Size = new System.Drawing.Size(591, 268);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Customer";
@@ -139,18 +139,9 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "Customers";
             // 
-            // CustomersListBox
-            // 
-            //this.CustomersListBox.FormattingEnabled = true;
-            //this.CustomersListBox.ItemHeight = 16;
-            //this.CustomersListBox.Location = new System.Drawing.Point(3, 27);
-            //this.CustomersListBox.Name = "CustomersListBox";
-            //this.CustomersListBox.Size = new System.Drawing.Size(393, 436);
-            //this.CustomersListBox.TabIndex = 0;
-            // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(24, 492);
+            this.AddButton.Location = new System.Drawing.Point(19, 519);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(113, 43);
             this.AddButton.TabIndex = 0;
@@ -160,7 +151,7 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(152, 492);
+            this.RemoveButton.Location = new System.Drawing.Point(138, 519);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(112, 43);
             this.RemoveButton.TabIndex = 1;
@@ -172,36 +163,37 @@
             // 
             this.CustomerListBox.FormattingEnabled = true;
             this.CustomerListBox.ItemHeight = 16;
-            this.CustomerListBox.Location = new System.Drawing.Point(17, 39);
+            this.CustomerListBox.Location = new System.Drawing.Point(19, 41);
             this.CustomerListBox.Name = "CustomerListBox";
-            this.CustomerListBox.Size = new System.Drawing.Size(402, 436);
+            this.CustomerListBox.Size = new System.Drawing.Size(426, 468);
             this.CustomerListBox.TabIndex = 10;
             this.CustomerListBox.SelectedIndexChanged += new System.EventHandler(this.CustomerListBox_SelectedIndexChanged);
             // 
-            // label1
+            // CustomersGroupBox
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 20);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 16);
-            this.label1.TabIndex = 11;
-            this.label1.Text = "Customers";
+            this.CustomersGroupBox.Controls.Add(this.groupBox1);
+            this.CustomersGroupBox.Controls.Add(this.CustomerListBox);
+            this.CustomersGroupBox.Controls.Add(this.AddButton);
+            this.CustomersGroupBox.Controls.Add(this.RemoveButton);
+            this.CustomersGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CustomersGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.CustomersGroupBox.Name = "CustomersGroupBox";
+            this.CustomersGroupBox.Size = new System.Drawing.Size(1084, 587);
+            this.CustomersGroupBox.TabIndex = 11;
+            this.CustomersGroupBox.TabStop = false;
+            this.CustomersGroupBox.Text = "Customers";
             // 
             // CustomersTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.CustomerListBox);
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.RemoveButton);
-            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.CustomersGroupBox);
             this.Name = "CustomersTab";
             this.Size = new System.Drawing.Size(1084, 587);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.CustomersGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -224,6 +216,6 @@
         private System.Windows.Forms.Label label4;
         private Controls.AddressControl addressControl;
         private System.Windows.Forms.ListBox CustomerListBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.GroupBox CustomersGroupBox;
     }
 }

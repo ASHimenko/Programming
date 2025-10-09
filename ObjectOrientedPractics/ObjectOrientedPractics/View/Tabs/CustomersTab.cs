@@ -75,15 +75,15 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            var currentAddress = addressControl.Address;
+            /*var currentAddress = addressControl.Address;
             var NewAddress = new Address(
                 currentAddress.Index,
                 currentAddress.Country,
                 currentAddress.City,
                 currentAddress.Street,
                 currentAddress.Building,
-                currentAddress.Apartment);
-            _currentCustomer = new Customer(FullNameTextBox.Text, NewAddress);
+                currentAddress.Apartment);*/
+            _currentCustomer = new Customer(FullNameTextBox.Text, addressControl.Address);
             _customers.Add(_currentCustomer);
 
             UpdateListBox();
@@ -97,23 +97,10 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (_currentCustomer == null)
-            {
-                MessageBox.Show("Выберите товар для удаления", "Внимание",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{_currentCustomer.FullName}'?",
-                "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _customers.Remove(_currentCustomer);
-                UpdateListBox();
-                ClearInputs();
-                _currentCustomer = null;
-            }
+            _customers.Remove(_currentCustomer);
+            UpdateListBox();
+            ClearInputs();
+            _currentCustomer = null;
 
         }
 

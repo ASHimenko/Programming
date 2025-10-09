@@ -14,5 +14,6 @@ namespace ObjectOrientedPractics.Services
         {
             return ++_currentId;
         }
+
     }
 }

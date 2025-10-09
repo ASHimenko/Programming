@@ -34,7 +34,6 @@ namespace ObjectOrientedPractics.View.Tabs
         public ItemsTab()
         {
             InitializeComponent();
-            // Инициализация выпадающего списка значениями перечисления Category
             CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
         }
 
@@ -97,23 +96,11 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (_currentItem == null)
-            {
-                MessageBox.Show("Выберите товар для удаления", "Внимание",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            _items.Remove(_currentItem);
+            UpdateListBox();
+            ClearInputs();
+            _currentItem = null;
 
-            var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{_currentItem.Name}'?",
-                "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _items.Remove(_currentItem);
-                UpdateListBox();
-                ClearInputs();
-                _currentItem = null;
-            }
         }
 
         /// <summary>

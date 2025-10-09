@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -12,7 +13,8 @@ namespace ObjectOrientedPractics.Model
         {
             if (value.Length > maxLength)
             {
-                throw new ArgumentException($"{propertyName} должен быть не меньше {maxLength} символов");
+                MessageBox.Show($"{propertyName} должен быть не меньше {maxLength} символов", 
+                    "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
