@@ -49,8 +49,8 @@ namespace ObjectOrientedPractics.Model
         {
             get { return _index; }
             set 
-            { 
-                //if (value < 100000 || value > 999999)
+            {
+                //if (!int.TryParse(value, out _) || value.Length != 6)
                 //{
                 //    MessageBox.Show("Почтовой индекс должен быть шестизначным числом", "Ошибка",
                 //        MessageBoxButtons.OK, MessageBoxIcon.Error);

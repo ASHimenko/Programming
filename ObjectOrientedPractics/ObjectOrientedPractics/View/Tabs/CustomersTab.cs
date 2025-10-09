@@ -68,6 +68,14 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void AddButton_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(FullNameTextBox.Text))
+            {
+                MessageBox.Show("Поле фамилия должно быть заполнено", "Ошибка", 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            
+
             var currentAddress = addressControl.Address;
             var NewAddress = new Address(
                 currentAddress.Index,
@@ -106,16 +114,8 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_currentCustomer != null)
             {
-                try 
-                {
-                    _currentCustomer.FullName = FullNameTextBox.Text;
-                    UpdateListBox();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentCustomer.FullName = FullNameTextBox.Text;
+                UpdateListBox();
             }
         }
 

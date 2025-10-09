@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -64,15 +65,28 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
+            if (!double.TryParse(CostTextBox.Text, out double numberValue))
+            {
+                MessageBox.Show("Стоимость товара должна быть вещественным числом", "Ошибка",
+                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (numberValue > 100000 || numberValue < 0)
+            {
+                MessageBox.Show("Стоимость товара должна быть в диапазоне от 0 до 100000", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             var name = NameTextBox.Text;
             var info = InfoTextBox.Text;
-            var cost = double.Parse(CostTextBox.Text);
+            var cost = CostTextBox.Text;
             Category category = (Category)CategoryComboBox.SelectedItem;
             _currentItem = new Item(name, info, cost, category);
+
             _items.Add(_currentItem);
-
             UpdateListBox();
-
             _currentItem = null;
             UpdateInputs();
 
@@ -186,9 +200,9 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (_currentItem != null)
+            if (_currentItem != null && !string.IsNullOrEmpty(CostTextBox.Text))
             {
-                _currentItem.Cost = double.Parse(CostTextBox.Text);
+                _currentItem.Cost = CostTextBox.Text;
                 UpdateListBox();
             }
             

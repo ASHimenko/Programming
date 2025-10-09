@@ -17,7 +17,7 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
         private string _name;
         private string _info;
-        private double _cost;
+        private string _cost;
 
         /// <summary>
         /// Возвращает или задает категорию товара.
@@ -37,10 +37,6 @@ namespace ObjectOrientedPractics.Model
             get => _name;
             set
             {
-                if (value.Length > 200)
-                    MessageBox.Show("Название товара должно содержать до 200 символов", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-
                 _name = value;
             }
         }
@@ -53,11 +49,6 @@ namespace ObjectOrientedPractics.Model
             get => _info;
             set
             {
-                if (value.Length > 1000)
-                {
-                    MessageBox.Show("Описание товара должно содержать до 1000 символов", "Ошибка", 
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
                 _info = value;
             }
         }
@@ -65,24 +56,12 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает или задает стоимость товара. Должна быть в диапазоне от 0 до 100000.
         /// </summary>
-        public double Cost
+        public string Cost
         {
             get => _cost;
             set
             {
-                if (value < 0 || value > 100000)
-                {
-                    MessageBox.Show("Стоимость товара должна быть в диапазоне от 0 до 100000", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                if (!double.TryParse(value.ToString(), out _))
-                {
-                    MessageBox.Show("Стоимость товара должна быть вещественным числом", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-                    
-                _cost = value;
+                _cost = value; 
             }
         }
 
@@ -93,7 +72,7 @@ namespace ObjectOrientedPractics.Model
         /// <param name="info">Описание товара.</param>
         /// <param name="cost">Стоимость товара.</param>
         /// <param name="category">Категория товара.</param>
-        public Item(string name, string info, double cost, Category category)
+        public Item(string name, string info, string cost, Category category)
         {
             _id = IdGenerator.GetNextId();
             Name = name;
