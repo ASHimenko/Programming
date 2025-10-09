@@ -74,7 +74,6 @@ namespace ObjectOrientedPractics.View.Tabs
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
 
             var currentAddress = addressControl.Address;
             var NewAddress = new Address(
@@ -83,8 +82,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 currentAddress.City,
                 currentAddress.Street,
                 currentAddress.Building,
-                currentAddress.Apartment
-            );
+                currentAddress.Apartment);
             _currentCustomer = new Customer(FullNameTextBox.Text, NewAddress);
             _customers.Add(_currentCustomer);
 
@@ -99,16 +97,32 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (CustomerListBox.SelectedIndex != -1)
+            if (_currentCustomer == null)
             {
-                _customers.RemoveAt(CustomerListBox.SelectedIndex);
-                UpdateListBox();
-                _currentCustomer = null;
-                UpdateCustomerInfo();
+                MessageBox.Show("Выберите товар для удаления", "Внимание",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
+
+            var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{_currentCustomer.FullName}'?",
+                "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                _customers.Remove(_currentCustomer);
+                UpdateListBox();
+                ClearInputs();
+                _currentCustomer = null;
+            }
+
         }
 
-        
+        public void ClearInputs()
+        {
+            IDTextBox.Clear();
+            FullNameTextBox.Clear();
+            addressControl.ClearFields();
+        }
 
         private void FullNameTextBox_TextChanged(object sender, EventArgs e)
         {

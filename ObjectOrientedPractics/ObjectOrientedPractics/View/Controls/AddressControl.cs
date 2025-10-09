@@ -27,10 +27,10 @@ namespace ObjectOrientedPractics.View.Controls
         /// </summary>
         public AddressControl()
         {
+
             InitializeComponent();
             _address = new Address();
             UpdateControlsFromAddress();
-
 
         }
 
@@ -41,6 +41,7 @@ namespace ObjectOrientedPractics.View.Controls
         {
             get
             {
+
                 UpdateAddressFromControls();
                 return _address;
             }
@@ -50,7 +51,7 @@ namespace ObjectOrientedPractics.View.Controls
                 _isUpdatingFromExternal = true;
                 UpdateControlsFromAddress();
                 _isUpdatingFromExternal = false;
-
+                
             }
         }
 

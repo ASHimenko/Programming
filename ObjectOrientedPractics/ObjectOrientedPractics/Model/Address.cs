@@ -55,6 +55,12 @@ namespace ObjectOrientedPractics.Model
                 //    MessageBox.Show("Почтовой индекс должен быть шестизначным числом", "Ошибка",
                 //        MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //}
+                //if (string.IsNullOrWhiteSpace(value))
+                //{
+                //    MessageBox.Show("Поле индекс должно быть заполнено", "Ошибка",
+                //        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //    return;
+                //}
                 _index = value; 
             }
         }
