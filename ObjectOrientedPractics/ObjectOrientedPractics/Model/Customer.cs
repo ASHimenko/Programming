@@ -17,6 +17,7 @@ namespace ObjectOrientedPractics.Model
         private readonly int _id;
         private string _fullName;
         private Address _address;
+        private Cart _cart;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
@@ -28,6 +29,7 @@ namespace ObjectOrientedPractics.Model
             _id = IdGenerator.GetNextId();
             FullName = fullName;
             Address = address;
+            Cart = new Cart();
         }
 
         /// <summary>
@@ -62,6 +64,18 @@ namespace ObjectOrientedPractics.Model
             set
             {
                 _address = value;
+            }
+        }
+
+        /// <summary>
+        /// Возвращает или задает корзину товаров покупателя.
+        /// </summary>
+        public Cart Cart
+        {
+            get => _cart;
+            set
+            {
+                _cart = value ?? new Cart();
             }
         }
 

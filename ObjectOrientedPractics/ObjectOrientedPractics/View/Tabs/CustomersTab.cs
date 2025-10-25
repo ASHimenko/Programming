@@ -75,14 +75,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            /*var currentAddress = addressControl.Address;
-            var NewAddress = new Address(
-                currentAddress.Index,
-                currentAddress.Country,
-                currentAddress.City,
-                currentAddress.Street,
-                currentAddress.Building,
-                currentAddress.Apartment);*/
             _currentCustomer = new Customer(FullNameTextBox.Text, addressControl.Address);
             _customers.Add(_currentCustomer);
 
