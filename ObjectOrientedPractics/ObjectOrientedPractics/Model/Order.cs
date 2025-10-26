@@ -69,12 +69,12 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="deliveryAddress">Адрес доставки заказа.</param>
         /// <param name="items">Список товаров в заказе.</param>
-        public Order(Address deliveryAddress, Cart cart)
+        public Order()
         {
             _id = IdGenerator.GetNextId();
             _date = DateTime.Now;
-            DeliveryAddress = deliveryAddress;
-            Cart = cart ?? new Cart();
+            DeliveryAddress = null;
+            Cart = new Cart();
         }
 
         /// <summary>
