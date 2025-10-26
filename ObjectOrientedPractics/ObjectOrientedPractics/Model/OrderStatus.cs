@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     public enum OrderStatus
     {
         /// <summary>

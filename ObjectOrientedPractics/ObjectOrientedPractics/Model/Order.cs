@@ -8,6 +8,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     public class Order
     {
         /// <summary>

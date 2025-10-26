@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     public static class ValueValidator
     {
         public static void AssertStringOnLength(string value, int maxLength, string propertyName)

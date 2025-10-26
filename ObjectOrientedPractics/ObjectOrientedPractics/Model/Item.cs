@@ -9,6 +9,7 @@ using static ObjectOrientedPractics.Services.IdGenerator;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     /// <summary>
     /// Представляет товар с уникальным идентификатором, названием, описанием, стоимостью и категорией.
     /// </summary>

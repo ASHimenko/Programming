@@ -9,6 +9,7 @@ using static ObjectOrientedPractics.Services.IdGenerator;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     /// <summary>
     /// Представляет покупателя с уникальным идентификатором, полным именем и адресом.
     /// </summary>
