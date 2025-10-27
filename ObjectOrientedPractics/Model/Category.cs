@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     /// <summary>
     /// Перечисление категорий товаров.
     /// </summary>

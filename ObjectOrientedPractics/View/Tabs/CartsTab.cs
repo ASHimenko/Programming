@@ -145,15 +145,13 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void RemoveItemButton_Click(object sender, EventArgs e)
         {
-            if (_currentCustomer == null)
+            if (CartsListBox.SelectedIndex == -1)
             {
+                MessageBox.Show("Выберите товар!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (_currentCustomer.Cart.Items != null)
-            {
-                _currentCustomer.Cart.Items.RemoveAt(CartsListBox.SelectedIndex);
-            }
+            _currentCustomer.Cart.Items.RemoveAt(CartsListBox.SelectedIndex);
 
             UpdateCartsListBox();
             UpdatePriceLabel();
@@ -175,9 +173,56 @@ namespace ObjectOrientedPractics.View.Tabs
             }
 
             var newOrder = new Order();
+            var orderCart = new Cart();
+            orderCart.Items = new List<Item>(_currentCustomer.Cart.Items);
 
+            newOrder.Cart = orderCart;
+            newOrder.DeliveryAddress = _currentCustomer.Address;
+
+            if (_currentCustomer.Orders == null)
+            {
+                _currentCustomer.Orders = new List<Order>();
+            }
+            _currentCustomer.Orders.Add(newOrder);
+
+            _currentCustomer.Cart.Items.Clear();
+            UpdateCartsListBox();
+            UpdatePriceLabel();
         }
 
+        public void RefreshData()
+        {
+            UpdateItemsListBox();
+            UpdateCustomersComboBox();
 
+            if (_currentCustomer != null)
+            {
+                UpdateCartsListBox();
+                UpdatePriceLabel();
+            }
+            else
+            {
+                CartsListBox.Items.Clear();
+                PriceLabel.Text = "0,00";
+            }
+        }
+
+        private void ClearCartButton_Click(object sender, EventArgs e)
+        {
+            if (_currentCustomer == null)
+            {
+                MessageBox.Show("Сначала выберите покупателя, корзину которого нужно очистить.",
+                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (_currentCustomer.Cart != null && _currentCustomer.Cart.Items != null)
+            {
+                _currentCustomer.Cart.Items.Clear();
+            }
+
+            UpdateCartsListBox();
+            UpdatePriceLabel();
+        }
     }
 }

@@ -7,6 +7,7 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model
 {
+    [Serializable]
     /// <summary>
     /// Представляет адрес с почтовым индексом, страной, городом, улицей, домом и квартирой.
     /// </summary>

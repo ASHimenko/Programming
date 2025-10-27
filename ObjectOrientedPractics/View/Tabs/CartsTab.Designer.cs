@@ -40,8 +40,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.AmountLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -61,7 +62,7 @@
             this.ItemsListBox.FormattingEnabled = true;
             this.ItemsListBox.Location = new System.Drawing.Point(3, 34);
             this.ItemsListBox.Name = "ItemsListBox";
-            this.ItemsListBox.Size = new System.Drawing.Size(329, 381);
+            this.ItemsListBox.Size = new System.Drawing.Size(329, 329);
             this.ItemsListBox.TabIndex = 0;
             // 
             // CartsListBox
@@ -74,7 +75,7 @@
             // 
             // RemoveItemButton
             // 
-            this.RemoveItemButton.Location = new System.Drawing.Point(201, 278);
+            this.RemoveItemButton.Location = new System.Drawing.Point(201, 258);
             this.RemoveItemButton.Name = "RemoveItemButton";
             this.RemoveItemButton.Size = new System.Drawing.Size(106, 41);
             this.RemoveItemButton.TabIndex = 2;
@@ -94,16 +95,17 @@
             // 
             // ClearCartButton
             // 
-            this.ClearCartButton.Location = new System.Drawing.Point(313, 278);
+            this.ClearCartButton.Location = new System.Drawing.Point(313, 258);
             this.ClearCartButton.Name = "ClearCartButton";
             this.ClearCartButton.Size = new System.Drawing.Size(98, 41);
             this.ClearCartButton.TabIndex = 4;
             this.ClearCartButton.Text = "Clear Cart";
             this.ClearCartButton.UseVisualStyleBackColor = true;
+            this.ClearCartButton.Click += new System.EventHandler(this.ClearCartButton_Click);
             // 
             // CreateOrderButton
             // 
-            this.CreateOrderButton.Location = new System.Drawing.Point(6, 278);
+            this.CreateOrderButton.Location = new System.Drawing.Point(6, 258);
             this.CreateOrderButton.Name = "CreateOrderButton";
             this.CreateOrderButton.Size = new System.Drawing.Size(107, 41);
             this.CreateOrderButton.TabIndex = 5;
@@ -133,7 +135,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(761, 667);
+            this.splitContainer1.Size = new System.Drawing.Size(761, 469);
             this.splitContainer1.SplitterDistance = 335;
             this.splitContainer1.TabIndex = 10;
             // 
@@ -152,8 +154,8 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.AddToCartButton);
-            this.splitContainer2.Size = new System.Drawing.Size(335, 667);
-            this.splitContainer2.SplitterDistance = 465;
+            this.splitContainer2.Size = new System.Drawing.Size(335, 469);
+            this.splitContainer2.SplitterDistance = 390;
             this.splitContainer2.TabIndex = 0;
             // 
             // label1
@@ -180,14 +182,15 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.AmountLabel);
             this.splitContainer3.Panel2.Controls.Add(this.PriceLabel);
             this.splitContainer3.Panel2.Controls.Add(this.label2);
             this.splitContainer3.Panel2.Controls.Add(this.RemoveItemButton);
             this.splitContainer3.Panel2.Controls.Add(this.CartsListBox);
             this.splitContainer3.Panel2.Controls.Add(this.CreateOrderButton);
             this.splitContainer3.Panel2.Controls.Add(this.ClearCartButton);
-            this.splitContainer3.Size = new System.Drawing.Size(422, 667);
-            this.splitContainer3.SplitterDistance = 86;
+            this.splitContainer3.Size = new System.Drawing.Size(422, 469);
+            this.splitContainer3.SplitterDistance = 60;
             this.splitContainer3.TabIndex = 0;
             // 
             // label3
@@ -199,6 +202,18 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "Customer:";
             // 
+            // PriceLabel
+            // 
+            this.PriceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.PriceLabel.AutoSize = true;
+            this.PriceLabel.Location = new System.Drawing.Point(349, 226);
+            this.PriceLabel.Name = "PriceLabel";
+            this.PriceLabel.Size = new System.Drawing.Size(41, 15);
+            this.PriceLabel.TabIndex = 13;
+            this.PriceLabel.Text = "label4";
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -208,14 +223,17 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "Cart:";
             // 
-            // PriceLabel
+            // AmountLabel
             // 
-            this.PriceLabel.AutoSize = true;
-            this.PriceLabel.Location = new System.Drawing.Point(266, 210);
-            this.PriceLabel.Name = "PriceLabel";
-            this.PriceLabel.Size = new System.Drawing.Size(41, 15);
-            this.PriceLabel.TabIndex = 13;
-            this.PriceLabel.Text = "label4";
+            this.AmountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.AmountLabel.AutoSize = true;
+            this.AmountLabel.Location = new System.Drawing.Point(349, 202);
+            this.AmountLabel.Name = "AmountLabel";
+            this.AmountLabel.Size = new System.Drawing.Size(52, 15);
+            this.AmountLabel.TabIndex = 12;
+            this.AmountLabel.Text = "Amount:";
             // 
             // CartsTab
             // 
@@ -223,7 +241,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
             this.Name = "CartsTab";
-            this.Size = new System.Drawing.Size(761, 667);
+            this.Size = new System.Drawing.Size(761, 469);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -259,5 +277,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label PriceLabel;
+        private System.Windows.Forms.Label AmountLabel;
     }
 }

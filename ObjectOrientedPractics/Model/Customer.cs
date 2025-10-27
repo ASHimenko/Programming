@@ -19,7 +19,7 @@ namespace ObjectOrientedPractics.Model
         private string _fullName;
         private Address _address;
         private Cart _cart;
-
+        private List<Order> _orders;
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
         /// </summary>
@@ -31,6 +31,7 @@ namespace ObjectOrientedPractics.Model
             FullName = fullName;
             Address = address;
             Cart = new Cart();
+            Orders = new List<Order>();
         }
 
         /// <summary>
@@ -78,6 +79,15 @@ namespace ObjectOrientedPractics.Model
             {
                 _cart = value ?? new Cart();
             }
+        }
+
+        /// <summary>
+        /// Возвращает или задает список заказов покупателя.
+        /// </summary>
+        public List<Order> Orders
+        {
+            get => _orders;
+            set => _orders = value ?? new List<Order>();
         }
 
         /// <summary>
