@@ -11,34 +11,50 @@ using ObjectOrientedPractics.Model;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
+    /// <summary>
+    /// Представляет вкладку "Корзины", управляющую добавлением товаров в корзину
+    /// выбранного покупателя и оформлением заказов.
+    /// </summary>
     public partial class CartsTab : UserControl
     {
+        /// <summary>
+        /// Конструктор класса <see cref="CartsTab"/>.
+        /// </summary>
         public CartsTab()
         {
+            // Инициализация компонентов пользовательского интерфейса.
             InitializeComponent();
+            // Первоначальное заполнение ListBox доступными товарами.
             UpdateItemsListBox();
+            // Первоначальное заполнение ComboBox списком покупателей.
             UpdateCustomersComboBox();
+            // Подписка на событие смены выбранного покупателя для обновления корзины.
             CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
         }
 
         /// <summary>
         /// Возвращает или задает список товаров, доступных для корзин.
+        /// Данные передаются из MainForm.
         /// </summary>
         public List<Item> Items { get; set; }
 
         /// <summary>
         /// Возвращает или задает список покупателей, для которых создаются корзины.
+        /// Данные передаются из MainForm.
         /// </summary>
         public List<Customer> Customers { get; set; }
 
         /// <summary>
-        /// Текущий выбранный покупатель.
+        /// Закрытое поле, хранящее текущий выбранный покупатель.
         /// </summary>
         private Customer _currentCustomer;
 
+        /// <summary>
+        /// Обновляет ListBox доступных товаров (левая панель).
+        /// </summary>
         private void UpdateItemsListBox()
         {
-            if (Items==null || ItemsListBox == null)
+            if (Items == null || ItemsListBox == null)
             {
                 return;
             }
@@ -50,6 +66,9 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Обновляет ComboBox со списком покупателей.
+        /// </summary>
         private void UpdateCustomersComboBox()
         {
             if (Customers == null || CustomerComboBox == null)
@@ -65,6 +84,9 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Обновляет ListBox, отображающий текущую корзину выбранного покупателя (правая панель).
+        /// </summary>
         private void UpdateCartsListBox()
         {
             if (CartsListBox == null)
@@ -73,16 +95,18 @@ namespace ObjectOrientedPractics.View.Tabs
             }
             CartsListBox.Items.Clear();
 
-            // Если покупатель выбран и у него есть корзина, отображаем товары
             if (_currentCustomer != null && _currentCustomer.Cart != null)
             {
-                foreach(var item in _currentCustomer.Cart.Items)
+                foreach (var item in _currentCustomer.Cart.Items)
                 {
                     CartsListBox.Items.Add($"{item.Name} - {item.Cost}");
                 }
             }
         }
 
+        /// <summary>
+        /// Обновляет метку общей стоимости PriceLabel.
+        /// </summary>
         private void UpdatePriceLabel()
         {
             if (PriceLabel == null)
@@ -94,7 +118,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             if (_currentCustomer != null && _currentCustomer.Cart != null)
             {
-                foreach ( var item in _currentCustomer.Cart.Items)
+                foreach (var item in _currentCustomer.Cart.Items)
                 {
                     totalCost += double.Parse(item.Cost);
                 }
@@ -121,9 +145,11 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdatePriceLabel();
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Добавить в корзину".
+        /// </summary>
         private void AddToCartButton_Click(object sender, EventArgs e)
         {
-            //Проверки
             if (_currentCustomer == null)
             {
                 MessageBox.Show("Выберите покупателя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -143,6 +169,9 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdatePriceLabel();
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Удалить товар из корзины".
+        /// </summary>
         private void RemoveItemButton_Click(object sender, EventArgs e)
         {
             if (CartsListBox.SelectedIndex == -1)
@@ -157,14 +186,16 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdatePriceLabel();
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Создать заказ".
+        /// </summary>
         private void CreateOrderButton_Click(object sender, EventArgs e)
         {
-            //Проверки
             if (_currentCustomer == null)
             {
                 MessageBox.Show("Выберите покупателя!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-            } 
+            }
 
             if (_currentCustomer.Cart.Items.Count == 0)
             {
@@ -172,13 +203,18 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
+            // Создание нового заказа и отдельной корзины для него.
             var newOrder = new Order();
             var orderCart = new Cart();
+
+            // Копирование товаров из текущей корзины в корзину заказа.
             orderCart.Items = new List<Item>(_currentCustomer.Cart.Items);
 
+            // Установка корзины и адреса доставки для нового заказа.
             newOrder.Cart = orderCart;
             newOrder.DeliveryAddress = _currentCustomer.Address;
 
+            // Инициализация списка заказов покупателя и добавление нового заказа.
             if (_currentCustomer.Orders == null)
             {
                 _currentCustomer.Orders = new List<Order>();
@@ -186,10 +222,15 @@ namespace ObjectOrientedPractics.View.Tabs
             _currentCustomer.Orders.Add(newOrder);
 
             _currentCustomer.Cart.Items.Clear();
+
             UpdateCartsListBox();
             UpdatePriceLabel();
         }
 
+        /// <summary>
+        /// Открытый метод для обновления данных на вкладке.
+        /// Вызывается из MainForm при переключении вкладок.
+        /// </summary>
         public void RefreshData()
         {
             UpdateItemsListBox();
@@ -207,12 +248,15 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Обработчик кнопки "Очистить корзину".
+        /// </summary>
         private void ClearCartButton_Click(object sender, EventArgs e)
         {
             if (_currentCustomer == null)
             {
                 MessageBox.Show("Сначала выберите покупателя, корзину которого нужно очистить.",
-                                "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                 "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
