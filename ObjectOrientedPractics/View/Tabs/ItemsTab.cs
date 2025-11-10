@@ -151,7 +151,13 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox()
         {
+            if (_items == null)
+            {
+                return;
+            }
+
             ItemsListBox.Items.Clear();
+
             foreach (var item in _items)
             {
                 ItemsListBox.Items.Add(item);

@@ -39,14 +39,13 @@ namespace ObjectOrientedPractics.View.Controls
         /// </summary>
         public Address Address
         {
-            get
-            {
-
-                UpdateAddressFromControls();
-                return _address;
-            }
+            get => _address;
             set
             {
+                if (_address == null)
+                {
+                    _address = new Address();
+                }
                 _address = value;
                 _isUpdatingFromExternal = true;
                 UpdateControlsFromAddress();
@@ -61,6 +60,10 @@ namespace ObjectOrientedPractics.View.Controls
         /// </summary>
         private void UpdateControlsFromAddress()
         {
+            if (_address == null)
+            {
+                _address = new Address();
+            }
             IndexTextBox.Text = _address.Index;
             CountryTextBox.Text = _address.Country;
             CityTextBox.Text = _address.City;
@@ -97,7 +100,19 @@ namespace ObjectOrientedPractics.View.Controls
             BuildingTextBox.Clear();
             ApartmentTextBox.Clear();
         }
+        public void ClearAddress()
+        {
+            // Предполагается, что это имена ваших текстовых полей внутри AddressControl
+            IndexTextBox.Text = string.Empty;
+            CountryTextBox.Text = string.Empty;
+            CityTextBox.Text = string.Empty;
+            StreetTextBox.Text = string.Empty;
+            BuildingTextBox.Text = string.Empty;
+            ApartmentTextBox.Text = string.Empty;
 
+            // Также можно сбросить внутреннее поле _address
+            this.Address = new Address();
+        }
 
         // Обработчики событий изменения текста
         private void IndexTextBox_TextChanged(object sender, EventArgs e)

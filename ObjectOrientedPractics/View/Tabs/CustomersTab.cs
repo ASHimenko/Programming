@@ -41,13 +41,13 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 IDTextBox.Text = _currentCustomer.Id.ToString();
                 FullNameTextBox.Text = _currentCustomer.FullName;
-                addressControl.Address = _currentCustomer.Address;
+                AddressControl.Address = _currentCustomer.Address;
             }
             else
             {
                 IDTextBox.Clear();
                 FullNameTextBox.Clear();
-                addressControl.Address = new Address();
+                AddressControl.Address = new Address();
             }
         }
 
@@ -56,6 +56,8 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox()
         {
+            if (_customers == null) return;
+
             CustomerListBox.Items.Clear();
             foreach (var customer in _customers)
             {
@@ -75,13 +77,13 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            _currentCustomer = new Customer(FullNameTextBox.Text, addressControl.Address);
+            _currentCustomer = new Customer(FullNameTextBox.Text, AddressControl.Address);
             _customers.Add(_currentCustomer);
 
             UpdateListBox();
             _currentCustomer = null;
             UpdateCustomerInfo();
-            addressControl.ClearFields();
+            AddressControl.ClearFields();
         }
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             IDTextBox.Clear();
             FullNameTextBox.Clear();
-            addressControl.ClearFields();
+            AddressControl.ClearFields();
         }
 
         private void FullNameTextBox_TextChanged(object sender, EventArgs e)

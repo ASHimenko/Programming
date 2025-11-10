@@ -49,6 +49,8 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private Customer _currentCustomer;
 
+        public event EventHandler<Order> OrderCreated;
+
         /// <summary>
         /// Обновляет ListBox доступных товаров (левая панель).
         /// </summary>
@@ -220,6 +222,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 _currentCustomer.Orders = new List<Order>();
             }
             _currentCustomer.Orders.Add(newOrder);
+
+            OrderCreated?.Invoke(this, newOrder);
 
             _currentCustomer.Cart.Items.Clear();
 

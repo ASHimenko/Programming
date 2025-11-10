@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            ObjectOrientedPractics.Model.Address address1 = new ObjectOrientedPractics.Model.Address();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CustomersTab));
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.contextMenuStrip2 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.addressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
+            this.AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.FullNameTextBox = new System.Windows.Forms.TextBox();
@@ -65,63 +65,64 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.addressControl);
+            this.groupBox1.Controls.Add(this.AddressControl);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.FullNameTextBox);
             this.groupBox1.Controls.Add(this.IDTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(478, 36);
+            this.groupBox1.Location = new System.Drawing.Point(358, 29);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(591, 268);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(443, 218);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Customer";
             // 
-            // addressControl
+            // AddressControl
             // 
-            address1.Apartment = "";
-            address1.Building = "";
-            address1.City = "";
-            address1.Country = "";
-            address1.Index = "";
-            address1.Street = "";
-            this.addressControl.Address = address1;
-            this.addressControl.Location = new System.Drawing.Point(0, 74);
-            this.addressControl.Name = "addressControl";
-            this.addressControl.Size = new System.Drawing.Size(564, 213);
-            this.addressControl.TabIndex = 13;
+            this.AddressControl.Address = ((ObjectOrientedPractics.Model.Address)(resources.GetObject("AddressControl.Address")));
+            this.AddressControl.Location = new System.Drawing.Point(0, 60);
+            this.AddressControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddressControl.Name = "AddressControl";
+            this.AddressControl.Size = new System.Drawing.Size(423, 173);
+            this.AddressControl.TabIndex = 13;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(23, 21);
+            this.label3.Location = new System.Drawing.Point(17, 17);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(23, 16);
+            this.label3.Size = new System.Drawing.Size(22, 15);
             this.label3.TabIndex = 5;
             this.label3.Text = "ID:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 49);
+            this.label2.Location = new System.Drawing.Point(17, 40);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 16);
+            this.label2.Size = new System.Drawing.Size(67, 15);
             this.label2.TabIndex = 4;
             this.label2.Text = "Full Name:";
             // 
             // FullNameTextBox
             // 
-            this.FullNameTextBox.Location = new System.Drawing.Point(110, 46);
+            this.FullNameTextBox.Location = new System.Drawing.Point(82, 37);
+            this.FullNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.FullNameTextBox.Name = "FullNameTextBox";
-            this.FullNameTextBox.Size = new System.Drawing.Size(443, 22);
+            this.FullNameTextBox.Size = new System.Drawing.Size(333, 20);
             this.FullNameTextBox.TabIndex = 1;
             this.FullNameTextBox.TextChanged += new System.EventHandler(this.FullNameTextBox_TextChanged);
             // 
             // IDTextBox
             // 
-            this.IDTextBox.Location = new System.Drawing.Point(110, 18);
+            this.IDTextBox.Location = new System.Drawing.Point(82, 15);
+            this.IDTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.IDTextBox.Name = "IDTextBox";
-            this.IDTextBox.Size = new System.Drawing.Size(100, 22);
+            this.IDTextBox.Size = new System.Drawing.Size(76, 20);
             this.IDTextBox.TabIndex = 0;
             // 
             // contextMenuStrip3
@@ -141,9 +142,10 @@
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(19, 519);
+            this.AddButton.Location = new System.Drawing.Point(14, 422);
+            this.AddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(113, 43);
+            this.AddButton.Size = new System.Drawing.Size(85, 35);
             this.AddButton.TabIndex = 0;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
@@ -151,9 +153,10 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(138, 519);
+            this.RemoveButton.Location = new System.Drawing.Point(104, 422);
+            this.RemoveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(112, 43);
+            this.RemoveButton.Size = new System.Drawing.Size(84, 35);
             this.RemoveButton.TabIndex = 1;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
@@ -162,10 +165,10 @@
             // CustomerListBox
             // 
             this.CustomerListBox.FormattingEnabled = true;
-            this.CustomerListBox.ItemHeight = 16;
-            this.CustomerListBox.Location = new System.Drawing.Point(19, 41);
+            this.CustomerListBox.Location = new System.Drawing.Point(14, 33);
+            this.CustomerListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CustomerListBox.Name = "CustomerListBox";
-            this.CustomerListBox.Size = new System.Drawing.Size(426, 468);
+            this.CustomerListBox.Size = new System.Drawing.Size(320, 381);
             this.CustomerListBox.TabIndex = 10;
             this.CustomerListBox.SelectedIndexChanged += new System.EventHandler(this.CustomerListBox_SelectedIndexChanged);
             // 
@@ -177,19 +180,22 @@
             this.CustomersGroupBox.Controls.Add(this.RemoveButton);
             this.CustomersGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CustomersGroupBox.Location = new System.Drawing.Point(0, 0);
+            this.CustomersGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.CustomersGroupBox.Name = "CustomersGroupBox";
-            this.CustomersGroupBox.Size = new System.Drawing.Size(1084, 587);
+            this.CustomersGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CustomersGroupBox.Size = new System.Drawing.Size(813, 477);
             this.CustomersGroupBox.TabIndex = 11;
             this.CustomersGroupBox.TabStop = false;
             this.CustomersGroupBox.Text = "Customers";
             // 
             // CustomersTab
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.CustomersGroupBox);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "CustomersTab";
-            this.Size = new System.Drawing.Size(1084, 587);
+            this.Size = new System.Drawing.Size(813, 477);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.CustomersGroupBox.ResumeLayout(false);
@@ -214,7 +220,7 @@
         private System.Windows.Forms.Button AddButton;
         private System.Windows.Forms.Button RemoveButton;
         private System.Windows.Forms.Label label4;
-        private Controls.AddressControl addressControl;
+        private Controls.AddressControl AddressControl;
         private System.Windows.Forms.ListBox CustomerListBox;
         private System.Windows.Forms.GroupBox CustomersGroupBox;
     }

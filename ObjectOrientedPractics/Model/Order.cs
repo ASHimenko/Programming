@@ -41,6 +41,8 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         public DateTime Date => _date;
 
+        private OrderStatus _orderStatus;
+
         /// <summary>
         /// Возвращает или задает адрес доставки заказа.
         /// </summary>
@@ -48,6 +50,20 @@ namespace ObjectOrientedPractics.Model
         {
             get { return _deliveryAddress; }
             set { _deliveryAddress = value; }
+        }
+
+        /// <summary>
+        /// Возвращает или задает статус заказа.
+        /// </summary>
+        public OrderStatus OrderStatus
+        {
+            get => _orderStatus;
+            set => _orderStatus = value;
+        }
+
+        public string DeliveryAddressString
+        {
+            get => $"{DeliveryAddress.Index}, {DeliveryAddress.Country}, г.{DeliveryAddress.City}, ул.{DeliveryAddress.Street}, д.{DeliveryAddress.Building}, кв.{DeliveryAddress.Apartment}";
         }
 
         /// <summary>
@@ -75,6 +91,7 @@ namespace ObjectOrientedPractics.Model
             _date = DateTime.Now;
             DeliveryAddress = null;
             Cart = new Cart();
+            _orderStatus = OrderStatus.New;
         }
 
         /// <summary>

@@ -34,17 +34,18 @@ namespace ObjectOrientedPractics
             GenerateDefaultItems();
 
             // Присвоение списков товаров и покупателей свойствам соответствующих UserControl'ов (вкладок).
-            // Это устанавливает "ссылки" на общие списки данных.
             this.CustomersTab.Customers = _store.Customers;
             this.ItemsTab.Items = _store.Items;
             this.CartsTab.Customers = _store.Customers;
             this.CartsTab.Items = _store.Items;
+            this.OrdersTab.Customers = _store.Customers;
+            this.CartsTab.OrderCreated += CartsTab_OrderCreated;
 
             // Подписка на событие смены вкладки в элементе управления Tabs (TabControl).
             // При смене вкладки будет вызван метод Tabs_SelectedIndexChanged.
             this.Tabs.SelectedIndexChanged += new EventHandler(this.Tabs_SelectedIndexChanged);
         }
-
+        
         /// <summary>
         /// Создает 5 тестовых покупателей и добавляет их в список Store.Customers.
         /// </summary>
@@ -111,6 +112,11 @@ namespace ObjectOrientedPractics
                 // Это гарантирует, что списки товаров и покупателей будут актуальными.
                 this.CartsTab.RefreshData();
             }
+        }
+
+        private void CartsTab_OrderCreated(object sender, Order newOrder)
+        {
+            this.OrdersTab.UpdateOrders();
         }
     }
 }
