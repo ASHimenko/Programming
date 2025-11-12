@@ -22,13 +22,11 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public CartsTab()
         {
-            // Инициализация компонентов пользовательского интерфейса.
+            
             InitializeComponent();
-            // Первоначальное заполнение ListBox доступными товарами.
             UpdateItemsListBox();
-            // Первоначальное заполнение ComboBox списком покупателей.
             UpdateCustomersComboBox();
-            // Подписка на событие смены выбранного покупателя для обновления корзины.
+            
             CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
         }
 
@@ -49,6 +47,9 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private Customer _currentCustomer;
 
+        /// <summary>
+        /// Событие, возникающее при создании нового заказа.
+        /// </summary>
         public event EventHandler<Order> OrderCreated;
 
         /// <summary>
@@ -215,6 +216,7 @@ namespace ObjectOrientedPractics.View.Tabs
             // Установка корзины и адреса доставки для нового заказа.
             newOrder.Cart = orderCart;
             newOrder.DeliveryAddress = _currentCustomer.Address;
+            newOrder.Customer = _currentCustomer;
 
             // Инициализация списка заказов покупателя и добавление нового заказа.
             if (_currentCustomer.Orders == null)

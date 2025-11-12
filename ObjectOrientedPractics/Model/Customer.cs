@@ -15,11 +15,31 @@ namespace ObjectOrientedPractics.Model
     /// </summary>
     public class Customer
     {
+        /// <summary>
+        /// Уникальный идентификатор покупателя.
+        /// </summary>
         private readonly int _id;
+
+        /// <summary>
+        /// Полное имя покупателя.
+        /// </summary>
         private string _fullName;
+
+        /// <summary>
+        /// Адрес покупателя.
+        /// </summary>
         private Address _address;
+
+        /// <summary>
+        /// Корзина товаров покупателя.
+        /// </summary>
         private Cart _cart;
+
+        /// <summary>
+        /// Список заказов покупателя.
+        /// </summary>
         private List<Order> _orders;
+
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
         /// </summary>

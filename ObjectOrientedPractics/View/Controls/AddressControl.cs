@@ -20,6 +20,10 @@ namespace ObjectOrientedPractics.View.Controls
         /// Объект адреса для редактирования.
         /// </summary>
         private Address _address = new Address();
+
+        /// <summary>
+        /// Флаг, указывающий на то, что обновление происходит из внешнего источника.
+        /// </summary>
         private bool _isUpdatingFromExternal = false;
 
         /// <summary>
@@ -42,11 +46,17 @@ namespace ObjectOrientedPractics.View.Controls
             get => _address;
             set
             {
-                if (_address == null)
+                _address = new Address();
+
+                if (value != null)
                 {
-                    _address = new Address();
+                    _address.Index = value.Index ?? string.Empty;
+                    _address.Country = value.Country ?? string.Empty;
+                    _address.City = value.City ?? string.Empty;
+                    _address.Street = value.Street ?? string.Empty;
+                    _address.Building = value.Building ?? string.Empty;
+                    _address.Apartment = value.Apartment ?? string.Empty;
                 }
-                _address = value;
                 _isUpdatingFromExternal = true;
                 UpdateControlsFromAddress();
                 _isUpdatingFromExternal = false;
@@ -54,6 +64,10 @@ namespace ObjectOrientedPractics.View.Controls
             }
         }
 
+        /// <summary>
+        /// Событие, возникающее при изменении адреса.
+        /// </summary>
+        public event EventHandler AddressChanged;
 
         /// <summary>
         /// Обновляет поля ввода данными из объекта адреса.
@@ -62,7 +76,8 @@ namespace ObjectOrientedPractics.View.Controls
         {
             if (_address == null)
             {
-                _address = new Address();
+                ClearAddress();
+                return;
             }
             IndexTextBox.Text = _address.Index;
             CountryTextBox.Text = _address.Country;
@@ -72,8 +87,6 @@ namespace ObjectOrientedPractics.View.Controls
             ApartmentTextBox.Text = _address.Apartment;
 
         }
-
-        public event EventHandler AddressChanged;
 
         /// <summary>
         /// Обновляет объект адреса данными из полей ввода.
@@ -91,6 +104,9 @@ namespace ObjectOrientedPractics.View.Controls
             AddressChanged?.Invoke(this, EventArgs.Empty);
         }
 
+        /// <summary>
+        /// Очищает поля ввода адреса.
+        /// </summary>
         public void ClearFields()
         {
             StreetTextBox.Clear();
@@ -100,9 +116,13 @@ namespace ObjectOrientedPractics.View.Controls
             BuildingTextBox.Clear();
             ApartmentTextBox.Clear();
         }
+
+        /// <summary>
+        /// Очищает адрес и сбрасывает поля ввода.
+        /// </summary>
         public void ClearAddress()
         {
-            // Предполагается, что это имена ваших текстовых полей внутри AddressControl
+           
             IndexTextBox.Text = string.Empty;
             CountryTextBox.Text = string.Empty;
             CityTextBox.Text = string.Empty;
@@ -110,7 +130,6 @@ namespace ObjectOrientedPractics.View.Controls
             BuildingTextBox.Text = string.Empty;
             ApartmentTextBox.Text = string.Empty;
 
-            // Также можно сбросить внутреннее поле _address
             this.Address = new Address();
         }
 

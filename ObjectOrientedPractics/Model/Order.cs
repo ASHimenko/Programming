@@ -29,7 +29,17 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Список товаров в заказе.
         /// </summary>
-        private Cart _cart;
+        private Cart _cart; 
+
+        /// <summary>
+        /// Статус заказа.
+        /// </summary>
+        private OrderStatus _orderStatus;
+
+         /// <summary>
+        /// Покупатель, сделавший заказ.
+        /// </summary>
+        private Customer _customer;
 
         /// <summary>
         /// Возвращает уникальный идентификатор заказа.
@@ -40,8 +50,6 @@ namespace ObjectOrientedPractics.Model
         /// Возвращает дату создания заказа.
         /// </summary>
         public DateTime Date => _date;
-
-        private OrderStatus _orderStatus;
 
         /// <summary>
         /// Возвращает или задает адрес доставки заказа.
@@ -61,6 +69,23 @@ namespace ObjectOrientedPractics.Model
             set => _orderStatus = value;
         }
 
+        /// <summary>
+        /// Возвращает или задает покупателя, сделавшего заказ.
+        /// </summary>
+        public Customer Customer
+        {
+            get => _customer;
+            set => _customer = value;
+        }
+
+        /// <summary>
+        /// Возвращает полное имя покупателя.
+        /// </summary>
+        public string CustomerFullName => Customer?.FullName ?? "Неизвестно";
+
+        /// <summary>
+        /// Возвращает строковое представление адреса доставки.
+        /// </summary>
         public string DeliveryAddressString
         {
             get => $"{DeliveryAddress.Index}, {DeliveryAddress.Country}, г.{DeliveryAddress.City}, ул.{DeliveryAddress.Street}, д.{DeliveryAddress.Building}, кв.{DeliveryAddress.Apartment}";
@@ -89,9 +114,30 @@ namespace ObjectOrientedPractics.Model
         {
             _id = IdGenerator.GetNextId();
             _date = DateTime.Now;
-            DeliveryAddress = null;
+            DeliveryAddress = new Address();
             Cart = new Cart();
             _orderStatus = OrderStatus.New;
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Order"/> для указанного покупателя.
+        /// </summary>
+        /// <param name="customer">Покупатель, для которого создается заказ.</param>
+        public Order(Customer customer) : this()
+        {
+            Customer = customer;
+
+            if (customer?.Address != null)
+            {
+                DeliveryAddress = new Address(
+                    customer.Address.Index,
+                    customer.Address.Country,
+                    customer.Address.City,
+                    customer.Address.Street,
+                    customer.Address.Building,
+                    customer.Address.Apartment
+                );
+            }
         }
 
         /// <summary>

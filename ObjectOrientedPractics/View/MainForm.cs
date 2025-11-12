@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-// Пространство имен приложения
+
 namespace ObjectOrientedPractics
 {
     /// <summary>
@@ -18,22 +18,21 @@ namespace ObjectOrientedPractics
     /// </summary>
     public partial class MainForm : Form
     {
-        // Закрытое поле, содержащее всю бизнес-логику (списки товаров и покупателей).
+        
         private Store _store = new Store();
-
+        
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="MainForm"/>.
         /// </summary>
         public MainForm()
         {
-            // Метод, сгенерированный дизайнером, который инициализирует все визуальные компоненты.
+            
             InitializeComponent();
 
-            // Заполнение списков покупателей и товаров тестовыми данными для отладки.
             GenerateDefaultCustomers();
             GenerateDefaultItems();
+            GenerateDefaultOrders();
 
-            // Присвоение списков товаров и покупателей свойствам соответствующих UserControl'ов (вкладок).
             this.CustomersTab.Customers = _store.Customers;
             this.ItemsTab.Items = _store.Items;
             this.CartsTab.Customers = _store.Customers;
@@ -41,8 +40,6 @@ namespace ObjectOrientedPractics
             this.OrdersTab.Customers = _store.Customers;
             this.CartsTab.OrderCreated += CartsTab_OrderCreated;
 
-            // Подписка на событие смены вкладки в элементе управления Tabs (TabControl).
-            // При смене вкладки будет вызван метод Tabs_SelectedIndexChanged.
             this.Tabs.SelectedIndexChanged += new EventHandler(this.Tabs_SelectedIndexChanged);
         }
         
@@ -51,7 +48,7 @@ namespace ObjectOrientedPractics
         /// </summary>
         private void GenerateDefaultCustomers()
         {
-            // Проверка, необходимая только в том случае, если поле _store было бы null.
+
             if (_store == null)
             {
                 _store = new Store();
@@ -70,6 +67,7 @@ namespace ObjectOrientedPractics
             _store.Customers.Add(new Customer("Сидорова Анна Сергеевна", address3));
             _store.Customers.Add(new Customer("Кузнецов Олег Викторович", address4));
             _store.Customers.Add(new Customer("Васильева Елена Игоревна", address5));
+
         }
 
         /// <summary>
@@ -78,14 +76,13 @@ namespace ObjectOrientedPractics
         /// </summary>
         private void GenerateDefaultItems()
         {
-            // Проверка инициализации Store.
+            
             if (_store == null)
             {
                 _store = new Store();
             }
 
             // Добавление товаров в список Store.Items.
-            // Примечание: Стоимость передается как строка (например, "75000,00").
             _store.Items.Add(new Item("Смартфон X100", "Флагманский телефон с тройной камерой.", "75000,00", Category.Electronics));
             _store.Items.Add(new Item("Ноутбук Pro", "Ультрабук для профессиональной работы.", "120000,50", Category.Electronics));
             _store.Items.Add(new Item("Чайник электрический", "Быстрый нагрев, объем 1.7 л.", "2500,00", Category.Electronics));
@@ -96,6 +93,59 @@ namespace ObjectOrientedPractics
             _store.Items.Add(new Item("Лампа настольная LED", "Гибкая стойка, 3 режима освещения.", "1550,00", Category.Home));
             _store.Items.Add(new Item("Набор посуды 'Стандарт'", "12 предметов из нержавеющей стали.", "8999,00", Category.Home));
             _store.Items.Add(new Item("Фитнес-браслет Z3", "Мониторинг сна и активности.", "3100,00", Category.Electronics));
+
+        }
+
+        /// <summary>
+        /// Создает тестовые заказы и присваивает их соответствующим покупателям.
+        /// </summary>
+        private void GenerateDefaultOrders()
+        {
+
+            var customer1 = _store.Customers[0];
+            var customer2 = _store.Customers[1];
+            var customer3 = _store.Customers[2];
+            var address1 = customer1.Address; 
+            var address2 = customer2.Address;
+            var address3 = customer3.Address;
+
+            var cart1 = new Cart();
+            cart1.Items.Add(_store.Items[0]);
+            cart1.Items.Add(_store.Items[4]); 
+
+            var order1 = new Order
+            {
+                Cart = cart1,
+                Customer = customer1,
+                DeliveryAddress = address1,
+                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.Processing
+            };
+
+            var cart2 = new Cart();
+            cart2.Items.Add(_store.Items[7]);
+
+            var order2 = new Order
+            {
+                Cart = cart2,
+                Customer = customer2,
+                DeliveryAddress = address2,
+                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.New
+            };
+
+            var cart3 = new Cart();
+            cart3.Items.Add(_store.Items[1]); 
+
+            var order3 = new Order
+            {
+                Cart = cart3,
+                Customer = customer3,
+                DeliveryAddress = address3,
+                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.Delivered
+            };
+
+            customer1.Orders = new List<Order>() { order1 };
+            customer2.Orders = new List<Order>() { order2 };
+            customer3.Orders = new List<Order>() { order3 };
         }
 
         /// <summary>
@@ -104,19 +154,29 @@ namespace ObjectOrientedPractics
         /// </summary>
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // Проверяем, совпадает ли выбранная вкладка с вкладкой CartsTab (tabPage1).
-            // (Предполагается, что CartsTab размещен в tabPage1).
+            
             if (this.Tabs.SelectedTab == this.tabPage1)
             {
-                // Вызываем метод обновления данных на вкладке CartsTab.
-                // Это гарантирует, что списки товаров и покупателей будут актуальными.
+                
                 this.CartsTab.RefreshData();
+            }
+
+            if (Tabs.SelectedTab == tabPage4) 
+            {
+                this.OrdersTab.RefreshData(this._store.Customers);
             }
         }
 
+        /// <summary>
+        /// Обработчик события создания нового заказа на вкладке CartsTab.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="newOrder">Новый созданный заказ.</param>
         private void CartsTab_OrderCreated(object sender, Order newOrder)
         {
             this.OrdersTab.UpdateOrders();
         }
+
+
     }
 }

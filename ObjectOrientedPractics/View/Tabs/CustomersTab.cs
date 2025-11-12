@@ -47,7 +47,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 IDTextBox.Clear();
                 FullNameTextBox.Clear();
-                AddressControl.Address = new Address();
+                AddressControl.ClearAddress();
             }
         }
 

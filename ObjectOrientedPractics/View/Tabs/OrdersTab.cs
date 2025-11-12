@@ -11,12 +11,29 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
+    /// <summary>
+    /// Вкладка для управления заказами покупателей.
+    /// </summary>
     public partial class OrdersTab : UserControl
     {
+        /// <summary>
+        /// Список покупателей.
+        /// </summary>
         private List<Customer> _customers;
+
+        /// <summary>
+        /// Список заказов.
+        /// </summary>
         private List<Order> _orders;
+
+        /// <summary>
+        /// Выбранный заказ.
+        /// </summary>
         private Order _selectedOrder;
 
+        /// <summary>
+        /// Возвращает или задает список покупателей.
+        /// </summary>
         public List<Customer> Customers
         {
             get => _customers;
@@ -25,25 +42,36 @@ namespace ObjectOrientedPractics.View.Tabs
                 _customers = value;
                 UpdateOrders();
 
-                StatusComboBox.DataSource = Enum.GetValues(typeof(OrderStatus));
-
-                OrdersDataGridView.SelectionChanged += OrdersDataGridView_SelectionChanged;
-                StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
+                
+                OrderItemsListBox.Enabled = false;
             }
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="OrdersTab"/>.
+        /// </summary>
         public OrdersTab()
         {
             InitializeComponent();
             _orders = new List<Order>();
             OrdersDataGridView.AutoGenerateColumns = false;
+
+            StatusComboBox.DataSource = Enum.GetValues(typeof(OrderStatus));
+
+            OrdersDataGridView.SelectionChanged += OrdersDataGridView_SelectionChanged;
+            StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
+
         }
 
-       public void UpdateOrders()
+        /// <summary>
+        /// Обновляет список заказов на основе данных о покупателях.
+        /// </summary>
+        public void UpdateOrders()
         {
             if (_customers == null)
             {
-                _orders.Clear();
+                
+                _orders?.Clear();
                 OrdersDataGridView.DataSource = null;
                 return;
             }
@@ -54,35 +82,32 @@ namespace ObjectOrientedPractics.View.Tabs
             OrdersDataGridView.DataSource = null;
             OrdersDataGridView.DataSource = _orders;
 
-            if (OrdersDataGridView.Columns.Count == 0 || OrdersDataGridView.Columns["IdColumn"] == null)
-            {
-                return;
-            }
-
-            OrdersDataGridView.Columns["IdColumn"].DataPropertyName = "Id";
-            OrdersDataGridView.Columns["DataColumn"].DataPropertyName = "Date";
-            OrdersDataGridView.Columns["CustomerFullNameColumn"].DataPropertyName = "CustomerFullName";
-            OrdersDataGridView.Columns["DeliveryAddressColumn"].DataPropertyName = "DeliveryAddressString"; 
-            OrdersDataGridView.Columns["AmountColumn"].DataPropertyName = "Amount";
-            OrdersDataGridView.Columns["StatusColumn"].DataPropertyName = "OrderStatus";
-
-            if (_orders.Count > 0)
-            {
-                // Сначала очищаем выбор, чтобы предотвратить сбои
-                OrdersDataGridView.ClearSelection();
-
-                // Устанавливаем выбор на первую строку
-                OrdersDataGridView.Rows[0].Selected = true;
-            }
-            else
-            {
-                // Если заказов нет, очищаем правую панель (запускает ClearSelectedOrderControls через SelectionChanged)
-                OrdersDataGridView_SelectionChanged(null, null);
-            }
-
-            OrdersDataGridView.Refresh();
+            ConfigureDataGridViewColumns();
         }
 
+        /// <summary>
+        /// Настраивает колонки DataGridView для отображения заказов.
+        /// </summary>
+        private void ConfigureDataGridViewColumns()
+        {
+            OrdersDataGridView.AutoGenerateColumns = false;
+
+            if (OrdersDataGridView.Columns["IdColumn"] != null)
+            {
+                OrdersDataGridView.Columns["IdColumn"].DataPropertyName = "Id";
+                OrdersDataGridView.Columns["DataColumn"].DataPropertyName = "Date";
+                OrdersDataGridView.Columns["CustomerFullNameColumn"].DataPropertyName = "CustomerFullName";
+                OrdersDataGridView.Columns["DeliveryAddressColumn"].DataPropertyName = "DeliveryAddressString";
+                OrdersDataGridView.Columns["AmountColumn"].DataPropertyName = "Amount";
+                OrdersDataGridView.Columns["StatusColumn"].DataPropertyName = "OrderStatus";
+            }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения выбранной строки в DataGridView.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Данные события.</param>
         private void OrdersDataGridView_SelectionChanged(object sender, EventArgs e)
         {
             if (OrdersDataGridView.SelectedRows.Count == 0)
@@ -91,28 +116,33 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            // 2. Получаем выбранный объект Order
             Order selectedOrder = OrdersDataGridView.SelectedRows[0].DataBoundItem as Order;
 
-            // 3. Обновляем правую панель
             UpdateSelectedOrderControls(selectedOrder);
         }
 
+        /// <summary>
+        /// Очищает элементы управления выбранного заказа.
+        /// </summary>
         private void ClearSelectedOrderControls()
         {
             _selectedOrder = null;
 
-            // Предполагается, что Id, Created - TextBoxes, Amount - Label, Items - ListBox
             IdTextBox.Text = string.Empty;
             CreatedTextBox.Text = string.Empty;
-            StatusComboBox.SelectedIndex = -1; // Сброс выбора статуса
+            StatusComboBox.SelectedIndex = -1; 
+            AmountLabel.Text = "0,00";
 
             AddressControl.ClearAddress();
 
             OrderItemsListBox.Items.Clear();
-            AmountLabel.Text = "0,00";
+            
         }
 
+        /// <summary>
+        /// Обновляет элементы управления данными выбранного заказа.
+        /// </summary>
+        /// <param name="order">Выбранный заказ.</param>
         private void UpdateSelectedOrderControls(Order order)
         {
             if (order == null)
@@ -123,26 +153,53 @@ namespace ObjectOrientedPractics.View.Tabs
 
             _selectedOrder = order;
 
-            // 1. Отображение данных заказа
-            IdTextBox.Text = order.Id.ToString();
-            CreatedTextBox.Text = order.Date.ToString();
-            StatusComboBox.SelectedItem = order.OrderStatus;
-            AmountLabel.Text = order.Amount.ToString();
-
-            // 2. Отображение адреса (предполагается, что DeliveryAddress не null)
-            AddressControl.Address = order.DeliveryAddress;
-
-            // 3. Отображение списка товаров (в ListBox)
-            OrderItemsListBox.Items.Clear();
-            foreach (var item in order.Cart.Items)
+            try
             {
-                OrderItemsListBox.Items.Add(item.Name);
+                StatusComboBox.SelectedIndexChanged -= StatusComboBox_SelectedIndexChanged;
+
+                IdTextBox.Text = order.Id.ToString();
+                CreatedTextBox.Text = order.Date.ToString();
+                StatusComboBox.SelectedItem = order.OrderStatus;
+                AmountLabel.Text = order.Amount.ToString("F2");
+
+                if (order.DeliveryAddress != null)
+                {
+                    AddressControl.Address = new Address(
+                        order.DeliveryAddress.Index,
+                        order.DeliveryAddress.Country,
+                        order.DeliveryAddress.City,
+                        order.DeliveryAddress.Street,
+                        order.DeliveryAddress.Building,
+                        order.DeliveryAddress.Apartment
+                    );
+                }
+                else
+                {
+                    AddressControl.Address = new Address();
+                }
+
+                OrderItemsListBox.Items.Clear();
+                if (order.Cart?.Items != null)
+                {
+                    foreach (var item in order.Cart.Items)
+                    {
+                        OrderItemsListBox.Items.Add(item.Name);
+                    }
+                }
+            }
+            finally
+            {
+                StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
             }
 
-            // **ВАЖНО:** Остальные поля (кроме StatusComboBox) должны быть ReadOnly
-            // Это можно настроить в дизайнере или в конструкторе.
+
         }
 
+        /// <summary>
+        /// Обработчик события изменения статуса заказа.
+        /// </summary>
+        /// <param name="sender">Источник события.</param>
+        /// <param name="e">Данные события.</param>
         private void StatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (_selectedOrder == null || StatusComboBox.SelectedItem == null)
@@ -150,13 +207,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            // 2. Обновление статуса в модели
-            // Предполагается, что StatusComboBox.SelectedItem имеет тип OrderStatus
             OrderStatus newStatus = (OrderStatus)StatusComboBox.SelectedItem;
             _selectedOrder.OrderStatus = newStatus;
 
-            // 3. Обновляем DataGridView
             OrdersDataGridView.Refresh();
+        }
+
+
+        /// <summary>
+        /// Обновляет данные на вкладке OrdersTab, собирая все заказы всех покупателей.
+        /// </summary>
+        public void RefreshData(List<Customer> customers)
+        {
+            _customers = customers;
+
+            UpdateOrders();
         }
     }
 }
