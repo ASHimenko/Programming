@@ -22,10 +22,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public CartsTab()
         {
-            
             InitializeComponent();
-            UpdateItemsListBox();
-            UpdateCustomersComboBox();
             
             CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
         }
@@ -53,7 +50,7 @@ namespace ObjectOrientedPractics.View.Tabs
         public event EventHandler<Order> OrderCreated;
 
         /// <summary>
-        /// Обновляет ListBox доступных товаров (левая панель).
+        /// Обновляет ListBox доступных товаров.
         /// </summary>
         private void UpdateItemsListBox()
         {
@@ -206,26 +203,18 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            // Создание нового заказа и отдельной корзины для него.
             var newOrder = new Order();
             var orderCart = new Cart();
 
-            // Копирование товаров из текущей корзины в корзину заказа.
             orderCart.Items = new List<Item>(_currentCustomer.Cart.Items);
 
-            // Установка корзины и адреса доставки для нового заказа.
             newOrder.Cart = orderCart;
             newOrder.DeliveryAddress = _currentCustomer.Address;
             newOrder.Customer = _currentCustomer;
 
-            // Инициализация списка заказов покупателя и добавление нового заказа.
-            if (_currentCustomer.Orders == null)
-            {
-                _currentCustomer.Orders = new List<Order>();
-            }
             _currentCustomer.Orders.Add(newOrder);
 
-            OrderCreated?.Invoke(this, newOrder);
+            OrderCreated.Invoke(this, newOrder);
 
             _currentCustomer.Cart.Items.Clear();
 
@@ -266,10 +255,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            if (_currentCustomer.Cart != null && _currentCustomer.Cart.Items != null)
-            {
-                _currentCustomer.Cart.Items.Clear();
-            }
+            _currentCustomer.Cart.Items.Clear();
 
             UpdateCartsListBox();
             UpdatePriceLabel();

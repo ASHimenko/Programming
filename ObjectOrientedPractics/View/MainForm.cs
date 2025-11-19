@@ -26,7 +26,6 @@ namespace ObjectOrientedPractics
         /// </summary>
         public MainForm()
         {
-            
             InitializeComponent();
 
             GenerateDefaultCustomers();

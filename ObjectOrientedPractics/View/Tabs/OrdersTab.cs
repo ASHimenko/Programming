@@ -42,7 +42,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 _customers = value;
                 UpdateOrders();
 
-                
                 OrderItemsListBox.Enabled = false;
             }
         }
@@ -60,7 +59,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
             OrdersDataGridView.SelectionChanged += OrdersDataGridView_SelectionChanged;
             StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
-
         }
 
         /// <summary>
@@ -68,14 +66,6 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public void UpdateOrders()
         {
-            if (_customers == null)
-            {
-                
-                _orders?.Clear();
-                OrdersDataGridView.DataSource = null;
-                return;
-            }
-
             _orders.Clear();
             _orders.AddRange(_customers.SelectMany(customer => customer.Orders));
 
@@ -90,8 +80,6 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ConfigureDataGridViewColumns()
         {
-            OrdersDataGridView.AutoGenerateColumns = false;
-
             if (OrdersDataGridView.Columns["IdColumn"] != null)
             {
                 OrdersDataGridView.Columns["IdColumn"].DataPropertyName = "Id";
@@ -212,7 +200,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
             OrdersDataGridView.Refresh();
         }
-
 
         /// <summary>
         /// Обновляет данные на вкладке OrdersTab, собирая все заказы всех покупателей.

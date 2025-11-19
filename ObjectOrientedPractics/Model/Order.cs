@@ -36,7 +36,7 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         private OrderStatus _orderStatus;
 
-         /// <summary>
+        /// <summary>
         /// Покупатель, сделавший заказ.
         /// </summary>
         private Customer _customer;
@@ -81,7 +81,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает полное имя покупателя.
         /// </summary>
-        public string CustomerFullName => Customer?.FullName ?? "Неизвестно";
+        public string CustomerFullName => Customer.FullName;
 
         /// <summary>
         /// Возвращает строковое представление адреса доставки.
@@ -119,35 +119,6 @@ namespace ObjectOrientedPractics.Model
             _orderStatus = OrderStatus.New;
         }
 
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Order"/> для указанного покупателя.
-        /// </summary>
-        /// <param name="customer">Покупатель, для которого создается заказ.</param>
-        public Order(Customer customer) : this()
-        {
-            Customer = customer;
-
-            if (customer?.Address != null)
-            {
-                DeliveryAddress = new Address(
-                    customer.Address.Index,
-                    customer.Address.Country,
-                    customer.Address.City,
-                    customer.Address.Street,
-                    customer.Address.Building,
-                    customer.Address.Apartment
-                );
-            }
-        }
-
-        /// <summary>
-        /// Возвращает строковое представление заказа.
-        /// </summary>
-        /// <returns>Строка с информацией о заказе.</returns>
-        public override string ToString()
-        {
-            return $"Order #{_id} - {Date:dd.MM.yyyy} - {Amount:C}";
-        }
     }
 }
 
