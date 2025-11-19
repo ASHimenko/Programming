@@ -66,7 +66,16 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         public void UpdateOrders()
         {
+            if (_customers == null)
+            {
+                _orders.Clear();
+
+                OrdersDataGridView.DataSource = null;
+                return;
+            }
+
             _orders.Clear();
+            var customersSource = _customers ?? new List<Customer>();
             _orders.AddRange(_customers.SelectMany(customer => customer.Orders));
 
             OrdersDataGridView.DataSource = null;
@@ -131,7 +140,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// Обновляет элементы управления данными выбранного заказа.
         /// </summary>
         /// <param name="order">Выбранный заказ.</param>
-        private void UpdateSelectedOrderControls(Order order)
+        protected virtual void UpdateSelectedOrderControls(Order order)
         {
             if (order == null)
             {
