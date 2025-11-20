@@ -36,6 +36,9 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private PriorityOrder _selectedPriorityOrder;
 
+        /// <summary>
+        /// Список временных интервалов для доставки заказов.
+        /// </summary>
         private List<string> _deliveryTimeSlots = new List<string>
         {
             "9:00 – 11:00",
@@ -197,7 +200,6 @@ namespace ObjectOrientedPractics.View.Tabs
                 }
                 else
                 {
-                    // Заказ не приоритетный, покупатель не приоритетный.
                     _selectedPriorityOrder = null;
                     HidePriorityOptions();
                 }
@@ -315,11 +317,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 return null;
             }
 
-            // Предполагаем, что у заказа есть свойство, связывающее его с покупателем,
-            // например, CustomerId (если есть в Order) или CustomerFullName
-            string customerFullName = order.CustomerFullName; // Используем существующее свойство
-
-            // Ищем покупателя, у которого совпадает полное имя (менее надежно, чем ID, но соответствует вашему коду)
+            string customerFullName = order.CustomerFullName; 
             return _customers.FirstOrDefault(c => c.FullName == customerFullName);
         }
     }

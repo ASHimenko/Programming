@@ -34,6 +34,9 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private Random _random = new Random();
 
+        /// <summary>
+        /// Список временных интервалов для доставки заказов.
+        /// </summary>
         private List<string> _deliveryTimeSlots = new List<string>
         {
             "9:00 – 11:00",
@@ -54,6 +57,9 @@ namespace ObjectOrientedPractics.View.Tabs
             set => _storeItems = value;
         }
 
+        /// <summary>
+        /// Возвращает или задает выбранное время доставки заказа.
+        /// </summary>
         public string DeliveryTime { get; set; }
 
         /// <summary>
@@ -64,15 +70,13 @@ namespace ObjectOrientedPractics.View.Tabs
         public PriorityOrdersTab()
         {
             InitializeComponent();
-
-            // Enum Binding: привязка перечисления DeliveryTimeSlot напрямую к ComboBox
+            
             DeliveryTimeComboBox.DataSource = _deliveryTimeSlots;
 
-            // Event Subscription: подписка на события элементов управления
             DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
             AddItemButton.Click += AddItemButton_Click;
             RemoveItemButton.Click += RemoveItemButton_Click;
-            ClearOrderButton.Click += ClearOrderButton_Click; // Добавление обработчика для ClearOrder
+            ClearOrderButton.Click += ClearOrderButton_Click; 
         }
 
         /// <summary>
@@ -86,7 +90,6 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 foreach (var item in _selectedOrder.Cart.Items)
                 {
-                    // Data Transformation: отображение только имени товара
                     OrderItemsListBox.Items.Add(item.Name);
                 }
             }
@@ -97,7 +100,6 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void AddItemButton_Click(object sender, EventArgs e)
         {
-            //Проверка, что выбранный заказ существует и список товаров магазина не пуст
             if (_selectedOrder == null || _storeItems == null || _storeItems.Count == 0)
             {
                 MessageBox.Show("Невозможно добавить товар. Заказ не выбран или список товаров пуст.",
@@ -108,19 +110,20 @@ namespace ObjectOrientedPractics.View.Tabs
             int randomIndex = _random.Next(0, _storeItems.Count);
             Model.Item itemToAdd = _storeItems[randomIndex];
 
-            // Object Initialization: создание корзины, если она еще не существует
             if (_selectedOrder.Cart == null)
             {
                 _selectedOrder.Cart = new Model.Cart();
             }
 
-            // Collection Modification: добавление товара в корзину
             _selectedOrder.Cart.Items.Add(itemToAdd);
 
-            // UI Update: синхронизация UI с обновленной моделью
             UpdateSelectedOrderControls(_selectedOrder);
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Удалить товар" из заказа.
+        /// Удаляет выбранный товар из текущего заказа и обновляет отображение.
+        /// </summary>
         private void RemoveItemButton_Click(object sender, EventArgs e)
         {
             if (_selectedOrder == null || OrderItemsListBox.SelectedIndex == -1)
@@ -130,13 +133,10 @@ namespace ObjectOrientedPractics.View.Tabs
 
             int selectedIndex = OrderItemsListBox.SelectedIndex;
 
-            // Collection Modification: удаление товара из заказа
             _selectedOrder.Cart.Items.RemoveAt(selectedIndex);
 
-            // UI Update: синхронизация UI с обновленной моделью
             SynOrderItemsListBox();
 
-            // UI State Preservation: сохранение позиции выделения после удаления
             if (OrderItemsListBox.Items.Count > 0)
             {
                 if (selectedIndex < OrderItemsListBox.Items.Count)
@@ -150,11 +150,13 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки "Очистить заказ".
+        /// Очищает элементы управления выбранного заказа и создает новый приоритетный заказ.
+        /// </summary>
         private void ClearOrderButton_Click(object sender, EventArgs e)
         {
             ClearSelectedOrderControls();
-
-            // Object Recreation: создание нового экземпляра PriorityOrder
             CreateNewPriorityOrder();
         }
 
@@ -166,19 +168,15 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             _selectedOrder = null;
 
-            // Сброс полей заказа
             IdTextBox.Text = string.Empty;
             CreatedTextBox.Text = string.Empty;
             StatusComboBox.SelectedIndex = -1;
             AmountLabel.Text = "0,00";
 
-            // Сброс поля PriorityOrder
             DeliveryTimeComboBox.SelectedIndex = -1;
 
-            // Сброс полей адреса
             AddressControl.ClearAddress();
 
-            // Сброс списка товаров
             OrderItemsListBox.Items.Clear();
 
         }
@@ -190,13 +188,10 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void CreateNewPriorityOrder()
         {
-            // Object Creation
             Model.PriorityOrder newOrder = new Model.PriorityOrder();
 
-            // State Update
             _selectedOrder = newOrder;
 
-            // UI Update
             UpdateSelectedOrderControls(newOrder);
         }
 
@@ -214,9 +209,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            // --- 1. ПРОВЕРКА И ПРИВЕДЕНИЕ ТИПА (ИЗБЕГАЕМ ПОВТОРНОГО ОБЪЯВЛЕНИЯ) ---
-            // Используем pattern matching для объявления переменной 'priorityOrder'
-            if (!(order is Model.PriorityOrder priorityOrder)) // <-- Объявление происходит здесь!
+            if (!(order is Model.PriorityOrder priorityOrder)) 
             {
                 ClearSelectedOrderControls();
                 MessageBox.Show("Данный заказ не является приоритетным и не может быть обработан на этой вкладке.",
@@ -224,31 +217,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            // State Update: сохраняем ссылку на PriorityOrder
             _selectedOrder = priorityOrder;
-            // --- КОНЕЦ ПРОВЕРКИ И ПРИВЕДЕНИЯ ТИПА ---
-
-            // UI State Management: установка режима только для чтения
             IdTextBox.ReadOnly = true;
             CreatedTextBox.ReadOnly = true;
 
             try
             {
-                // --- 1. Заполнение общих полей Order ---
                 IdTextBox.Text = order.Id.ToString();
                 CreatedTextBox.Text = order.Date.ToString();
                 StatusComboBox.SelectedItem = order.OrderStatus;
                 AmountLabel.Text = order.Amount.ToString("F2");
 
-                // --- 2. Логика PriorityOrder ---
-                // Используем уже объявленную и инициализированную переменную 'priorityOrder'
-                DeliveryTimeComboBox.SelectedItem = priorityOrder.DeliveryTime; // <-- ИСПОЛЬЗУЕМ СУЩЕСТВУЮЩУЮ
+                DeliveryTimeComboBox.SelectedItem = priorityOrder.DeliveryTime; 
 
-                // --- 3. Заполнение адреса ---
                 if (order.DeliveryAddress != null)
                 {
-                    // Data Mapping: установка адреса через AddressControl
-                    // ... (Адрес заполняется из order, что корректно)
                     AddressControl.Address = new Model.Address(
                         order.DeliveryAddress.Index,
                         order.DeliveryAddress.Country,
@@ -260,24 +243,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 }
                 else
                 {
-                    // UI Reset: сброс адреса
                     AddressControl.Address = new Model.Address();
                 }
 
-                // --- 4. Заполнение списка товаров ---
                 OrderItemsListBox.Items.Clear();
                 if (order.Cart?.Items != null)
                 {
                     foreach (var item in order.Cart.Items)
                     {
-                        // Data Transformation: форматирование для отображения
                         OrderItemsListBox.Items.Add($"{item.Name} ({item.Cost:F2})");
                     }
                 }
             }
             finally
             {
-                // Здесь можно восстановить обработчики событий, если они были временно отключены
+                
             }
         }
 

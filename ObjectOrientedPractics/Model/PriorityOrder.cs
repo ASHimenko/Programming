@@ -14,11 +14,6 @@ namespace ObjectOrientedPractics.Model
         public DateTime DeliveryDate { get; set; }
 
         /// <summary>
-        /// Возвращает или задает желаемый диапазон времени доставки.
-        /// </summary>
-        //public string DeliveryTime { get; set; }
-
-        /// <summary>
         /// Инициализирует новый экземпляр класса без параметров.
         /// Требуется для поддержки десериализации и наследования.
         /// </summary>
