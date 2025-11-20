@@ -52,6 +52,11 @@ namespace ObjectOrientedPractics.Model
         public DateTime Date => _date;
 
         /// <summary>
+        /// Возвращает или задает желаемый диапазон времени доставки.
+        /// </summary>
+        public string DeliveryTime { get; set; }
+
+        /// <summary>
         /// Возвращает или задает адрес доставки заказа.
         /// </summary>
         public Address DeliveryAddress

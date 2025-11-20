@@ -47,6 +47,7 @@
             this.RemoveButton = new System.Windows.Forms.Button();
             this.CustomerListBox = new System.Windows.Forms.ListBox();
             this.CustomersGroupBox = new System.Windows.Forms.GroupBox();
+            this.IsPriorityCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.CustomersGroupBox.SuspendLayout();
             this.SuspendLayout();
@@ -65,16 +66,17 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.IsPriorityCheckBox);
             this.groupBox1.Controls.Add(this.AddressControl);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.FullNameTextBox);
             this.groupBox1.Controls.Add(this.IDTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(358, 29);
-            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Location = new System.Drawing.Point(477, 36);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.groupBox1.Size = new System.Drawing.Size(443, 218);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.groupBox1.Size = new System.Drawing.Size(591, 268);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Customer";
@@ -82,47 +84,45 @@
             // AddressControl
             // 
             this.AddressControl.Address = ((ObjectOrientedPractics.Model.Address)(resources.GetObject("AddressControl.Address")));
-            this.AddressControl.Location = new System.Drawing.Point(0, 60);
-            this.AddressControl.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddressControl.Location = new System.Drawing.Point(0, 106);
+            this.AddressControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddressControl.Name = "AddressControl";
-            this.AddressControl.Size = new System.Drawing.Size(423, 173);
+            this.AddressControl.Size = new System.Drawing.Size(564, 213);
             this.AddressControl.TabIndex = 13;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 17);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Location = new System.Drawing.Point(23, 21);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(22, 15);
+            this.label3.Size = new System.Drawing.Size(23, 16);
             this.label3.TabIndex = 5;
             this.label3.Text = "ID:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 40);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Location = new System.Drawing.Point(23, 49);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 15);
+            this.label2.Size = new System.Drawing.Size(71, 16);
             this.label2.TabIndex = 4;
             this.label2.Text = "Full Name:";
             // 
             // FullNameTextBox
             // 
-            this.FullNameTextBox.Location = new System.Drawing.Point(82, 37);
-            this.FullNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.FullNameTextBox.Location = new System.Drawing.Point(109, 46);
+            this.FullNameTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.FullNameTextBox.Name = "FullNameTextBox";
-            this.FullNameTextBox.Size = new System.Drawing.Size(333, 20);
+            this.FullNameTextBox.Size = new System.Drawing.Size(443, 22);
             this.FullNameTextBox.TabIndex = 1;
             this.FullNameTextBox.TextChanged += new System.EventHandler(this.FullNameTextBox_TextChanged);
             // 
             // IDTextBox
             // 
-            this.IDTextBox.Location = new System.Drawing.Point(82, 15);
-            this.IDTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.IDTextBox.Location = new System.Drawing.Point(109, 18);
+            this.IDTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.IDTextBox.Name = "IDTextBox";
-            this.IDTextBox.Size = new System.Drawing.Size(76, 20);
+            this.IDTextBox.Size = new System.Drawing.Size(100, 22);
             this.IDTextBox.TabIndex = 0;
             // 
             // contextMenuStrip3
@@ -142,10 +142,10 @@
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(14, 422);
-            this.AddButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.AddButton.Location = new System.Drawing.Point(19, 519);
+            this.AddButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(85, 35);
+            this.AddButton.Size = new System.Drawing.Size(113, 43);
             this.AddButton.TabIndex = 0;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
@@ -153,10 +153,10 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(104, 422);
-            this.RemoveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.RemoveButton.Location = new System.Drawing.Point(139, 519);
+            this.RemoveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(84, 35);
+            this.RemoveButton.Size = new System.Drawing.Size(112, 43);
             this.RemoveButton.TabIndex = 1;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
@@ -165,10 +165,11 @@
             // CustomerListBox
             // 
             this.CustomerListBox.FormattingEnabled = true;
-            this.CustomerListBox.Location = new System.Drawing.Point(14, 33);
-            this.CustomerListBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CustomerListBox.ItemHeight = 16;
+            this.CustomerListBox.Location = new System.Drawing.Point(19, 41);
+            this.CustomerListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomerListBox.Name = "CustomerListBox";
-            this.CustomerListBox.Size = new System.Drawing.Size(320, 381);
+            this.CustomerListBox.Size = new System.Drawing.Size(425, 468);
             this.CustomerListBox.TabIndex = 10;
             this.CustomerListBox.SelectedIndexChanged += new System.EventHandler(this.CustomerListBox_SelectedIndexChanged);
             // 
@@ -180,22 +181,32 @@
             this.CustomersGroupBox.Controls.Add(this.RemoveButton);
             this.CustomersGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CustomersGroupBox.Location = new System.Drawing.Point(0, 0);
-            this.CustomersGroupBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.CustomersGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomersGroupBox.Name = "CustomersGroupBox";
-            this.CustomersGroupBox.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.CustomersGroupBox.Size = new System.Drawing.Size(813, 477);
+            this.CustomersGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CustomersGroupBox.Size = new System.Drawing.Size(1084, 587);
             this.CustomersGroupBox.TabIndex = 11;
             this.CustomersGroupBox.TabStop = false;
             this.CustomersGroupBox.Text = "Customers";
             // 
+            // IsPriorityCheckBox
+            // 
+            this.IsPriorityCheckBox.AutoSize = true;
+            this.IsPriorityCheckBox.Location = new System.Drawing.Point(109, 81);
+            this.IsPriorityCheckBox.Name = "IsPriorityCheckBox";
+            this.IsPriorityCheckBox.Size = new System.Drawing.Size(83, 20);
+            this.IsPriorityCheckBox.TabIndex = 14;
+            this.IsPriorityCheckBox.Text = "Is Priority";
+            this.IsPriorityCheckBox.UseVisualStyleBackColor = true;
+            // 
             // CustomersTab
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.CustomersGroupBox);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "CustomersTab";
-            this.Size = new System.Drawing.Size(813, 477);
+            this.Size = new System.Drawing.Size(1084, 587);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.CustomersGroupBox.ResumeLayout(false);
@@ -223,5 +234,6 @@
         private Controls.AddressControl AddressControl;
         private System.Windows.Forms.ListBox CustomerListBox;
         private System.Windows.Forms.GroupBox CustomersGroupBox;
+        private System.Windows.Forms.CheckBox IsPriorityCheckBox;
     }
 }

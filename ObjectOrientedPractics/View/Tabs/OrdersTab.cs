@@ -32,6 +32,20 @@ namespace ObjectOrientedPractics.View.Tabs
         private Order _selectedOrder;
 
         /// <summary>
+        /// Сохраняет ссылку на _selectedOrder, только если он является PriorityOrder.
+        /// </summary>
+        private PriorityOrder _selectedPriorityOrder;
+
+        private List<string> _deliveryTimeSlots = new List<string>
+        {
+            "9:00 – 11:00",
+            "11:00 – 13:00",
+            "13:00 – 15:00",
+            "15:00 – 17:00",
+            "17:00 – 19:00"
+        };
+
+        /// <summary>
         /// Возвращает или задает список покупателей.
         /// </summary>
         public List<Customer> Customers
@@ -42,7 +56,10 @@ namespace ObjectOrientedPractics.View.Tabs
                 _customers = value;
                 UpdateOrders();
 
+                DeliveryTimeComboBox.DataSource = _deliveryTimeSlots;
+                DeliveryTimeComboBox.SelectedIndex = -1;
                 OrderItemsListBox.Enabled = false;
+                DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
             }
         }
 
@@ -140,24 +157,51 @@ namespace ObjectOrientedPractics.View.Tabs
         /// Обновляет элементы управления данными выбранного заказа.
         /// </summary>
         /// <param name="order">Выбранный заказ.</param>
-        protected virtual void UpdateSelectedOrderControls(Order order)
+        private void UpdateSelectedOrderControls(Order order)
         {
             if (order == null)
             {
                 ClearSelectedOrderControls();
+                HidePriorityOptions();
                 return;
             }
 
             _selectedOrder = order;
+            _selectedPriorityOrder = null;
 
             try
             {
                 StatusComboBox.SelectedIndexChanged -= StatusComboBox_SelectedIndexChanged;
+                DeliveryTimeComboBox.SelectedIndexChanged -= DeliveryTimeComboBox_SelectedIndexChanged;
 
                 IdTextBox.Text = order.Id.ToString();
                 CreatedTextBox.Text = order.Date.ToString();
                 StatusComboBox.SelectedItem = order.OrderStatus;
                 AmountLabel.Text = order.Amount.ToString("F2");
+
+                var customer = FindCustomerByOrder(order);
+
+                if (order is PriorityOrder priorityOrder || (customer != null && customer.IsPriority))
+                {
+                    if (order is PriorityOrder finalPriorityOrder)
+                    {
+                        _selectedPriorityOrder = finalPriorityOrder;
+                        ShowPriorityOptions();
+                        DeliveryTimeComboBox.SelectedItem = finalPriorityOrder.DeliveryTime;
+                    }
+                    else
+                    {
+                        _selectedPriorityOrder = null;
+                        HidePriorityOptions();
+                    }
+                }
+                else
+                {
+                    // Заказ не приоритетный, покупатель не приоритетный.
+                    _selectedPriorityOrder = null;
+                    HidePriorityOptions();
+                }
+
 
                 if (order.DeliveryAddress != null)
                 {
@@ -187,6 +231,7 @@ namespace ObjectOrientedPractics.View.Tabs
             finally
             {
                 StatusComboBox.SelectedIndexChanged += StatusComboBox_SelectedIndexChanged;
+                DeliveryTimeComboBox.SelectedIndexChanged += DeliveryTimeComboBox_SelectedIndexChanged;
             }
 
 
@@ -218,6 +263,64 @@ namespace ObjectOrientedPractics.View.Tabs
             _customers = customers;
 
             UpdateOrders();
+        }
+
+        /// <summary>
+        /// Обработчик события изменения времени доставки.
+        /// Real-time Update: мгновенное применение изменений к модели данных
+        /// Data Binding: синхронизация выбора в UI с свойством модели
+        /// </summary>
+        private void DeliveryTimeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(_selectedOrder != null && DeliveryTimeComboBox.SelectedItem != null)
+            {
+                string selectedTime = DeliveryTimeComboBox.SelectedItem.ToString();
+
+                _selectedOrder.DeliveryTime = selectedTime;
+
+                OrdersDataGridView.Refresh();
+            }
+        }
+
+        /// <summary>
+        /// Скрывает элементы управления для приоритетных опций.
+        /// </summary>
+        private void HidePriorityOptions()
+        {
+            DeliveryTimeLabel.Visible = false;
+            PriorityOptionsLabel.Visible = false;
+            DeliveryTimeComboBox.Visible = false;
+            DeliveryTimeComboBox.SelectedIndex = -1; 
+        }
+
+        /// <summary>
+        /// Показывает элементы управления для приоритетных опций.
+        /// </summary>
+        private void ShowPriorityOptions()
+        {
+            DeliveryTimeLabel.Visible = true;
+            PriorityOptionsLabel.Visible = true;
+            DeliveryTimeComboBox.Visible = true;
+        }
+
+        /// <summary>
+        /// Находит покупателя по заданному заказу.
+        /// </summary>
+        /// <param name="order">Заказ для поиска.</param>
+        /// <returns>Объект Customer или null, если не найден.</returns>
+        private Customer FindCustomerByOrder(Order order)
+        {
+            if (order == null || _customers == null)
+            {
+                return null;
+            }
+
+            // Предполагаем, что у заказа есть свойство, связывающее его с покупателем,
+            // например, CustomerId (если есть в Order) или CustomerFullName
+            string customerFullName = order.CustomerFullName; // Используем существующее свойство
+
+            // Ищем покупателя, у которого совпадает полное имя (менее надежно, чем ID, но соответствует вашему коду)
+            return _customers.FirstOrDefault(c => c.FullName == customerFullName);
         }
     }
 }

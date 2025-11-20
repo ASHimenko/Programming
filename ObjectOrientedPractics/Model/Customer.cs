@@ -41,18 +41,9 @@ namespace ObjectOrientedPractics.Model
         private List<Order> _orders;
 
         /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
+        /// Значение, указывающее, является ли покупатель приоритетным.
         /// </summary>
-        /// <param name="fullName">Полное имя покупателя.</param>
-        /// <param name="address">Адрес покупателя.</param>
-        public Customer(string fullName, Address address)
-        {
-            _id = IdGenerator.GetNextId();
-            FullName = fullName;
-            Address = address;
-            Cart = new Cart();
-            Orders = new List<Order>();
-        }
+        private bool _isPriority = false;
 
         /// <summary>
         /// Возвращает уникальный идентификатор покупателя.
@@ -108,6 +99,30 @@ namespace ObjectOrientedPractics.Model
         {
             get => _orders;
             set => _orders = value ?? new List<Order>();
+        }
+
+        /// <summary>
+        /// Возвращает или задает значение, указывающее, является ли покупатель приоритетным.
+        /// </summary>
+        public bool IsPriority
+        {
+            get => _isPriority;
+            set => _isPriority = value;
+        }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Customer"/>.
+        /// </summary>
+        /// <param name="fullName">Полное имя покупателя.</param>
+        /// <param name="address">Адрес покупателя.</param>
+        public Customer(string fullName, Address address)
+        {
+            _id = IdGenerator.GetNextId();
+            FullName = fullName;
+            Address = address;
+            Cart = new Cart();
+            Orders = new List<Order>();
+            IsPriority = false;
         }
 
         /// <summary>

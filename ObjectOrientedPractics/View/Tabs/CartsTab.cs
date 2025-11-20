@@ -203,10 +203,19 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            var newOrder = new Order();
             var orderCart = new Cart();
-
             orderCart.Items = new List<Item>(_currentCustomer.Cart.Items);
+
+            Order newOrder;
+
+            if (_currentCustomer.IsPriority)
+            {
+                newOrder = new PriorityOrder();
+            }
+            else
+            {
+                newOrder = new Order();
+            }
 
             newOrder.Cart = orderCart;
             newOrder.DeliveryAddress = _currentCustomer.Address;

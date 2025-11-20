@@ -16,7 +16,7 @@ namespace ObjectOrientedPractics.Model
         /// <summary>
         /// Возвращает или задает желаемый диапазон времени доставки.
         /// </summary>
-        public DeliveryTimeSlot DeliveryTime { get; set; }
+        //public string DeliveryTime { get; set; }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса без параметров.
@@ -25,31 +25,8 @@ namespace ObjectOrientedPractics.Model
         public PriorityOrder() : base()
         {
             this.DeliveryDate = DateTime.Now.Date; 
-            this.DeliveryTime = DeliveryTimeSlot.Time_0900_1100; 
+           
         }
-
-        /// <summary>
-        /// Конструктор по всем полям класса PriorityOrder.
-        /// Наследуется от конструктора Order.
-        /// </summary>
-        //public PriorityOrder(
-        //    DateTime deliveryDate,
-        //    DeliveryTimeSlot timeSlot,
-        //    int id,
-        //    DateTime date,
-        //    OrderStatus status,
-        //    Address deliveryAddress,
-        //    Cart cart,
-        //    Customer customer)
-        //    // Вызываем конструктор базового класса для инициализации унаследованных полей
-        //    : base(id, date, status, deliveryAddress, cart, customer)
-        //{
-        //    // Инициализация только тех полей, которые объявлены в PriorityOrder
-        //    this.DeliveryDate = deliveryDate;
-        //    this.DeliveryTime = timeSlot;
-        //}
-
-
 
     }
 }

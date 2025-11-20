@@ -20,6 +20,8 @@ namespace ObjectOrientedPractics.View.Tabs
         public CustomersTab()
         {
             InitializeComponent();
+
+            IsPriorityCheckBox.CheckedChanged += IsPriorityCheckBox_CheckedChanged;
         }
 
         public List<Customer> Customers
@@ -37,6 +39,8 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateCustomerInfo()
         {
+            IsPriorityCheckBox.CheckedChanged += IsPriorityCheckBox_CheckedChanged;
+
             if (_currentCustomer != null)
             {
                 IDTextBox.Text = _currentCustomer.Id.ToString();
@@ -49,6 +53,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 FullNameTextBox.Clear();
                 AddressControl.ClearAddress();
             }
+
+            IsPriorityCheckBox.CheckedChanged += IsPriorityCheckBox_CheckedChanged;
         }
 
         /// <summary>
@@ -122,6 +128,21 @@ namespace ObjectOrientedPractics.View.Tabs
                 UpdateCustomerInfo();
 
             }
+        }
+
+        /// <summary>
+        /// Обработчик события изменения состояния флажка "Is Priority".
+        /// Сохраняет статус приоритета в текущем покупателе.
+        /// </summary>
+        private void IsPriorityCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (_currentCustomer == null)
+            {
+                return;
+            }
+
+            _currentCustomer.IsPriority = IsPriorityCheckBox.Checked;
+
         }
     }
 }
