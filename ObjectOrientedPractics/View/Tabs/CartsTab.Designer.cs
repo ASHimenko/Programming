@@ -49,7 +49,6 @@
             this.splitContainer1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
-            this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
@@ -62,7 +61,7 @@
             this.ItemsListBox.FormattingEnabled = true;
             this.ItemsListBox.ItemHeight = 16;
             this.ItemsListBox.Location = new System.Drawing.Point(4, 42);
-            this.ItemsListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ItemsListBox.Margin = new System.Windows.Forms.Padding(4);
             this.ItemsListBox.Name = "ItemsListBox";
             this.ItemsListBox.Size = new System.Drawing.Size(437, 404);
             this.ItemsListBox.TabIndex = 0;
@@ -72,7 +71,7 @@
             this.CartsListBox.FormattingEnabled = true;
             this.CartsListBox.ItemHeight = 16;
             this.CartsListBox.Location = new System.Drawing.Point(3, 46);
-            this.CartsListBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CartsListBox.Margin = new System.Windows.Forms.Padding(4);
             this.CartsListBox.Name = "CartsListBox";
             this.CartsListBox.Size = new System.Drawing.Size(544, 180);
             this.CartsListBox.TabIndex = 1;
@@ -80,7 +79,7 @@
             // RemoveItemButton
             // 
             this.RemoveItemButton.Location = new System.Drawing.Point(268, 318);
-            this.RemoveItemButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.RemoveItemButton.Margin = new System.Windows.Forms.Padding(4);
             this.RemoveItemButton.Name = "RemoveItemButton";
             this.RemoveItemButton.Size = new System.Drawing.Size(141, 50);
             this.RemoveItemButton.TabIndex = 2;
@@ -90,8 +89,9 @@
             // 
             // AddToCartButton
             // 
-            this.AddToCartButton.Location = new System.Drawing.Point(16, 15);
-            this.AddToCartButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.AddToCartButton.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.AddToCartButton.Location = new System.Drawing.Point(7, 454);
+            this.AddToCartButton.Margin = new System.Windows.Forms.Padding(4);
             this.AddToCartButton.Name = "AddToCartButton";
             this.AddToCartButton.Size = new System.Drawing.Size(124, 54);
             this.AddToCartButton.TabIndex = 3;
@@ -102,7 +102,7 @@
             // ClearCartButton
             // 
             this.ClearCartButton.Location = new System.Drawing.Point(417, 318);
-            this.ClearCartButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ClearCartButton.Margin = new System.Windows.Forms.Padding(4);
             this.ClearCartButton.Name = "ClearCartButton";
             this.ClearCartButton.Size = new System.Drawing.Size(131, 50);
             this.ClearCartButton.TabIndex = 4;
@@ -113,7 +113,7 @@
             // CreateOrderButton
             // 
             this.CreateOrderButton.Location = new System.Drawing.Point(8, 318);
-            this.CreateOrderButton.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CreateOrderButton.Margin = new System.Windows.Forms.Padding(4);
             this.CreateOrderButton.Name = "CreateOrderButton";
             this.CreateOrderButton.Size = new System.Drawing.Size(143, 50);
             this.CreateOrderButton.TabIndex = 5;
@@ -125,7 +125,7 @@
             // 
             this.CustomerComboBox.FormattingEnabled = true;
             this.CustomerComboBox.Location = new System.Drawing.Point(96, 34);
-            this.CustomerComboBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.CustomerComboBox.Margin = new System.Windows.Forms.Padding(4);
             this.CustomerComboBox.Name = "CustomerComboBox";
             this.CustomerComboBox.Size = new System.Drawing.Size(451, 24);
             this.CustomerComboBox.TabIndex = 6;
@@ -135,7 +135,7 @@
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer1.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer1.Name = "splitContainer1";
             // 
             // splitContainer1.Panel1
@@ -154,20 +154,17 @@
             // 
             this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer2.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer2.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer2.Name = "splitContainer2";
             this.splitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer2.Panel1
             // 
+            this.splitContainer2.Panel1.Controls.Add(this.AddToCartButton);
             this.splitContainer2.Panel1.Controls.Add(this.label1);
             this.splitContainer2.Panel1.Controls.Add(this.ItemsListBox);
-            // 
-            // splitContainer2.Panel2
-            // 
-            this.splitContainer2.Panel2.Controls.Add(this.AddToCartButton);
             this.splitContainer2.Size = new System.Drawing.Size(446, 577);
-            this.splitContainer2.SplitterDistance = 449;
+            this.splitContainer2.SplitterDistance = 540;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -186,7 +183,7 @@
             // 
             this.splitContainer3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer3.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.splitContainer3.Margin = new System.Windows.Forms.Padding(4);
             this.splitContainer3.Name = "splitContainer3";
             this.splitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -260,7 +257,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.splitContainer1);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CartsTab";
             this.Size = new System.Drawing.Size(1015, 577);
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -269,7 +266,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.splitContainer2.Panel1.ResumeLayout(false);
             this.splitContainer2.Panel1.PerformLayout();
-            this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);

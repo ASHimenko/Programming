@@ -20,7 +20,6 @@ namespace ObjectOrientedPractics.Model
         public PriorityOrder() : base()
         {
             this.DeliveryDate = DateTime.Now.Date; 
-           
         }
 
     }

@@ -204,7 +204,6 @@ namespace ObjectOrientedPractics.View.Tabs
                     HidePriorityOptions();
                 }
 
-
                 if (order.DeliveryAddress != null)
                 {
                     AddressControl.Address = new Address(
