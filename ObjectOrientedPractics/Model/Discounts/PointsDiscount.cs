@@ -30,6 +30,17 @@ namespace ObjectOrientedPractics.Model.Discounts
         public int Points => _point;
 
         /// <summary>
+        /// Возвращает информационное описание скидки в формате "Накопительная – {Баллы} баллов".
+        /// </summary>
+        public string Info
+        {
+            get
+            {
+                return $"Накопительная – {_point} балл(ов)";
+            }
+        }
+
+        /// <summary>
         /// Устанавливает новое количество накопленных баллов.
         /// Гарантирует, что баланс баллов не станет отрицательным.
         /// </summary>

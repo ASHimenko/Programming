@@ -50,6 +50,18 @@ namespace ObjectOrientedPractics.Model.Discounts
         public double AccumulatedAmount => _accumulatedAmount;
 
         /// <summary>
+        /// Возвращает информационное описание скидки в формате "Процентная «{Категория}» - {Процент}%".
+        /// </summary>
+        public string Info
+        {
+            get
+            {
+                int percentValue = (int)Math.Round(_currentDiscount * 100);
+                return $"Процентная «{DiscountCategory}» - {percentValue}%";
+            }
+        }
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="PercentDiscount"/>.
         /// </summary>
         /// <param name="category">Категория товаров, к которой применяется скидка.</param>

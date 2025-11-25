@@ -1,5 +1,8 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Discounts;
+using ObjectOrientedPractics.Model.Enums;
 using ObjectOrientedPractics.View.Controls;
+using ObjectOrientedPractics.View.Forms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -143,6 +146,87 @@ namespace ObjectOrientedPractics.View.Tabs
 
             _currentCustomer.IsPriority = IsPriorityCheckBox.Checked;
 
+        }
+
+        private void AddDiscountsButton_Click(object sender, EventArgs e)
+        {
+            if (_currentCustomer == null)
+            {
+                MessageBox.Show("Сначала выберите покупателя.");
+                return;
+            }
+
+            using (var form = new DiscountsTab())
+            {
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    Category selectedCategory = form.SelectedCategory;
+
+                    PercentDiscount newDiscount = new PercentDiscount(selectedCategory);
+                    _currentCustomer.Discounts.Add(newDiscount);
+
+                    UpdateDiscountsListBox();
+                }
+            }
+        }
+
+        public void UpdateDiscountsListBox()
+        {
+            if (_currentCustomer == null) return;
+
+            List<IDiscount> sortedDiscounts = SortDiscounts(_currentCustomer.Discounts);
+
+            DiscountsListBox.DataSource = null; 
+            DiscountsListBox.DataSource = sortedDiscounts;
+            DiscountsListBox.DisplayMember = "Info";
+        }
+
+        /// <summary>
+        /// Сортирует список скидок покупателя так, чтобы PointsDiscount всегда была первой.
+        /// </summary>
+        /// <param name="discounts">Список IDiscount покупателя.</param>
+        /// <returns>Отсортированный список IDiscount.</returns>
+        private List<IDiscount> SortDiscounts(List<IDiscount> discounts)
+        {
+            if (discounts == null) return new List<IDiscount>();
+
+            IDiscount pointsDiscount = discounts.OfType<PointsDiscount>().FirstOrDefault();
+
+            List<IDiscount> otherDiscounts = discounts.Where(d => !(d is PointsDiscount)).ToList();
+
+            List<IDiscount> sortedList = new List<IDiscount>();
+
+            if (pointsDiscount != null)
+            {
+                sortedList.Add(pointsDiscount);
+            }
+
+            sortedList.AddRange(otherDiscounts);
+
+            return sortedList;
+        }
+
+        private void RemoveDiscountsButton_Click(object sender, EventArgs e)
+        {
+            if (DiscountsListBox.SelectedItem == null)
+            {
+                MessageBox.Show("Выберите скидку для удаления.", "Ошибка",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            IDiscount selectedDiscount = (IDiscount)DiscountsListBox.SelectedItem;
+
+            if (selectedDiscount is PointsDiscount)
+            {
+                MessageBox.Show("Накопительную скидку нельзя удалить, она обязательна для покупателя.",
+                                "Ошибка удаления", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            _currentCustomer.Discounts.Remove(selectedDiscount);
+
+            UpdateDiscountsListBox();
         }
     }
 }
