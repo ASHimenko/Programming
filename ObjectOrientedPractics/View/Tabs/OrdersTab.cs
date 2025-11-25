@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -268,8 +270,6 @@ namespace ObjectOrientedPractics.View.Tabs
 
         /// <summary>
         /// Обработчик события изменения времени доставки.
-        /// Real-time Update: мгновенное применение изменений к модели данных
-        /// Data Binding: синхронизация выбора в UI с свойством модели
         /// </summary>
         private void DeliveryTimeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {

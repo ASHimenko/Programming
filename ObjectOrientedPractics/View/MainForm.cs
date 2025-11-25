@@ -8,6 +8,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Model.Enums;
 
 
 namespace ObjectOrientedPractics
@@ -117,7 +119,7 @@ namespace ObjectOrientedPractics
                 Cart = cart1,
                 Customer = customer1,
                 DeliveryAddress = address1,
-                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.Processing
+                OrderStatus = ObjectOrientedPractics.Model.Enums.OrderStatus.Processing
             };
 
             var cart2 = new Cart();
@@ -128,7 +130,7 @@ namespace ObjectOrientedPractics
                 Cart = cart2,
                 Customer = customer2,
                 DeliveryAddress = address2,
-                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.New
+                OrderStatus = ObjectOrientedPractics.Model.Enums.OrderStatus.New
             };
 
             var cart3 = new Cart();
@@ -139,7 +141,7 @@ namespace ObjectOrientedPractics
                 Cart = cart3,
                 Customer = customer3,
                 DeliveryAddress = address3,
-                OrderStatus = ObjectOrientedPractics.Model.OrderStatus.Delivered
+                OrderStatus = ObjectOrientedPractics.Model.Enums.OrderStatus.Delivered
             };
 
             customer1.Orders = new List<Order>() { order1 };

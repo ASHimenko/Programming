@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ObjectOrientedPractics.Services.IdGenerator;
+using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Model
 {

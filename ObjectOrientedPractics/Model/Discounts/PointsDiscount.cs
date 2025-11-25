@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Discounts
 {
     public class PointsDiscount : IDiscount
     {

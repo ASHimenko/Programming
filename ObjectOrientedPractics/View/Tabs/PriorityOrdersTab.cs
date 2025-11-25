@@ -19,7 +19,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// Model Entity: представляет бизнес-сущность приоритетного заказа. 
         /// (Исправлено: должно быть PriorityOrder, а не общий Order)
         /// </summary>
-        private Model.PriorityOrder _selectedOrder;
+        private Model.Orders.PriorityOrder _selectedOrder;
 
         /// <summary>
         /// Список всех доступных товаров из Store.
@@ -188,7 +188,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void CreateNewPriorityOrder()
         {
-            Model.PriorityOrder newOrder = new Model.PriorityOrder();
+            Model.Orders.PriorityOrder newOrder = new Model.Orders.PriorityOrder();
 
             _selectedOrder = newOrder;
 
@@ -201,7 +201,7 @@ namespace ObjectOrientedPractics.View.Tabs
         /// Type Check: проверка типа для доступа к свойствам PriorityOrder
         /// </summary>
         /// <param name="order">Выбранный заказ (ожидается PriorityOrder).</param>
-        private void UpdateSelectedOrderControls(Model.Order order)
+        private void UpdateSelectedOrderControls(Model.Orders.Order order)
         {
             if (order == null)
             {
@@ -209,7 +209,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 return;
             }
 
-            if (!(order is Model.PriorityOrder priorityOrder)) 
+            if (!(order is Model.Orders.PriorityOrder priorityOrder)) 
             {
                 ClearSelectedOrderControls();
                 MessageBox.Show("Данный заказ не является приоритетным и не может быть обработан на этой вкладке.",

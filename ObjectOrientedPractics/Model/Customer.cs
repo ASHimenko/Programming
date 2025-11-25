@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static ObjectOrientedPractics.Services.IdGenerator;
+using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.Model.Discounts;
 
 namespace ObjectOrientedPractics.Model
 {
@@ -44,6 +46,12 @@ namespace ObjectOrientedPractics.Model
         /// Значение, указывающее, является ли покупатель приоритетным.
         /// </summary>
         private bool _isPriority = false;
+
+        /// <summary>
+        /// Возвращает список всех скидок, доступных покупателю. 
+        /// по ссылке на интерфейс <see cref="IDiscount"/>.
+        /// </summary>
+        public List<IDiscount> Discounts { get; }
 
         /// <summary>
         /// Возвращает уникальный идентификатор покупателя.
@@ -123,6 +131,8 @@ namespace ObjectOrientedPractics.Model
             Cart = new Cart();
             Orders = new List<Order>();
             IsPriority = false;
+            Discounts = new List<IDiscount>();
+            Discounts.Add(new PointsDiscount(0));
         }
 
         /// <summary>

@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using ObjectOrientedPractics.Model.Enums;
 
-namespace ObjectOrientedPractics.Model
+namespace ObjectOrientedPractics.Model.Orders
 {
     [Serializable]
     public class Order
@@ -55,6 +56,12 @@ namespace ObjectOrientedPractics.Model
         /// Возвращает или задает желаемый диапазон времени доставки.
         /// </summary>
         public string DeliveryTime { get; set; }
+
+        /// <summary>
+        /// Размер скидки в денежном эквиваленте, примененной к данному заказу.
+        /// Задается при создании заказа.
+        /// </summary>
+        public double DiscountAmount { get; set; }
 
         /// <summary>
         /// Возвращает или задает адрес доставки заказа.
@@ -109,6 +116,18 @@ namespace ObjectOrientedPractics.Model
         /// Возвращает общую стоимость всех товаров в заказе.
         /// </summary>
         public double Amount => _cart.Amount;
+
+        /// <summary>
+        /// Возвращает конечную стоимость заказа с учетом примененной скидки.
+        /// Вычисляется как: Amount - DiscountAmount.
+        /// </summary>
+        public double Total
+        {
+            get
+            {
+                return Math.Max(0, Amount - DiscountAmount);
+            }
+        }
 
         /// <summary>
         /// Инициализирует новый экземпляр класса <see cref="Order"/>.
