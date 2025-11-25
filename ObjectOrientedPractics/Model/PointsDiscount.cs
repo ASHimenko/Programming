@@ -7,21 +7,42 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model
 {
-    public class PointsDiscount
+    public class PointsDiscount : IDiscount
     {
+        /// <summary>
+        /// Приватное поле для хранения текущего количества накопленных баллов.
+        /// </summary>
         private int _point;
 
+        /// <summary>
+        /// Максимальный процент от общей стоимости, который может быть покрыт скидкой (30%).
+        /// </summary>
         private const double MaxDiscountPercentage = 0.30;
 
+        /// <summary>
+        /// Процент от общей стоимости покупки, который начисляется в виде баллов (10%).
+        /// </summary>
         private const double EarningPercentage = 0.10;
 
+        /// <summary>
+        /// Возвращает текущее количество накопленных баллов.
+        /// </summary>
         public int Points => _point;
 
+        /// <summary>
+        /// Устанавливает новое количество накопленных баллов.
+        /// Гарантирует, что баланс баллов не станет отрицательным.
+        /// </summary>
+        /// <param name="value">Новое значение баллов.</param>
         private void SetPoints(int value)
         {
             _point = Math.Max(0, value);
         }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="PointsDiscount"/> с начальным количеством баллов.
+        /// </summary>
+        /// <param name="initialPoint">Начальное количество баллов.</param>
         public PointsDiscount(int initialPoint)
         {
             if (initialPoint < 0)
@@ -33,6 +54,11 @@ namespace ObjectOrientedPractics.Model
             SetPoints(initialPoint);
         }
 
+        /// <summary>
+        /// Вычисляет общую стоимость всех продуктов в списке, преобразуя строковое поле Cost в числовой формат.
+        /// </summary>
+        /// <param name="items">Список продуктов <see cref="Item"/>.</param>
+        /// <returns>Общая стоимость заказа в формате <see cref="double"/>.</returns>
         private double GetTotalCost(List<Item> items)
         {
             if (items == null || items.Count == 0) return 0.0;
