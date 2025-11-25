@@ -24,7 +24,7 @@ namespace ObjectOrientedPractics.View.Tabs
         public CartsTab()
         {
             InitializeComponent();
-            
+
             CustomerComboBox.SelectedIndexChanged += CustomerComboBox_SelectedIndexChanged;
         }
 
@@ -144,6 +144,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             UpdateCartsListBox();
             UpdatePriceLabel();
+            LoadDiscounts(_currentCustomer);
         }
 
         /// <summary>
@@ -222,6 +223,18 @@ namespace ObjectOrientedPractics.View.Tabs
             newOrder.DeliveryAddress = _currentCustomer.Address;
             newOrder.Customer = _currentCustomer;
 
+            double finalDiscountAmount = 0.0;
+            List<Item> itemsToApply = newOrder.Cart.Items;
+
+            foreach (IDiscount discount in DiscountsCheckedListBox.CheckedItems)
+            {
+                finalDiscountAmount += discount.Apply(itemsToApply);
+
+                discount.Update(itemsToApply);
+            }
+
+            newOrder.DiscountAmount = finalDiscountAmount;
+
             _currentCustomer.Orders.Add(newOrder);
 
             OrderCreated.Invoke(this, newOrder);
@@ -229,7 +242,7 @@ namespace ObjectOrientedPractics.View.Tabs
             _currentCustomer.Cart.Items.Clear();
 
             UpdateCartsListBox();
-            UpdatePriceLabel();
+            LoadDiscounts(_currentCustomer);
         }
 
         /// <summary>
@@ -250,6 +263,8 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 CartsListBox.Items.Clear();
                 PriceLabel.Text = "0,00";
+                DiscountAmountLabel.Text = "0.00";
+                TotalLabel.Text = "0.00";
             }
         }
 
@@ -269,6 +284,93 @@ namespace ObjectOrientedPractics.View.Tabs
 
             UpdateCartsListBox();
             UpdatePriceLabel();
+        }
+
+        /// <summary>
+        /// Обновляет метки общей скидки и итоговой стоимости заказа.
+        /// </summary>
+        private void UpdateDiscountLabels(Order order)
+        {
+            
+            DiscountAmountLabel.Text = order.DiscountAmount.ToString("N2");
+            TotalLabel.Text = order.Total.ToString("N2");
+        }
+
+        /// <summary>
+        /// Пересчитывает общую сумму скидки, суммируя результаты метода Calculate()
+        /// только для отмеченных в списке скидок, и обновляет поля Order.
+        /// </summary>
+        private void RecalculateDiscountAmount()
+        {
+            
+            if (_currentCustomer == null || _currentCustomer.Cart.Items.Count == 0)
+            {
+                Order tempOrder = new Order();
+                tempOrder.DiscountAmount = 0.0;
+
+                UpdatePriceLabel();
+
+                UpdateDiscountLabels(tempOrder);
+                return;
+            }
+
+            double totalDiscount = 0.0;
+
+            var currentOrder = new Order();
+            currentOrder.Cart = _currentCustomer.Cart;
+
+            List<Item> currentCartItems = _currentCustomer.Cart.Items;
+
+            foreach (IDiscount discount in DiscountsCheckedListBox.CheckedItems)
+            {
+                double discountValue = discount.Calculate(currentCartItems);
+                totalDiscount += discountValue;
+            }
+
+            currentOrder.DiscountAmount = totalDiscount;
+
+            UpdateDiscountLabels(currentOrder);
+        }
+
+        /// <summary>
+        /// Вызывает перерасчет скидки после того, как состояние флажка будет изменено.
+        /// </summary>
+        private void DiscountsCheckedListBox_SelectedIndexChanged(object sender, ItemCheckEventArgs e)
+        {
+            if (e.CurrentValue != e.NewValue)
+            {
+                this.BeginInvoke((MethodInvoker)delegate
+                {
+                    RecalculateDiscountAmount();
+                });
+            }
+        }
+
+        /// <summary>
+        /// Загружает скидки текущего покупателя в CheckedListBox, привязывает свойство Info 
+        /// и устанавливает все галочки в True (максимальная скидка).
+        /// </summary>
+        public void LoadDiscounts(Customer _currentCustomer)
+        {
+            
+            if (_currentCustomer == null)
+            {
+                DiscountsCheckedListBox.DataSource = null;
+                return;
+            }
+
+            List<IDiscount> discounts = _currentCustomer.Discounts;
+
+            DiscountsCheckedListBox.DataSource = null;
+            DiscountsCheckedListBox.DataSource = discounts;
+            DiscountsCheckedListBox.DisplayMember = "Info";
+
+            for (int i = 0; i < DiscountsCheckedListBox.Items.Count; i++)
+            {
+                DiscountsCheckedListBox.SetItemChecked(i, true);
+            }
+
+            RecalculateDiscountAmount();
         }
     }
 }

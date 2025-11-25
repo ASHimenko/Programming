@@ -40,6 +40,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
             this.label3 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TotalLabel = new System.Windows.Forms.Label();
+            this.DiscountAmountLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.DiscountsCheckedListBox = new System.Windows.Forms.CheckedListBox();
             this.AmountLabel = new System.Windows.Forms.Label();
             this.PriceLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -70,7 +76,7 @@
             // 
             this.CartsListBox.FormattingEnabled = true;
             this.CartsListBox.ItemHeight = 16;
-            this.CartsListBox.Location = new System.Drawing.Point(3, 46);
+            this.CartsListBox.Location = new System.Drawing.Point(3, 29);
             this.CartsListBox.Margin = new System.Windows.Forms.Padding(4);
             this.CartsListBox.Name = "CartsListBox";
             this.CartsListBox.Size = new System.Drawing.Size(544, 180);
@@ -78,7 +84,7 @@
             // 
             // RemoveItemButton
             // 
-            this.RemoveItemButton.Location = new System.Drawing.Point(268, 318);
+            this.RemoveItemButton.Location = new System.Drawing.Point(268, 301);
             this.RemoveItemButton.Margin = new System.Windows.Forms.Padding(4);
             this.RemoveItemButton.Name = "RemoveItemButton";
             this.RemoveItemButton.Size = new System.Drawing.Size(141, 50);
@@ -101,7 +107,7 @@
             // 
             // ClearCartButton
             // 
-            this.ClearCartButton.Location = new System.Drawing.Point(417, 318);
+            this.ClearCartButton.Location = new System.Drawing.Point(417, 301);
             this.ClearCartButton.Margin = new System.Windows.Forms.Padding(4);
             this.ClearCartButton.Name = "ClearCartButton";
             this.ClearCartButton.Size = new System.Drawing.Size(131, 50);
@@ -112,7 +118,7 @@
             // 
             // CreateOrderButton
             // 
-            this.CreateOrderButton.Location = new System.Drawing.Point(8, 318);
+            this.CreateOrderButton.Location = new System.Drawing.Point(8, 301);
             this.CreateOrderButton.Margin = new System.Windows.Forms.Padding(4);
             this.CreateOrderButton.Name = "CreateOrderButton";
             this.CreateOrderButton.Size = new System.Drawing.Size(143, 50);
@@ -145,8 +151,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer3);
-            this.splitContainer1.Size = new System.Drawing.Size(1015, 577);
-            this.splitContainer1.SplitterDistance = 446;
+            this.splitContainer1.Size = new System.Drawing.Size(1076, 868);
+            this.splitContainer1.SplitterDistance = 471;
             this.splitContainer1.SplitterWidth = 5;
             this.splitContainer1.TabIndex = 10;
             // 
@@ -163,8 +169,8 @@
             this.splitContainer2.Panel1.Controls.Add(this.AddToCartButton);
             this.splitContainer2.Panel1.Controls.Add(this.label1);
             this.splitContainer2.Panel1.Controls.Add(this.ItemsListBox);
-            this.splitContainer2.Size = new System.Drawing.Size(446, 577);
-            this.splitContainer2.SplitterDistance = 540;
+            this.splitContainer2.Size = new System.Drawing.Size(471, 868);
+            this.splitContainer2.SplitterDistance = 810;
             this.splitContainer2.SplitterWidth = 5;
             this.splitContainer2.TabIndex = 0;
             // 
@@ -194,6 +200,12 @@
             // 
             // splitContainer3.Panel2
             // 
+            this.splitContainer3.Panel2.Controls.Add(this.label8);
+            this.splitContainer3.Panel2.Controls.Add(this.label7);
+            this.splitContainer3.Panel2.Controls.Add(this.TotalLabel);
+            this.splitContainer3.Panel2.Controls.Add(this.DiscountAmountLabel);
+            this.splitContainer3.Panel2.Controls.Add(this.label4);
+            this.splitContainer3.Panel2.Controls.Add(this.DiscountsCheckedListBox);
             this.splitContainer3.Panel2.Controls.Add(this.AmountLabel);
             this.splitContainer3.Panel2.Controls.Add(this.PriceLabel);
             this.splitContainer3.Panel2.Controls.Add(this.label2);
@@ -201,8 +213,8 @@
             this.splitContainer3.Panel2.Controls.Add(this.CartsListBox);
             this.splitContainer3.Panel2.Controls.Add(this.CreateOrderButton);
             this.splitContainer3.Panel2.Controls.Add(this.ClearCartButton);
-            this.splitContainer3.Size = new System.Drawing.Size(564, 577);
-            this.splitContainer3.SplitterDistance = 73;
+            this.splitContainer3.Size = new System.Drawing.Size(600, 868);
+            this.splitContainer3.SplitterDistance = 109;
             this.splitContainer3.SplitterWidth = 5;
             this.splitContainer3.TabIndex = 0;
             // 
@@ -216,13 +228,69 @@
             this.label3.TabIndex = 13;
             this.label3.Text = "Customer:";
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(438, 378);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(110, 16);
+            this.label8.TabIndex = 19;
+            this.label8.Text = "Discount Amount:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(496, 556);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(51, 16);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "TOTAL";
+            // 
+            // TotalLabel
+            // 
+            this.TotalLabel.AutoSize = true;
+            this.TotalLabel.Location = new System.Drawing.Point(496, 601);
+            this.TotalLabel.Name = "TotalLabel";
+            this.TotalLabel.Size = new System.Drawing.Size(44, 16);
+            this.TotalLabel.TabIndex = 17;
+            this.TotalLabel.Text = "label6";
+            // 
+            // DiscountAmountLabel
+            // 
+            this.DiscountAmountLabel.AutoSize = true;
+            this.DiscountAmountLabel.Location = new System.Drawing.Point(503, 407);
+            this.DiscountAmountLabel.Name = "DiscountAmountLabel";
+            this.DiscountAmountLabel.Size = new System.Drawing.Size(44, 16);
+            this.DiscountAmountLabel.TabIndex = 16;
+            this.DiscountAmountLabel.Text = "label5";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(5, 379);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(66, 16);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Discounts";
+            // 
+            // DiscountsCheckedListBox
+            // 
+            this.DiscountsCheckedListBox.BackColor = System.Drawing.SystemColors.Window;
+            this.DiscountsCheckedListBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.DiscountsCheckedListBox.FormattingEnabled = true;
+            this.DiscountsCheckedListBox.IntegralHeight = false;
+            this.DiscountsCheckedListBox.Location = new System.Drawing.Point(8, 407);
+            this.DiscountsCheckedListBox.Name = "DiscountsCheckedListBox";
+            this.DiscountsCheckedListBox.Size = new System.Drawing.Size(243, 147);
+            this.DiscountsCheckedListBox.TabIndex = 14;
+            // 
             // AmountLabel
             // 
             this.AmountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.AmountLabel.AutoSize = true;
-            this.AmountLabel.Location = new System.Drawing.Point(465, 249);
+            this.AmountLabel.Location = new System.Drawing.Point(492, 232);
             this.AmountLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.AmountLabel.Name = "AmountLabel";
             this.AmountLabel.Size = new System.Drawing.Size(55, 16);
@@ -235,7 +303,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.PriceLabel.AutoSize = true;
-            this.PriceLabel.Location = new System.Drawing.Point(465, 278);
+            this.PriceLabel.Location = new System.Drawing.Point(492, 261);
             this.PriceLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PriceLabel.Name = "PriceLabel";
             this.PriceLabel.Size = new System.Drawing.Size(44, 16);
@@ -245,7 +313,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(4, 23);
+            this.label2.Location = new System.Drawing.Point(4, 6);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(34, 16);
@@ -259,7 +327,7 @@
             this.Controls.Add(this.splitContainer1);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "CartsTab";
-            this.Size = new System.Drawing.Size(1015, 577);
+            this.Size = new System.Drawing.Size(1076, 868);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
@@ -295,5 +363,11 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label PriceLabel;
         private System.Windows.Forms.Label AmountLabel;
+        private System.Windows.Forms.CheckedListBox DiscountsCheckedListBox;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label TotalLabel;
+        private System.Windows.Forms.Label DiscountAmountLabel;
     }
 }

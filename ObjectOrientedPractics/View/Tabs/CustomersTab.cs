@@ -184,8 +184,6 @@ namespace ObjectOrientedPractics.View.Tabs
         /// <summary>
         /// Сортирует список скидок покупателя так, чтобы PointsDiscount всегда была первой.
         /// </summary>
-        /// <param name="discounts">Список IDiscount покупателя.</param>
-        /// <returns>Отсортированный список IDiscount.</returns>
         private List<IDiscount> SortDiscounts(List<IDiscount> discounts)
         {
             if (discounts == null) return new List<IDiscount>();
@@ -225,7 +223,6 @@ namespace ObjectOrientedPractics.View.Tabs
             }
 
             _currentCustomer.Discounts.Remove(selectedDiscount);
-
             UpdateDiscountsListBox();
         }
     }
