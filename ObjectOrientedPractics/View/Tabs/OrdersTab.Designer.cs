@@ -36,6 +36,7 @@
             this.DeliveryAddressColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AmountColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.TotalColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AddressControl = new ObjectOrientedPractics.View.Controls.AddressControl();
             this.CreatedTextBox = new System.Windows.Forms.TextBox();
             this.IdTextBox = new System.Windows.Forms.TextBox();
@@ -65,7 +66,8 @@
             this.CustomerFullNameColumn,
             this.DeliveryAddressColumn,
             this.AmountColumn,
-            this.StatusColumn});
+            this.StatusColumn,
+            this.TotalColumn});
             this.OrdersDataGridView.Location = new System.Drawing.Point(16, 74);
             this.OrdersDataGridView.Margin = new System.Windows.Forms.Padding(4);
             this.OrdersDataGridView.MultiSelect = false;
@@ -129,6 +131,14 @@
             this.StatusColumn.ReadOnly = true;
             this.StatusColumn.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.StatusColumn.Width = 125;
+            // 
+            // TotalColumn
+            // 
+            this.TotalColumn.HeaderText = "Total";
+            this.TotalColumn.MinimumWidth = 6;
+            this.TotalColumn.Name = "TotalColumn";
+            this.TotalColumn.ReadOnly = true;
+            this.TotalColumn.Width = 125;
             // 
             // AddressControl
             // 
@@ -315,14 +325,15 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ListBox OrderItemsListBox;
+        private System.Windows.Forms.ComboBox DeliveryTimeComboBox;
+        private System.Windows.Forms.Label DeliveryTimeLabel;
+        private System.Windows.Forms.Label PriorityOptionsLabel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IdColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DataColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn CustomerFullNameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DeliveryAddressColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AmountColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusColumn;
-        private System.Windows.Forms.ComboBox DeliveryTimeComboBox;
-        private System.Windows.Forms.Label DeliveryTimeLabel;
-        private System.Windows.Forms.Label PriorityOptionsLabel;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TotalColumn;
     }
 }

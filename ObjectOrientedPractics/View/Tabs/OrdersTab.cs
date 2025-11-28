@@ -182,7 +182,7 @@ namespace ObjectOrientedPractics.View.Tabs
                 IdTextBox.Text = order.Id.ToString();
                 CreatedTextBox.Text = order.Date.ToString();
                 StatusComboBox.SelectedItem = order.OrderStatus;
-                AmountLabel.Text = order.Amount.ToString("F2");
+                AmountLabel.Text = order.Total.ToString("F2");
 
                 var customer = FindCustomerByOrder(order);
 
@@ -319,5 +319,6 @@ namespace ObjectOrientedPractics.View.Tabs
             string customerFullName = order.CustomerFullName; 
             return _customers.FirstOrDefault(c => c.FullName == customerFullName);
         }
+
     }
 }

@@ -169,6 +169,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             UpdateCartsListBox();
             UpdatePriceLabel();
+            RecalculateDiscountAmount();
         }
 
         /// <summary>
@@ -186,6 +187,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             UpdateCartsListBox();
             UpdatePriceLabel();
+            RecalculateDiscountAmount();
         }
 
         /// <summary>
@@ -224,16 +226,20 @@ namespace ObjectOrientedPractics.View.Tabs
             newOrder.Customer = _currentCustomer;
 
             double finalDiscountAmount = 0.0;
+
             List<Item> itemsToApply = newOrder.Cart.Items;
 
             foreach (IDiscount discount in DiscountsCheckedListBox.CheckedItems)
             {
                 finalDiscountAmount += discount.Apply(itemsToApply);
-
-                discount.Update(itemsToApply);
             }
 
             newOrder.DiscountAmount = finalDiscountAmount;
+
+            foreach (IDiscount discount in _currentCustomer.Discounts)
+            {
+                discount.Update(itemsToApply);
+            }
 
             _currentCustomer.Orders.Add(newOrder);
 
@@ -243,6 +249,7 @@ namespace ObjectOrientedPractics.View.Tabs
 
             UpdateCartsListBox();
             LoadDiscounts(_currentCustomer);
+            RecalculateDiscountAmount();
         }
 
         /// <summary>
