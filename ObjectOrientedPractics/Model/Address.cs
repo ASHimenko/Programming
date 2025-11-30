@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Представляет адрес с почтовым индексом, страной, городом, улицей, домом и квартирой.
     /// </summary>
-    public class Address
+    public class Address: ICloneable, IEquatable<Address>
     {
         /// <summary>
         /// Почтовый индекс.
@@ -139,6 +139,66 @@ namespace ObjectOrientedPractics.Model
         public override string ToString()
         {
             return $"{_index}, {_country}, {_city}, {_street}, {_building}, {_apartment}";
+        }
+
+        /// <summary>
+        /// Создает глубокую копию текущего экземпляра <see cref="Address"/>.
+        /// </summary>
+        /// <returns>Глубокая копия объекта <see cref="Address"/>.</returns>
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        /// <summary>
+        /// Определяет, равен ли текущий объект <see cref="Address"/> другому объекту <see cref="Address"/>.
+        /// Сравнение производится по всем полям адреса.
+        /// </summary>
+        /// <param name="other">Другой объект <see cref="Address"/> для сравнения.</param>
+        /// <returns>True, если объекты равны; иначе False.</returns>
+        public bool Equals(Address other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return this.Index == other.Index &&
+                   this.Country == other.Country &&
+                   this.City == other.City &&
+                   this.Street == other.Street &&
+                   this.Building == other.Building &&
+                   this.Apartment == other.Apartment;
+        }
+
+        /// <summary>
+        /// Перегруженный метод для сравнения с объектом.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения.</param>
+        /// <returns>True, если объекты равны; иначе False.</returns>
+        public override bool Equals(object obj) => Equals(obj as Address);
+
+        /// <summary>
+        /// Перегрузка метода GetHashCode для корректной работы в коллекциях.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int hash = 17;
+                hash = hash * 23 + Index.GetHashCode();
+                hash = hash * 23 + (Country != null ? Country.GetHashCode() : 0);
+                hash = hash * 23 + (City != null ? City.GetHashCode() : 0);
+                hash = hash * 23 + (Street != null ? Street.GetHashCode() : 0);
+                hash = hash * 23 + (Building != null ? Building.GetHashCode() : 0);
+                hash = hash * 23 + (Apartment != null ? Apartment.GetHashCode() : 0);
+                return hash;
+            }
         }
     }
 }

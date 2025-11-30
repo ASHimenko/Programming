@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ObjectOrientedPractics.Model
 {
     [Serializable]
-    public class Cart
+    public class Cart: ICloneable
     {
         /// <summary>
         /// Список товаров в корзине.
@@ -50,6 +50,23 @@ namespace ObjectOrientedPractics.Model
         public Cart()
         {
             _items = new List<Item>();
+        }
+
+        /// <summary>
+        /// Создает глубокую копию текущего экземпляра <see cref="Cart"/>.
+        /// </summary>
+        /// <returns>Глубокая копия объекта <see cref="Cart"/>.</returns>
+        public object Clone()
+        {
+            Cart newCart = (Cart)this.MemberwiseClone();
+
+            newCart.Items = new List<Item>();
+            foreach (Item item in this.Items)
+            {
+                newCart.Items.Add((Item)item.Clone());
+            }
+
+            return newCart;
         }
     }
 }

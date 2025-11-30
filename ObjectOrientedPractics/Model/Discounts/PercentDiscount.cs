@@ -7,7 +7,7 @@ using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PercentDiscount : IDiscount
+    public class PercentDiscount : IDiscount, IComparable<PercentDiscount>
     {
         /// <summary>
         /// Максимальный размер скидки в процентах.
@@ -48,6 +48,11 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// Возвращает сумму, накопленную по покупкам в данной категории.
         /// </summary>
         public double AccumulatedAmount => _accumulatedAmount;
+
+        /// <summary>
+        /// Объект для сравнения.
+        /// </summary>
+        public double DiscountPercent { get; private set; }
 
         /// <summary>
         /// Возвращает информационное описание скидки в формате "Процентная «{Категория}» - {Процент}%".
@@ -138,6 +143,22 @@ namespace ObjectOrientedPractics.Model.Discounts
             double newDiscount = InitialDiscountValue + (earnedPercents * 0.01);
             _currentDiscount = Math.Min(newDiscount, MaxDiscountValue);
 
+        }
+
+        /// <summary>
+        /// Сравнивает текущую скидку с другой скидкой по проценту (DiscountPercent).
+        /// </summary>
+        /// <param name="other">Другой объект <see cref="PercentDiscount"/> для сравнения.</param>
+        /// <returns>Целое число, указывающее, превышает ли, равен ли или меньше ли 
+        /// по проценту текущий объект <paramref name="other"/>.</returns>
+        public int CompareTo(PercentDiscount other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            return this.DiscountPercent.CompareTo(other.DiscountPercent);
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.Model.Discounts
 {
-    public class PointsDiscount : IDiscount
+    public class PointsDiscount : IDiscount, IComparable<PointsDiscount>
     {
         /// <summary>
         /// Приватное поле для хранения текущего количества накопленных баллов.
@@ -28,6 +28,11 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// Возвращает текущее количество накопленных баллов.
         /// </summary>
         public int Points => _point;
+
+        /// <summary>
+        /// Объект для сравнения.
+        /// </summary>
+        public double PointsAmount { get; private set; }
 
         /// <summary>
         /// Возвращает информационное описание скидки в формате "Накопительная – {Баллы} баллов".
@@ -133,6 +138,22 @@ namespace ObjectOrientedPractics.Model.Discounts
             {
                 SetPoints(this.Points + pointsEarned);
             }
+        }
+
+        /// <summary>
+        /// Сравнивает текущую скидку с другой скидкой по количеству баллов (PointsAmount).
+        /// </summary>
+        /// <param name="other">Другой объект <see cref="PointsDiscount"/> для сравнения.</param>
+        /// <returns>Целое число, указывающее, превышает ли, равен ли или меньше ли 
+        /// по баллам текущий объект <paramref name="other"/>.</returns>
+        public int CompareTo(PointsDiscount other)
+        {
+            if (other is null)
+            {
+                return 1;
+            }
+
+            return this.PointsAmount.CompareTo(other.PointsAmount);
         }
     }
 }

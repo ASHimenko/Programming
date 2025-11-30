@@ -10,7 +10,7 @@ using ObjectOrientedPractics.Model.Enums;
 namespace ObjectOrientedPractics.Model.Orders
 {
     [Serializable]
-    public class Order
+    public class Order : IEquatable<Order>
     {
         /// <summary>
         /// Уникальный идентификатор заказа.
@@ -141,6 +141,42 @@ namespace ObjectOrientedPractics.Model.Orders
             DeliveryAddress = new Address();
             Cart = new Cart();
             _orderStatus = OrderStatus.New;
+        }
+
+        /// <summary>
+        /// Определяет, равен ли текущий объект <see cref="Order"/> другому объекту <see cref="Order"/>.
+        /// Сравнение производится по уникальному идентификатору Id.
+        /// </summary>
+        /// <param name="other">Другой объект <see cref="Order"/> для сравнения.</param>
+        /// <returns>True, если объекты равны; иначе False.</returns>
+        public bool Equals(Order other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return this.Id == other.Id;
+        }
+
+        /// <summary>
+        /// Перегруженный метод для сравнения с объектом.
+        /// </summary>
+        /// <param name="obj">Объект для сравнения.</param>
+        /// <returns>True, если объекты равны; иначе False.</returns>
+        public override bool Equals(object obj) => Equals(obj as Order);
+
+        /// <summary>
+        /// Перегрузка метода GetHashCode для корректной работы в коллекциях.
+        /// </summary>
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
 
     }
