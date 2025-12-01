@@ -44,21 +44,28 @@
             this.RemoveButton = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // ItemsListBox
             // 
+            this.ItemsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemsListBox.FormattingEnabled = true;
             this.ItemsListBox.ItemHeight = 16;
-            this.ItemsListBox.Location = new System.Drawing.Point(14, 28);
+            this.ItemsListBox.Location = new System.Drawing.Point(36, 30);
             this.ItemsListBox.Name = "ItemsListBox";
-            this.ItemsListBox.Size = new System.Drawing.Size(379, 452);
+            this.ItemsListBox.Size = new System.Drawing.Size(547, 580);
             this.ItemsListBox.TabIndex = 0;
             this.ItemsListBox.SelectedIndexChanged += new System.EventHandler(this.ItemsListBox_SelectedIndexChanged);
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.CategoryComboBox);
             this.groupBox1.Controls.Add(this.InfoTextBox);
@@ -69,9 +76,10 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.CostTextBox);
             this.groupBox1.Controls.Add(this.IDTextBox);
-            this.groupBox1.Location = new System.Drawing.Point(419, 19);
+            this.groupBox1.Location = new System.Drawing.Point(641, 11);
+            this.groupBox1.MinimumSize = new System.Drawing.Size(1248, 734);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(518, 538);
+            this.groupBox1.Size = new System.Drawing.Size(1248, 734);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Item";
@@ -165,9 +173,11 @@
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(14, 486);
+            this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.AddButton.Location = new System.Drawing.Point(36, 647);
             this.AddButton.Name = "AddButton";
-            this.AddButton.Size = new System.Drawing.Size(115, 48);
+            this.AddButton.Size = new System.Drawing.Size(117, 49);
             this.AddButton.TabIndex = 2;
             this.AddButton.Text = "Add";
             this.AddButton.UseVisualStyleBackColor = true;
@@ -175,9 +185,11 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(135, 486);
+            this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.RemoveButton.Location = new System.Drawing.Point(177, 647);
             this.RemoveButton.Name = "RemoveButton";
-            this.RemoveButton.Size = new System.Drawing.Size(117, 48);
+            this.RemoveButton.Size = new System.Drawing.Size(119, 49);
             this.RemoveButton.TabIndex = 3;
             this.RemoveButton.Text = "Remove";
             this.RemoveButton.UseVisualStyleBackColor = true;
@@ -186,25 +198,39 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(11, 9);
+            this.label5.Location = new System.Drawing.Point(33, 11);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(39, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "Items";
             // 
+            // panel1
+            // 
+            this.panel1.AutoScroll = true;
+            this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Controls.Add(this.label5);
+            this.panel1.Controls.Add(this.ItemsListBox);
+            this.panel1.Controls.Add(this.RemoveButton);
+            this.panel1.Controls.Add(this.AddButton);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1248, 734);
+            this.panel1.TabIndex = 15;
+            // 
             // ItemsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.RemoveButton);
-            this.Controls.Add(this.AddButton);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.ItemsListBox);
+            this.Controls.Add(this.panel1);
+            this.MinimumSize = new System.Drawing.Size(1248, 734);
             this.Name = "ItemsTab";
-            this.Size = new System.Drawing.Size(951, 584);
+            this.Size = new System.Drawing.Size(1248, 734);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -228,5 +254,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox CategoryComboBox;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Panel panel1;
     }
 }

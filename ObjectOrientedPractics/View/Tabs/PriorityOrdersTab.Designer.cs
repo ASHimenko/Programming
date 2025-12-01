@@ -241,8 +241,9 @@
             this.Controls.Add(this.DeliveryTimeComboBox);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label5);
+            this.MinimumSize = new System.Drawing.Size(1248, 734);
             this.Name = "PriorityOrdersTab";
-            this.Size = new System.Drawing.Size(587, 779);
+            this.Size = new System.Drawing.Size(1248, 779);
             this.ResumeLayout(false);
             this.PerformLayout();
 

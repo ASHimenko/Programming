@@ -70,6 +70,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.IsPriorityCheckBox);
             this.groupBox1.Controls.Add(this.AddressControl);
             this.groupBox1.Controls.Add(this.label3);
@@ -80,7 +81,7 @@
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.groupBox1.Size = new System.Drawing.Size(591, 268);
+            this.groupBox1.Size = new System.Drawing.Size(722, 377);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Selected Customer";
@@ -98,10 +99,10 @@
             // AddressControl
             // 
             this.AddressControl.Address = ((ObjectOrientedPractics.Model.Address)(resources.GetObject("AddressControl.Address")));
-            this.AddressControl.Location = new System.Drawing.Point(0, 106);
+            this.AddressControl.Location = new System.Drawing.Point(6, 106);
             this.AddressControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddressControl.Name = "AddressControl";
-            this.AddressControl.Size = new System.Drawing.Size(564, 213);
+            this.AddressControl.Size = new System.Drawing.Size(710, 267);
             this.AddressControl.TabIndex = 13;
             // 
             // label3
@@ -156,7 +157,8 @@
             // 
             // AddButton
             // 
-            this.AddButton.Location = new System.Drawing.Point(19, 519);
+            this.AddButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.AddButton.Location = new System.Drawing.Point(26, 665);
             this.AddButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(113, 43);
@@ -167,7 +169,8 @@
             // 
             // RemoveButton
             // 
-            this.RemoveButton.Location = new System.Drawing.Point(139, 519);
+            this.RemoveButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.RemoveButton.Location = new System.Drawing.Point(146, 665);
             this.RemoveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(112, 43);
@@ -183,7 +186,7 @@
             this.CustomerListBox.Location = new System.Drawing.Point(19, 41);
             this.CustomerListBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomerListBox.Name = "CustomerListBox";
-            this.CustomerListBox.Size = new System.Drawing.Size(425, 468);
+            this.CustomerListBox.Size = new System.Drawing.Size(425, 596);
             this.CustomerListBox.TabIndex = 10;
             this.CustomerListBox.SelectedIndexChanged += new System.EventHandler(this.CustomerListBox_SelectedIndexChanged);
             // 
@@ -202,16 +205,17 @@
             this.CustomersGroupBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomersGroupBox.Name = "CustomersGroupBox";
             this.CustomersGroupBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.CustomersGroupBox.Size = new System.Drawing.Size(1084, 587);
+            this.CustomersGroupBox.Size = new System.Drawing.Size(1248, 734);
             this.CustomersGroupBox.TabIndex = 11;
             this.CustomersGroupBox.TabStop = false;
             this.CustomersGroupBox.Text = "Customers";
             // 
             // RemoveDiscountsButton
             // 
-            this.RemoveDiscountsButton.Location = new System.Drawing.Point(968, 405);
+            this.RemoveDiscountsButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.RemoveDiscountsButton.Location = new System.Drawing.Point(1074, 550);
             this.RemoveDiscountsButton.Name = "RemoveDiscountsButton";
-            this.RemoveDiscountsButton.Size = new System.Drawing.Size(100, 41);
+            this.RemoveDiscountsButton.Size = new System.Drawing.Size(113, 50);
             this.RemoveDiscountsButton.TabIndex = 14;
             this.RemoveDiscountsButton.Text = "Remove";
             this.RemoveDiscountsButton.UseVisualStyleBackColor = true;
@@ -219,9 +223,10 @@
             // 
             // AddDiscountsButton
             // 
-            this.AddDiscountsButton.Location = new System.Drawing.Point(968, 345);
+            this.AddDiscountsButton.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.AddDiscountsButton.Location = new System.Drawing.Point(1074, 490);
             this.AddDiscountsButton.Name = "AddDiscountsButton";
-            this.AddDiscountsButton.Size = new System.Drawing.Size(100, 41);
+            this.AddDiscountsButton.Size = new System.Drawing.Size(113, 50);
             this.AddDiscountsButton.TabIndex = 13;
             this.AddDiscountsButton.Text = "Add";
             this.AddDiscountsButton.UseVisualStyleBackColor = true;
@@ -229,8 +234,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(500, 326);
+            this.label1.Location = new System.Drawing.Point(488, 428);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 16);
             this.label1.TabIndex = 12;
@@ -238,11 +244,12 @@
             // 
             // DiscountsListBox
             // 
+            this.DiscountsListBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.DiscountsListBox.FormattingEnabled = true;
             this.DiscountsListBox.ItemHeight = 16;
-            this.DiscountsListBox.Location = new System.Drawing.Point(503, 345);
+            this.DiscountsListBox.Location = new System.Drawing.Point(483, 447);
             this.DiscountsListBox.Name = "DiscountsListBox";
-            this.DiscountsListBox.Size = new System.Drawing.Size(428, 164);
+            this.DiscountsListBox.Size = new System.Drawing.Size(529, 228);
             this.DiscountsListBox.TabIndex = 11;
             // 
             // CustomersTab
@@ -251,8 +258,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.CustomersGroupBox);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(1248, 734);
             this.Name = "CustomersTab";
-            this.Size = new System.Drawing.Size(1084, 587);
+            this.Size = new System.Drawing.Size(1248, 734);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.CustomersGroupBox.ResumeLayout(false);

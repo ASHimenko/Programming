@@ -66,8 +66,9 @@
             this.CustomersTab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CustomersTab.Location = new System.Drawing.Point(3, 2);
             this.CustomersTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.CustomersTab.MinimumSize = new System.Drawing.Size(1248, 734);
             this.CustomersTab.Name = "CustomersTab";
-            this.CustomersTab.Size = new System.Drawing.Size(1085, 574);
+            this.CustomersTab.Size = new System.Drawing.Size(1248, 734);
             this.CustomersTab.TabIndex = 0;
             // 
             // tabPage2
@@ -77,7 +78,7 @@
             this.tabPage2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage2.Size = new System.Drawing.Size(1091, 578);
+            this.tabPage2.Size = new System.Drawing.Size(1292, 731);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Items";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -88,8 +89,9 @@
             this.ItemsTab.Items = null;
             this.ItemsTab.Location = new System.Drawing.Point(3, 2);
             this.ItemsTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ItemsTab.MinimumSize = new System.Drawing.Size(1248, 734);
             this.ItemsTab.Name = "ItemsTab";
-            this.ItemsTab.Size = new System.Drawing.Size(1085, 574);
+            this.ItemsTab.Size = new System.Drawing.Size(1286, 734);
             this.ItemsTab.TabIndex = 0;
             // 
             // Tabs
@@ -103,9 +105,10 @@
             this.Tabs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Tabs.Location = new System.Drawing.Point(0, 0);
             this.Tabs.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.Tabs.MinimumSize = new System.Drawing.Size(1300, 760);
             this.Tabs.Name = "Tabs";
             this.Tabs.SelectedIndex = 0;
-            this.Tabs.Size = new System.Drawing.Size(1099, 607);
+            this.Tabs.Size = new System.Drawing.Size(1300, 760);
             this.Tabs.TabIndex = 0;
             // 
             // tabPage1
@@ -115,7 +118,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(1091, 578);
+            this.tabPage1.Size = new System.Drawing.Size(1292, 731);
             this.tabPage1.TabIndex = 3;
             this.tabPage1.Text = "Carts";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -127,8 +130,9 @@
             this.CartsTab.Items = null;
             this.CartsTab.Location = new System.Drawing.Point(4, 4);
             this.CartsTab.Margin = new System.Windows.Forms.Padding(5);
+            this.CartsTab.MinimumSize = new System.Drawing.Size(1248, 734);
             this.CartsTab.Name = "CartsTab";
-            this.CartsTab.Size = new System.Drawing.Size(1083, 570);
+            this.CartsTab.Size = new System.Drawing.Size(1284, 734);
             this.CartsTab.TabIndex = 0;
             // 
             // tabPage4
@@ -138,7 +142,7 @@
             this.tabPage4.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage4.Size = new System.Drawing.Size(1091, 578);
+            this.tabPage4.Size = new System.Drawing.Size(1292, 731);
             this.tabPage4.TabIndex = 4;
             this.tabPage4.Text = "Orders";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -149,8 +153,9 @@
             this.OrdersTab.Dock = System.Windows.Forms.DockStyle.Fill;
             this.OrdersTab.Location = new System.Drawing.Point(4, 4);
             this.OrdersTab.Margin = new System.Windows.Forms.Padding(5);
+            this.OrdersTab.MinimumSize = new System.Drawing.Size(1248, 734);
             this.OrdersTab.Name = "OrdersTab";
-            this.OrdersTab.Size = new System.Drawing.Size(1083, 570);
+            this.OrdersTab.Size = new System.Drawing.Size(1284, 734);
             this.OrdersTab.TabIndex = 0;
             // 
             // tabPage5
@@ -166,19 +171,23 @@
             // 
             // priorityOrdersTab1
             // 
+            this.priorityOrdersTab1.DeliveryTime = null;
             this.priorityOrdersTab1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.priorityOrdersTab1.Location = new System.Drawing.Point(3, 3);
+            this.priorityOrdersTab1.MinimumSize = new System.Drawing.Size(1248, 734);
             this.priorityOrdersTab1.Name = "priorityOrdersTab1";
-            this.priorityOrdersTab1.Size = new System.Drawing.Size(1085, 572);
+            this.priorityOrdersTab1.Size = new System.Drawing.Size(1248, 734);
+            this.priorityOrdersTab1.StoreItems = null;
             this.priorityOrdersTab1.TabIndex = 0;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1099, 607);
+            this.ClientSize = new System.Drawing.Size(1282, 753);
             this.Controls.Add(this.Tabs);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.MinimumSize = new System.Drawing.Size(1300, 800);
             this.Name = "MainForm";
             this.Text = "Object Oriented Practics";
             this.tabPage3.ResumeLayout(false);
