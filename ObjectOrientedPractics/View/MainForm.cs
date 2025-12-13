@@ -83,7 +83,6 @@ namespace ObjectOrientedPractics
                 _store = new Store();
             }
 
-            // Добавление товаров в список Store.Items.
             _store.Items.Add(new Item("Смартфон X100", "Флагманский телефон с тройной камерой.", "75000,00", Category.Electronics));
             _store.Items.Add(new Item("Ноутбук Pro", "Ультрабук для профессиональной работы.", "120000,50", Category.Electronics));
             _store.Items.Add(new Item("Чайник электрический", "Быстрый нагрев, объем 1.7 л.", "2500,00", Category.Electronics));

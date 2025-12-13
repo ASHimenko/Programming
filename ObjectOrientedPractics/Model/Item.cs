@@ -136,20 +136,6 @@ namespace ObjectOrientedPractics.Model
         /// <returns>True, если объекты равны; иначе False.</returns>
         public override bool Equals(object obj) => Equals(obj as Item);
 
-        /// <summary>
-        /// Перегрузка метода GetHashCode для корректной работы в коллекциях.
-        /// </summary>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + (Name != null ? Name.GetHashCode() : 0);
-                hash = hash * 23 + Cost.GetHashCode();
-                hash = hash * 23 + Category.GetHashCode();
-                return hash;
-            }
-        }
 
         /// <summary>
         /// Сравнивает текущий товар с другим товаром по стоимости (Cost).

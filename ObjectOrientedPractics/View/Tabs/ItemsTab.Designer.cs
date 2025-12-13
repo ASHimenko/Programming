@@ -45,6 +45,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.FindTextBox = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -56,9 +58,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.ItemsListBox.FormattingEnabled = true;
             this.ItemsListBox.ItemHeight = 16;
-            this.ItemsListBox.Location = new System.Drawing.Point(36, 30);
+            this.ItemsListBox.Location = new System.Drawing.Point(36, 78);
             this.ItemsListBox.Name = "ItemsListBox";
-            this.ItemsListBox.Size = new System.Drawing.Size(547, 580);
+            this.ItemsListBox.Size = new System.Drawing.Size(547, 532);
             this.ItemsListBox.TabIndex = 0;
             this.ItemsListBox.SelectedIndexChanged += new System.EventHandler(this.ItemsListBox_SelectedIndexChanged);
             // 
@@ -208,6 +210,8 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.FindTextBox);
+            this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.label5);
             this.panel1.Controls.Add(this.ItemsListBox);
@@ -218,6 +222,23 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(1248, 734);
             this.panel1.TabIndex = 15;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(33, 45);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(36, 16);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Find:";
+            // 
+            // FindTextBox
+            // 
+            this.FindTextBox.Location = new System.Drawing.Point(75, 42);
+            this.FindTextBox.Name = "FindTextBox";
+            this.FindTextBox.Size = new System.Drawing.Size(304, 22);
+            this.FindTextBox.TabIndex = 15;
+            this.FindTextBox.TextChanged += new System.EventHandler(this.FindTextBox_TextChanged);
             // 
             // ItemsTab
             // 
@@ -255,5 +276,7 @@
         private System.Windows.Forms.ComboBox CategoryComboBox;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.TextBox FindTextBox;
+        private System.Windows.Forms.Label label7;
     }
 }

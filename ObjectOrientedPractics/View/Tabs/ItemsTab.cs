@@ -1,4 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +12,6 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ObjectOrientedPractics.Model.Enums;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
@@ -30,12 +31,29 @@ namespace ObjectOrientedPractics.View.Tabs
         private Item _currentItem;
 
         /// <summary>
+        /// Новвый список для отображения товаров.
+        /// </summary>
+        private List<Item> _displayedItems = new List<Item>();
+
+        /// <summary>
+        /// Экземпляр DataTools(делегат).
+        /// </summary>
+        private readonly DataTools _dataTools = new DataTools();
+
+        /// <summary>
+        /// Истинный индекс выбранного товара в общем списке _items.
+        /// </summary>
+        private int _currentItemIndex = -1;
+
+        /// <summary>
         /// Инициализирует новый экземпляр класса ItemsTab.
         /// </summary>
         public ItemsTab()
         {
             InitializeComponent();
             CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
+            _displayedItems = _items;
+            UpdateListBox();
         }
 
         /// <summary>
@@ -109,9 +127,29 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedIndex == -1)
             {
-                _currentItem = _items[ItemsListBox.SelectedIndex];
+                _currentItem = null;
+                _currentItemIndex = -1;
+                UpdateInputs();
+                return;
+            }
+
+            Item selectedItem = ItemsListBox.SelectedItem as Item;
+
+            int trueIndex = _items.IndexOf(selectedItem);
+
+            if (trueIndex != -1)
+            {
+                _currentItem = _items[trueIndex];
+
+                UpdateInputs();
+            }
+            else
+            {
+                _currentItem = null;
                 UpdateInputs();
             }
         }
@@ -166,6 +204,25 @@ namespace ObjectOrientedPractics.View.Tabs
         }
 
         /// <summary>
+        /// Обновляет отображение списка товаров.
+        /// </summary>
+        private void UpdateListBox(List<Item> listToDisplay)
+        {
+            if (listToDisplay == null)
+            {
+                return;
+            }
+
+            ItemsListBox.Items.Clear();
+
+            foreach (var item in listToDisplay)
+            {
+                ItemsListBox.Items.Add(item);
+            }
+
+        }
+
+        /// <summary>
         /// Обработчик изменения текста в поле "Название".
         /// </summary>
         private void NameTextBox_TextChanged(object sender, EventArgs e)
@@ -214,5 +271,27 @@ namespace ObjectOrientedPractics.View.Tabs
             }
         }
 
+        /// <summary>
+        /// Критерий: имя товара содержит искомую подстроку (без учета регистра).
+        /// </summary>
+        private bool FilterBySubstringInName(Item item)
+        {
+            string searchText = FindTextBox.Text;
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                return true;
+            }
+
+            return item.Name.ToLower().Contains(searchText.ToLower());
+        }
+
+        private void FindTextBox_TextChanged(object sender, EventArgs e)
+        {
+            List<Item> filteredItems = _dataTools.FilterItems(_items, FilterBySubstringInName);
+
+            UpdateListBox(filteredItems);
+
+            ItemsListBox.SelectedIndex = -1;
+        }
     }
 }
