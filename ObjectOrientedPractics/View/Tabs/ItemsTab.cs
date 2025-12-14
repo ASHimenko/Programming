@@ -31,11 +31,6 @@ namespace ObjectOrientedPractics.View.Tabs
         private Item _currentItem;
 
         /// <summary>
-        /// Новвый список для отображения товаров.
-        /// </summary>
-        private List<Item> _displayedItems = new List<Item>();
-
-        /// <summary>
         /// Экземпляр DataTools(делегат).
         /// </summary>
         private readonly DataTools _dataTools = new DataTools();
@@ -45,6 +40,8 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private int _currentItemIndex = -1;
 
+        private Dictionary<string, Comparison<Item>> _sortMethods;
+
         /// <summary>
         /// Инициализирует новый экземпляр класса ItemsTab.
         /// </summary>
@@ -52,8 +49,18 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             InitializeComponent();
             CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
-            _displayedItems = _items;
             UpdateListBox();
+
+            _sortMethods = new Dictionary<string, Comparison<Item>>
+            {
+                {"Name (Ascending)", DataTools.CompareByNameAscending()},
+                {"Cost (Ascending)", DataTools.CompareByCostAscending()},
+                {"Cost (Descending)", DataTools.CompareByCostDescending()}
+            };
+
+            SortComboBox.DataSource = new BindingSource(_sortMethods, null);
+            SortComboBox.DisplayMember = "Key";
+            SortComboBox.ValueMember = "Value";
         }
 
         /// <summary>
@@ -287,11 +294,29 @@ namespace ObjectOrientedPractics.View.Tabs
 
         private void FindTextBox_TextChanged(object sender, EventArgs e)
         {
+            ApplyFilterAndSort();
+        }
+
+        private void SortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilterAndSort();
+        }
+
+        /// <summary>
+        /// Применяет текущую фильтрацию и сортировку к списку.
+        /// </summary>
+        private void ApplyFilterAndSort()
+        {
+            Comparison<Item> currentComparisonMethod = DataTools.CompareByNameAscending();
+
+            var selectedPair = (KeyValuePair<string, Comparison<Item>>)SortComboBox.SelectedItem;
+           
+            currentComparisonMethod = selectedPair.Value;
+
             List<Item> filteredItems = _dataTools.FilterItems(_items, FilterBySubstringInName);
+            List<Item> sortedAndFilteredItems = _dataTools.SortItems(filteredItems, currentComparisonMethod);
 
-            UpdateListBox(filteredItems);
-
-            ItemsListBox.SelectedIndex = -1;
+            UpdateListBox(sortedAndFilteredItems);
         }
     }
 }

@@ -47,6 +47,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
             this.FindTextBox = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.SortComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -177,7 +179,7 @@
             // 
             this.AddButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.AddButton.Location = new System.Drawing.Point(36, 647);
+            this.AddButton.Location = new System.Drawing.Point(34, 672);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(117, 49);
             this.AddButton.TabIndex = 2;
@@ -189,7 +191,7 @@
             // 
             this.RemoveButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.RemoveButton.Location = new System.Drawing.Point(177, 647);
+            this.RemoveButton.Location = new System.Drawing.Point(175, 672);
             this.RemoveButton.Name = "RemoveButton";
             this.RemoveButton.Size = new System.Drawing.Size(119, 49);
             this.RemoveButton.TabIndex = 3;
@@ -210,6 +212,8 @@
             // 
             this.panel1.AutoScroll = true;
             this.panel1.AutoSize = true;
+            this.panel1.Controls.Add(this.SortComboBox);
+            this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.FindTextBox);
             this.panel1.Controls.Add(this.label7);
             this.panel1.Controls.Add(this.groupBox1);
@@ -239,6 +243,24 @@
             this.FindTextBox.Size = new System.Drawing.Size(304, 22);
             this.FindTextBox.TabIndex = 15;
             this.FindTextBox.TextChanged += new System.EventHandler(this.FindTextBox_TextChanged);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(33, 638);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(62, 16);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Order by:";
+            // 
+            // SortComboBox
+            // 
+            this.SortComboBox.FormattingEnabled = true;
+            this.SortComboBox.Location = new System.Drawing.Point(101, 635);
+            this.SortComboBox.Name = "SortComboBox";
+            this.SortComboBox.Size = new System.Drawing.Size(259, 24);
+            this.SortComboBox.TabIndex = 17;
+            this.SortComboBox.SelectedIndexChanged += new System.EventHandler(this.SortComboBox_SelectedIndexChanged);
             // 
             // ItemsTab
             // 
@@ -278,5 +300,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TextBox FindTextBox;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.ComboBox SortComboBox;
+        private System.Windows.Forms.Label label8;
     }
 }
