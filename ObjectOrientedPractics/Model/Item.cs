@@ -22,6 +22,21 @@ namespace ObjectOrientedPractics.Model
         private string _cost;
 
         /// <summary>
+        /// Событие, возникающее при изменении названия товара.
+        /// </summary>
+        public event EventHandler<EventArgs> NameChanged;
+
+        /// <summary>
+        /// Событие, возникающее при изменении стоимости товара.
+        /// </summary>
+        public event EventHandler<EventArgs> CostChanged;
+
+        /// <summary>
+        /// Событие, возникающее при изменении информации о товаре.
+        /// </summary>
+        public event EventHandler<EventArgs> InfoChanged;
+
+        /// <summary>
         /// Возвращает или задает категорию товара.
         /// </summary>
         public Category Category { get; set; }
@@ -39,7 +54,11 @@ namespace ObjectOrientedPractics.Model
             get => _name;
             set
             {
-                _name = value;
+                if (_name != value)
+                {
+                    _name = value;
+                    OnNameChanged(EventArgs.Empty);
+                }
             }
         }
 
@@ -51,7 +70,11 @@ namespace ObjectOrientedPractics.Model
             get => _info;
             set
             {
-                _info = value;
+                if (_info != value)
+                {
+                    _info = value;
+                    OnInfoChanged(EventArgs.Empty);
+                }
             }
         }
 
@@ -63,7 +86,11 @@ namespace ObjectOrientedPractics.Model
             get => _cost;
             set
             {
-                _cost = value; 
+                if (_cost != value)
+                {
+                    _cost = value;
+                    OnCostChanged(EventArgs.Empty);
+                }
             }
         }
 
@@ -136,7 +163,6 @@ namespace ObjectOrientedPractics.Model
         /// <returns>True, если объекты равны; иначе False.</returns>
         public override bool Equals(object obj) => Equals(obj as Item);
 
-
         /// <summary>
         /// Сравнивает текущий товар с другим товаром по стоимости (Cost).
         /// </summary>
@@ -151,6 +177,30 @@ namespace ObjectOrientedPractics.Model
             }
 
             return this.Cost.CompareTo(other.Cost);
+        }
+
+        /// <summary>
+        /// Безопасный вызов события NameChanged.
+        /// </summary>
+        protected virtual void OnNameChanged(EventArgs e)
+        {
+            NameChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Безопасный вызов события InfoChanged.
+        /// </summary>
+        protected virtual void OnInfoChanged(EventArgs e)
+        {
+            InfoChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Безопасный вызов события CostChanged.
+        /// </summary>
+        protected virtual void OnCostChanged(EventArgs e)
+        {
+            CostChanged?.Invoke(this, e);
         }
     }
 }

@@ -44,6 +44,11 @@ namespace ObjectOrientedPractics.Model
         private string _apartment;
 
         /// <summary>
+        /// Общее событие, возникающее при изменении любого из свойств адреса.
+        /// </summary>
+        public event EventHandler<EventArgs> AddressChanged;
+
+        /// <summary>
         /// Возвращает или задает почтовый индекс.
         /// </summary>
         public string Index
@@ -51,7 +56,11 @@ namespace ObjectOrientedPractics.Model
             get { return _index; }
             set 
             {
-                _index = value; 
+                if (_index != value)
+                {
+                    _index = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
             }
         }
 
@@ -61,7 +70,14 @@ namespace ObjectOrientedPractics.Model
         public string Country
         {
             get { return _country; }
-            set { _country = value; }
+            set 
+            {
+                if (_country != value)
+                {
+                    _country = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -70,7 +86,14 @@ namespace ObjectOrientedPractics.Model
         public string City
         {
             get { return _city; }
-            set { _city = value; }
+            set 
+            {
+                if (_city != value)
+                {
+                    _city = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -79,7 +102,14 @@ namespace ObjectOrientedPractics.Model
         public string Street
         {
             get { return _street; }
-            set { _street = value; }
+            set 
+            {
+                if (_street != value)
+                {
+                    _street = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -88,7 +118,14 @@ namespace ObjectOrientedPractics.Model
         public string Building
         {
             get { return _building; }
-            set { _building = value; }
+            set 
+            {
+                if (_building != value)
+                {
+                    _building = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -97,7 +134,14 @@ namespace ObjectOrientedPractics.Model
         public string Apartment
         {
             get { return _apartment; }
-            set { _apartment = value; }
+            set 
+            {
+                if (_apartment != value)
+                {
+                    _apartment = value;
+                    OnAddressChanged(EventArgs.Empty);
+                }
+            }
         }
 
         /// <summary>
@@ -184,21 +228,11 @@ namespace ObjectOrientedPractics.Model
         public override bool Equals(object obj) => Equals(obj as Address);
 
         /// <summary>
-        /// Перегрузка метода GetHashCode для корректной работы в коллекциях.
+        /// Безопасный вызов события AddressChanged.
         /// </summary>
-        public override int GetHashCode()
+        protected virtual void OnAddressChanged(EventArgs e)
         {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + Index.GetHashCode();
-                hash = hash * 23 + (Country != null ? Country.GetHashCode() : 0);
-                hash = hash * 23 + (City != null ? City.GetHashCode() : 0);
-                hash = hash * 23 + (Street != null ? Street.GetHashCode() : 0);
-                hash = hash * 23 + (Building != null ? Building.GetHashCode() : 0);
-                hash = hash * 23 + (Apartment != null ? Apartment.GetHashCode() : 0);
-                return hash;
-            }
+            AddressChanged?.Invoke(this, e);
         }
     }
 }

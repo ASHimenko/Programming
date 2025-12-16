@@ -55,7 +55,7 @@
             this.tabPage3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabPage3.Size = new System.Drawing.Size(1091, 578);
+            this.tabPage3.Size = new System.Drawing.Size(1292, 731);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Customers";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -68,7 +68,7 @@
             this.CustomersTab.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CustomersTab.MinimumSize = new System.Drawing.Size(1248, 734);
             this.CustomersTab.Name = "CustomersTab";
-            this.CustomersTab.Size = new System.Drawing.Size(1248, 734);
+            this.CustomersTab.Size = new System.Drawing.Size(1286, 734);
             this.CustomersTab.TabIndex = 0;
             // 
             // tabPage2
@@ -164,7 +164,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 25);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(1091, 578);
+            this.tabPage5.Size = new System.Drawing.Size(1292, 731);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "PriorityOrder";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -176,7 +176,7 @@
             this.priorityOrdersTab1.Location = new System.Drawing.Point(3, 3);
             this.priorityOrdersTab1.MinimumSize = new System.Drawing.Size(1248, 734);
             this.priorityOrdersTab1.Name = "priorityOrdersTab1";
-            this.priorityOrdersTab1.Size = new System.Drawing.Size(1248, 734);
+            this.priorityOrdersTab1.Size = new System.Drawing.Size(1286, 734);
             this.priorityOrdersTab1.StoreItems = null;
             this.priorityOrdersTab1.TabIndex = 0;
             // 

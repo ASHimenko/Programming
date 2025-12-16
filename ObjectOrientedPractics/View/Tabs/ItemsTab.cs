@@ -40,7 +40,15 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private int _currentItemIndex = -1;
 
+        /// <summary>
+        /// Методы сортировки.
+        /// </summary>
         private Dictionary<string, Comparison<Item>> _sortMethods;
+
+        /// <summary>
+        /// Событие, возникающее при любом изменении списка товаров (добавление, удаление, редактирование).
+        /// </summary>
+        public event EventHandler<EventArgs> ItemsChanged;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса ItemsTab.
@@ -114,6 +122,7 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdateListBox();
             _currentItem = null;
             UpdateInputs();
+            OnItemsChanged(EventArgs.Empty);
 
         }
 
@@ -126,6 +135,7 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdateListBox();
             ClearInputs();
             _currentItem = null;
+            OnItemsChanged(EventArgs.Empty);
 
         }
 
@@ -159,6 +169,8 @@ namespace ObjectOrientedPractics.View.Tabs
                 _currentItem = null;
                 UpdateInputs();
             }
+
+            OnItemsChanged(EventArgs.Empty);
         }
 
         /// <summary>
@@ -317,6 +329,14 @@ namespace ObjectOrientedPractics.View.Tabs
             List<Item> sortedAndFilteredItems = _dataTools.SortItems(filteredItems, currentComparisonMethod);
 
             UpdateListBox(sortedAndFilteredItems);
+        }
+
+        /// <summary>
+        /// Безопасный вызов события ItemsChanged.
+        /// </summary>
+        protected virtual void OnItemsChanged(EventArgs e)
+        {
+            ItemsChanged?.Invoke(this, e);
         }
     }
 }

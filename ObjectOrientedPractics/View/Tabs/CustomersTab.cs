@@ -20,11 +20,18 @@ namespace ObjectOrientedPractics.View.Tabs
     {
         private List<Customer> _customers = new List<Customer>();
         private Customer _currentCustomer;
+
+        public event EventHandler<EventArgs> CustomersChanged;
         public CustomersTab()
         {
             InitializeComponent();
 
             IsPriorityCheckBox.CheckedChanged += IsPriorityCheckBox_CheckedChanged;
+        }
+
+        protected virtual void OnCustomersChanged(EventArgs e)
+        {
+            CustomersChanged?.Invoke(this, e);
         }
 
         public List<Customer> Customers
@@ -93,6 +100,7 @@ namespace ObjectOrientedPractics.View.Tabs
             _currentCustomer = null;
             UpdateCustomerInfo();
             AddressControl.ClearFields();
+            OnCustomersChanged(EventArgs.Empty);
         }
 
         /// <summary>
@@ -104,6 +112,7 @@ namespace ObjectOrientedPractics.View.Tabs
             UpdateListBox();
             ClearInputs();
             _currentCustomer = null;
+            OnCustomersChanged(EventArgs.Empty);
 
         }
 
@@ -120,6 +129,7 @@ namespace ObjectOrientedPractics.View.Tabs
             {
                 _currentCustomer.FullName = FullNameTextBox.Text;
                 UpdateListBox();
+                OnCustomersChanged(EventArgs.Empty);
             }
         }
 
@@ -187,11 +197,8 @@ namespace ObjectOrientedPractics.View.Tabs
         private List<IDiscount> SortDiscounts(List<IDiscount> discounts)
         {
             if (discounts == null) return new List<IDiscount>();
-
             IDiscount pointsDiscount = discounts.OfType<PointsDiscount>().FirstOrDefault();
-
             List<IDiscount> otherDiscounts = discounts.Where(d => !(d is PointsDiscount)).ToList();
-
             List<IDiscount> sortedList = new List<IDiscount>();
 
             if (pointsDiscount != null)
@@ -224,6 +231,24 @@ namespace ObjectOrientedPractics.View.Tabs
 
             _currentCustomer.Discounts.Remove(selectedDiscount);
             UpdateDiscountsListBox();
+        }
+
+        /// <summary>
+        /// Обновляет данные на вкладке, синхронизируя список покупателей с интерфейсом.
+        /// </summary>
+        public void RefreshData()
+        {
+            UpdateListBox();
+
+            if (_currentCustomer != null)
+            {
+                UpdateCustomerInfo();
+                UpdateDiscountsListBox();
+            }
+            else
+            {
+                ClearInputs();
+            }
         }
     }
 }

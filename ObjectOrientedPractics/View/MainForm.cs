@@ -1,4 +1,7 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Model.Orders;
+using ObjectOrientedPractics.View.Tabs;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using ObjectOrientedPractics.Model.Orders;
-using ObjectOrientedPractics.Model.Enums;
 
 
 namespace ObjectOrientedPractics
@@ -39,9 +40,15 @@ namespace ObjectOrientedPractics
             this.CartsTab.Customers = _store.Customers;
             this.CartsTab.Items = _store.Items;
             this.OrdersTab.Customers = _store.Customers;
-            this.CartsTab.OrderCreated += CartsTab_OrderCreated;
 
-            this.Tabs.SelectedIndexChanged += new EventHandler(this.Tabs_SelectedIndexChanged);
+            this.ItemsTab.ItemsChanged += ItemsTab_ItemsChanged;
+            this.CartsTab.OrderCreated += CartsTab_OrderCreated;
+            this.CustomersTab.CustomersChanged += CustomersTab_CustomersChanged;
+            ItemsTab_ItemsChanged(this.ItemsTab, EventArgs.Empty);
+            CustomersTab_CustomersChanged(this, EventArgs.Empty);
+            this.CartsTab.RefreshData();
+            this.CustomersTab.RefreshData();
+            //this.Tabs.SelectedIndexChanged += new EventHandler(this.Tabs_SelectedIndexChanged);
         }
         
         /// <summary>
@@ -154,10 +161,10 @@ namespace ObjectOrientedPractics
         /// </summary>
         private void Tabs_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             if (this.Tabs.SelectedTab == this.tabPage1)
             {
-                
+
                 this.CartsTab.RefreshData();
             }
 
@@ -177,6 +184,22 @@ namespace ObjectOrientedPractics
             this.OrdersTab.UpdateOrders();
         }
 
+        /// <summary>
+        /// Обработчик события изменения товаров на вкладке ItemsTab.
+        /// Вызывает RefreshData() для других вкладок, зависящих от списка товаров.
+        /// </summary>
+        private void ItemsTab_ItemsChanged(object sender, EventArgs e)
+        {
 
+            this.CustomersTab.RefreshData();
+            this.CartsTab.RefreshData();
+            this.OrdersTab.UpdateOrders(); 
+        }
+
+        private void CustomersTab_CustomersChanged(object sender, EventArgs e)
+        {
+            this.CartsTab.RefreshData();
+            this.OrdersTab.RefreshData(_store.Customers);
+        }
     }
 }
