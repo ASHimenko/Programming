@@ -153,7 +153,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// по проценту текущий объект <paramref name="other"/>.</returns>
         public int CompareTo(PercentDiscount other)
         {
-            if (other is null)
+            if (other == null)
             {
                 return 1;
             }

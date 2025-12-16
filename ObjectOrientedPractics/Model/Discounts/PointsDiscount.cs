@@ -148,7 +148,7 @@ namespace ObjectOrientedPractics.Model.Discounts
         /// по баллам текущий объект <paramref name="other"/>.</returns>
         public int CompareTo(PointsDiscount other)
         {
-            if (other is null)
+            if (other == null)
             {
                 return 1;
             }

@@ -130,7 +130,7 @@ namespace ObjectOrientedPractics.Model
         /// <returns>Глубокая копия объекта <see cref="Item"/>.</returns>
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return new Item(this.Name, this.Info, this.Cost, this.Category);
         }
 
         /// <summary>
@@ -139,29 +139,23 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="other">Другой объект <see cref="Item"/> для сравнения.</param>
         /// <returns>True, если объекты равны; иначе False.</returns>
-        public bool Equals(Item other)
+        public override bool Equals(object other)
         {
-            if (other is null)
-            {
+            if (other == null)
                 return false;
-            }
 
-            if (ReferenceEquals(this, other))
-            {
+            if (!(other is Item))
+                return false;
+
+            if (object.ReferenceEquals(this, other))
                 return true;
-            }
 
-            return this.Name == other.Name &&
-                   this.Cost == other.Cost &&
-                   this.Category == other.Category;
+            var item2 = (Item)other;
+
+            return (this.Name == item2.Name) &&
+                   (this.Cost == item2.Cost) &&
+                   (this.Category == item2.Category);
         }
-
-        /// <summary>
-        /// Перегруженный метод для сравнения с объектом.
-        /// </summary>
-        /// <param name="obj">Объект для сравнения.</param>
-        /// <returns>True, если объекты равны; иначе False.</returns>
-        public override bool Equals(object obj) => Equals(obj as Item);
 
         /// <summary>
         /// Сравнивает текущий товар с другим товаром по стоимости (Cost).
@@ -171,7 +165,7 @@ namespace ObjectOrientedPractics.Model
         /// по стоимости текущий товар объект <paramref name="other"/>.</returns>
         public int CompareTo(Item other)
         {
-            if (other is null)
+            if (other == null)
             {
                 return 1; 
             }

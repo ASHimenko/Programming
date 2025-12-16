@@ -191,7 +191,7 @@ namespace ObjectOrientedPractics.Model
         /// <returns>Глубокая копия объекта <see cref="Address"/>.</returns>
         public object Clone()
         {
-            return this.MemberwiseClone();
+            return new Address(this.Index, this.Country, this.City, this.Street, this.Building, this.Apartment);
         }
 
         /// <summary>
@@ -200,32 +200,29 @@ namespace ObjectOrientedPractics.Model
         /// </summary>
         /// <param name="other">Другой объект <see cref="Address"/> для сравнения.</param>
         /// <returns>True, если объекты равны; иначе False.</returns>
-        public bool Equals(Address other)
+        public override bool Equals(object other)
         {
-            if (other is null)
+            if (other == null)
             {
                 return false;
             }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
+            if (!(other is Address))
+                return false;
 
-            return this.Index == other.Index &&
-                   this.Country == other.Country &&
-                   this.City == other.City &&
-                   this.Street == other.Street &&
-                   this.Building == other.Building &&
-                   this.Apartment == other.Apartment;
+            if (object.ReferenceEquals(this, other))
+                return true;
+
+            var address = (Address)other;
+
+            return (this.Index == address.Index) &&
+                   (this.Country == address.Country) &&
+                   (this.City == address.City) &&
+                   (this.Street == address.Street) &&
+                   (this.Building == address.Building) &&
+                   (this.Apartment == address.Apartment);
         }
 
-        /// <summary>
-        /// Перегруженный метод для сравнения с объектом.
-        /// </summary>
-        /// <param name="obj">Объект для сравнения.</param>
-        /// <returns>True, если объекты равны; иначе False.</returns>
-        public override bool Equals(object obj) => Equals(obj as Address);
 
         /// <summary>
         /// Безопасный вызов события AddressChanged.

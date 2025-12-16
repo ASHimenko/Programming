@@ -165,13 +165,6 @@ namespace ObjectOrientedPractics.Model.Orders
         }
 
         /// <summary>
-        /// Перегруженный метод для сравнения с объектом.
-        /// </summary>
-        /// <param name="obj">Объект для сравнения.</param>
-        /// <returns>True, если объекты равны; иначе False.</returns>
-        public override bool Equals(object obj) => Equals(obj as Order);
-
-        /// <summary>
         /// Перегрузка метода GetHashCode для корректной работы в коллекциях.
         /// </summary>
         public override int GetHashCode()
