@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ObjectOrientedPractics.Services
 {
+    [Serializable]
     public static class IdGenerator
     {
         private static int _currentId = 0;
@@ -14,5 +15,6 @@ namespace ObjectOrientedPractics.Services
         {
             return ++_currentId;
         }
+
     }
 }

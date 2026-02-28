@@ -1,4 +1,6 @@
 ﻿using ObjectOrientedPractics.Model;
+using ObjectOrientedPractics.Model.Enums;
+using ObjectOrientedPractics.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,17 +8,47 @@ using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ObjectOrientedPractics.View.Tabs
 {
-    
+    /// <summary>
+    /// Вкладка для управления товарами (добавление, редактирование, удаление).
+    /// </summary>
     public partial class ItemsTab : UserControl
     {
+        /// <summary>
+        /// Список товаров.
+        /// </summary>
         private List<Item> _items = new List<Item>();
+
+        /// <summary>
+        /// Текущий выбранный товар.
+        /// </summary>
         private Item _currentItem;
+
+        /// <summary>
+        /// Экземпляр DataTools(делегат).
+        /// </summary>
+        private readonly DataTools _dataTools = new DataTools();
+
+        /// <summary>
+        /// Истинный индекс выбранного товара в общем списке _items.
+        /// </summary>
+        private int _currentItemIndex = -1;
+
+        /// <summary>
+        /// Методы сортировки.
+        /// </summary>
+        private Dictionary<string, Comparison<Item>> _sortMethods;
+
+        /// <summary>
+        /// Событие, возникающее при любом изменении списка товаров (добавление, удаление, редактирование).
+        /// </summary>
+        public event EventHandler<EventArgs> ItemsChanged;
 
         /// <summary>
         /// Инициализирует новый экземпляр класса ItemsTab.
@@ -24,8 +56,24 @@ namespace ObjectOrientedPractics.View.Tabs
         public ItemsTab()
         {
             InitializeComponent();
+            CategoryComboBox.DataSource = Enum.GetValues(typeof(Category));
+            UpdateListBox();
+
+            _sortMethods = new Dictionary<string, Comparison<Item>>
+            {
+                {"Name (Ascending)", DataTools.CompareByNameAscending()},
+                {"Cost (Ascending)", DataTools.CompareByCostAscending()},
+                {"Cost (Descending)", DataTools.CompareByCostDescending()}
+            };
+
+            SortComboBox.DataSource = new BindingSource(_sortMethods, null);
+            SortComboBox.DisplayMember = "Key";
+            SortComboBox.ValueMember = "Value";
         }
 
+        /// <summary>
+        /// Возвращает или задает список товаров.
+        /// </summary>
         public List<Item> Items
         {
             get { return _items; }
@@ -39,45 +87,56 @@ namespace ObjectOrientedPractics.View.Tabs
         /// <summary>
         /// Обработчик нажатия кнопки "Добавить товар".
         /// </summary>
-        private void buttonAddItems_Click(object sender, EventArgs e)
+        private void AddButton_Click(object sender, EventArgs e)
         {
-            var name = textBoxName.Text;
-            var info = textBoxInfo.Text;
-            var cost = double.Parse(textBoxCost.Text);
-            _currentItem = new Item(name, info, cost);
+            if (string.IsNullOrWhiteSpace(NameTextBox.Text)
+                || string.IsNullOrWhiteSpace(InfoTextBox.Text)
+                || string.IsNullOrWhiteSpace(CostTextBox.Text))
+            {
+                MessageBox.Show("Все поля должны быть заполнены", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!double.TryParse(CostTextBox.Text, out double numberValue))
+            {
+                MessageBox.Show("Стоимость товара должна быть вещественным числом", "Ошибка",
+                       MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (numberValue > 100000 || numberValue < 0)
+            {
+                MessageBox.Show("Стоимость товара должна быть в диапазоне от 0 до 100000", "Ошибка",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            var name = NameTextBox.Text;
+            var info = InfoTextBox.Text;
+            var cost = CostTextBox.Text;
+            Category category = (Category)CategoryComboBox.SelectedItem;
+            _currentItem = new Item(name, info, cost, category);
+
             _items.Add(_currentItem);
-
             UpdateListBox();
-
             _currentItem = null;
             UpdateInputs();
-
+            OnItemsChanged(EventArgs.Empty);
 
         }
-
 
         /// <summary>
         /// Обработчик нажатия кнопки "Удалить товар".
         /// </summary>
-        private void buttonRemoveItems_Click(object sender, EventArgs e)
+        private void RemoveButton_Click(object sender, EventArgs e)
         {
-            if (_currentItem == null)
-            {
-                MessageBox.Show("Выберите товар для удаления", "Внимание",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            _items.Remove(_currentItem);
+            UpdateListBox();
+            ClearInputs();
+            _currentItem = null;
+            OnItemsChanged(EventArgs.Empty);
 
-            var result = MessageBox.Show($"Вы уверены, что хотите удалить товар '{_currentItem.Name}'?",
-                "Подтверждение удаления", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                _items.Remove(_currentItem);
-                UpdateListBox();
-                ClearInputs();
-                _currentItem = null;
-            }
         }
 
         /// <summary>
@@ -85,11 +144,33 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ItemsListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (ItemsListBox.SelectedIndex != -1)
+            int selectedIndex = ItemsListBox.SelectedIndex;
+
+            if (selectedIndex == -1)
             {
-                _currentItem = _items[ItemsListBox.SelectedIndex];
+                _currentItem = null;
+                _currentItemIndex = -1;
+                UpdateInputs();
+                return;
+            }
+
+            Item selectedItem = ItemsListBox.SelectedItem as Item;
+
+            int trueIndex = _items.IndexOf(selectedItem);
+
+            if (trueIndex != -1)
+            {
+                _currentItem = _items[trueIndex];
+
                 UpdateInputs();
             }
+            else
+            {
+                _currentItem = null;
+                UpdateInputs();
+            }
+
+            OnItemsChanged(EventArgs.Empty);
         }
 
         /// <summary>
@@ -97,9 +178,9 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void ClearInputs()
         {
-            textBoxName.Clear();
-            textBoxInfo.Clear();
-            textBoxCost.Clear();
+            NameTextBox.Clear();
+            InfoTextBox.Clear();
+            CostTextBox.Clear();
         }
 
         /// <summary>
@@ -109,16 +190,17 @@ namespace ObjectOrientedPractics.View.Tabs
         {
             if (_currentItem != null)
             {
-                textBoxName.Text = _currentItem.Name;
-                textBoxInfo.Text = _currentItem.Info;
-                textBoxCost.Text = _currentItem.Cost.ToString();
+                NameTextBox.Text = _currentItem.Name;
+                InfoTextBox.Text = _currentItem.Info;
+                CostTextBox.Text = _currentItem.Cost.ToString();
+                CategoryComboBox.SelectedItem = _currentItem.Category;
             }
             else
             {
-                textBoxName.Clear();
-                textBoxInfo.Clear();
-                textBoxCost.Clear();
-
+                NameTextBox.Clear();
+                InfoTextBox.Clear();
+                CostTextBox.Clear();
+                CategoryComboBox.SelectedIndex = -1;
             }
         }
 
@@ -127,75 +209,134 @@ namespace ObjectOrientedPractics.View.Tabs
         /// </summary>
         private void UpdateListBox()
         {
+            if (_items == null)
+            {
+                return;
+            }
+
             ItemsListBox.Items.Clear();
+
             foreach (var item in _items)
             {
                 ItemsListBox.Items.Add(item);
             }
-        
+        }
+
+        /// <summary>
+        /// Обновляет отображение списка товаров.
+        /// </summary>
+        private void UpdateListBox(List<Item> listToDisplay)
+        {
+            if (listToDisplay == null)
+            {
+                return;
+            }
+
+            ItemsListBox.Items.Clear();
+
+            foreach (var item in listToDisplay)
+            {
+                ItemsListBox.Items.Add(item);
+            }
+
         }
 
         /// <summary>
         /// Обработчик изменения текста в поле "Название".
         /// </summary>
-        private void textBoxName_TextChanged(object sender, EventArgs e)
+        private void NameTextBox_TextChanged(object sender, EventArgs e)
         {
             if (_currentItem != null)
             {
-                try
-                {
-                    _currentItem.Name = textBoxName.Text;
-                    UpdateListBox();
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Name = NameTextBox.Text;
+                UpdateListBox();
             }
         }
 
         /// <summary>
         /// Обработчик изменения текста в поле "Описание".
         /// </summary>
-        private void textBoxInfo_TextChanged(object sender, EventArgs e)
+        private void InfoTextBox_TextChanged(object sender, EventArgs e)
         {
             if (_currentItem != null)
             {
-                try
-                {
-                    _currentItem.Info = textBoxInfo.Text;
-                    UpdateListBox();
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Info = InfoTextBox.Text;
+                UpdateListBox();
             }
         }
 
         /// <summary>
         /// Обработчик изменения текста в поле "Стоимость".
         /// </summary>
-        private void textBoxCost_TextChanged(object sender, EventArgs e)
+        private void CostTextBox_TextChanged(object sender, EventArgs e)
         {
-            if (_currentItem != null && !string.IsNullOrEmpty(textBoxCost.Text))
+            if (_currentItem != null && !string.IsNullOrEmpty(CostTextBox.Text))
             {
-                try
-                {
-                    _currentItem.Cost = double.Parse(textBoxCost.Text);
-                    UpdateListBox();
-                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Ошибка: {ex.Message}", "Ошибка",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                _currentItem.Cost = CostTextBox.Text;
+                UpdateListBox();
             }
+            
+        }
+
+        /// <summary>
+        /// Обработчик изменения выбранной категории в выпадающем списке.
+        /// </summary>
+        private void CategoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_currentItem != null)
+            {
+                _currentItem.Category = (Category)CategoryComboBox.SelectedIndex;
+                UpdateListBox();
+            }
+        }
+
+        /// <summary>
+        /// Критерий: имя товара содержит искомую подстроку (без учета регистра).
+        /// </summary>
+        private bool FilterBySubstringInName(Item item)
+        {
+            string searchText = FindTextBox.Text;
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                return true;
+            }
+
+            return item.Name.ToLower().Contains(searchText.ToLower());
+        }
+
+        private void FindTextBox_TextChanged(object sender, EventArgs e)
+        {
+            ApplyFilterAndSort();
+        }
+
+        private void SortComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ApplyFilterAndSort();
+        }
+
+        /// <summary>
+        /// Применяет текущую фильтрацию и сортировку к списку.
+        /// </summary>
+        private void ApplyFilterAndSort()
+        {
+            Comparison<Item> currentComparisonMethod = DataTools.CompareByNameAscending();
+
+            var selectedPair = (KeyValuePair<string, Comparison<Item>>)SortComboBox.SelectedItem;
+           
+            currentComparisonMethod = selectedPair.Value;
+
+            List<Item> filteredItems = _dataTools.FilterItems(_items, FilterBySubstringInName);
+            List<Item> sortedAndFilteredItems = _dataTools.SortItems(filteredItems, currentComparisonMethod);
+
+            UpdateListBox(sortedAndFilteredItems);
+        }
+
+        /// <summary>
+        /// Безопасный вызов события ItemsChanged.
+        /// </summary>
+        protected virtual void OnItemsChanged(EventArgs e)
+        {
+            ItemsChanged?.Invoke(this, e);
         }
     }
 }
