@@ -31,6 +31,12 @@
 
         <GroupBox Header="Read Contact" Grid.Row="0" Grid.Column="1" Margin="3">
             <StackPanel>
+                <Label Content="Name:"/>
+                <Label x:Name="NameLabel" Content="" Margin="3,3,3,3" Height="16"/>
+                <Label Content="Phone Number:"/>
+                <Label x:Name="PhoneNumberLabel" Content="" Margin="3,3,3,3" Height="18"/>
+                <Label Content="Email:"/>
+                <Label x:Name="EmailLabel" Content="" Margin="3,3,3,3" Height="18"/>
             </StackPanel>
         </GroupBox>
 
