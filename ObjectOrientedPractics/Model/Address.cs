@@ -11,7 +11,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Представляет адрес с почтовым индексом, страной, городом, улицей, домом и квартирой.
     /// </summary>
-    public class Address: ICloneable, IEquatable<Address>
+    public class Address: ICloneable, IEquatable<object>
     {
         /// <summary>
         /// Почтовый индекс.

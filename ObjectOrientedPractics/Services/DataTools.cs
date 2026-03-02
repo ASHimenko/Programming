@@ -77,7 +77,7 @@ namespace ObjectOrientedPractics.Services
         public static Comparison<Item> CompareByCostDescending()
         {
             return (item1, item2) =>
-            {
+            { 
                 double cost1 = double.TryParse(item1.Cost, out double c1) ? c1 : 0;
                 double cost2 = double.TryParse(item2.Cost, out double c2) ? c2 : 0;
 
