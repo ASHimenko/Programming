@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:View"
         mc:Ignorable="d"
         Title="MainWindow" MinWidth="500" MinHeight="400" Height="338" Width="489">
-    
+
     <Grid Margin="15,15,15,15">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -21,22 +21,22 @@
         <GroupBox Header="Edit Contact" Grid.Row="0" Grid.Column="0" Margin="3">
             <StackPanel>
                 <Label Content="Name:" />
-                <TextBox x:Name="NameButton" Margin="3,3,3,3" />
+                <TextBox Text="{Binding Contact.Name, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,3" />
                 <Label Content="Phone Number:" />
-                <TextBox x:Name="PhoneNumberButton" Margin="3,3,3,3" />
+                <TextBox Text="{Binding Contact.PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,3" />
                 <Label Content="Email:" />
-                <TextBox x:Name="EmailButton" Margin="3,3,3,3" />
+                <TextBox Text="{Binding Contact.Email, UpdateSourceTrigger=PropertyChanged}" Margin="3,3,3,3" />
             </StackPanel>
         </GroupBox>
 
         <GroupBox Header="Read Contact" Grid.Row="0" Grid.Column="1" Margin="3">
             <StackPanel>
                 <Label Content="Name:"/>
-                <Label x:Name="NameLabel" Content="" Margin="3,3,3,3" Height="16"/>
+                <TextBlock Text="{Binding Contact.Name}"/>
                 <Label Content="Phone Number:"/>
-                <Label x:Name="PhoneNumberLabel" Content="" Margin="3,3,3,3" Height="18"/>
+                <TextBlock Text="{Binding Contact.PhoneNumber}"/>
                 <Label Content="Email:"/>
-                <Label x:Name="EmailLabel" Content="" Margin="3,3,3,3" Height="18"/>
+                <TextBlock Text="{Binding Contact.Email}"/>
             </StackPanel>
         </GroupBox>
 
@@ -44,8 +44,12 @@
                 Orientation="Horizontal" 
                 HorizontalAlignment="Right" 
                 Margin="0,10,0,0">
-            <Button Content="Save" Width="75" Height="25" Margin="3"/>
-            <Button Content="Load" Width="75" Height="25" Margin="3"/>
+            <Button Content="Save" Width="75" Height="25" Margin="3"
+                    Command="{Binding SaveCommand}" 
+                    CommandParameter="{Binding Contact}"/>
+            <Button Content="Load" Width="75" Height="25" Margin="3"
+                    Command="{Binding LoadCommand}" 
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext}"/>
         </StackPanel>
 
     </Grid>
