@@ -14,7 +14,7 @@ namespace ObjectOrientedPractics.Model
     /// <summary>
     /// Представляет товар с уникальным идентификатором, названием, описанием, стоимостью и категорией.
     /// </summary>
-    public class Item: ICloneable, IEquatable<Item>, IComparable<Item>
+    public class Item: ICloneable, IEquatable<object>, IComparable<Item>
     {
         private readonly int _id;
         private string _name;
