@@ -114,15 +114,20 @@ namespace View.ViewModel
         public ICommand EditCommand { get; }
 
         /// <summary>
+        /// Команда для удаления выбранного контакта.
+        /// </summary>
+        public ICommand RemoveCommand { get; }
+
+        /// <summary>
         /// Конструктор MainVM.
         /// </summary>
         public MainVM()
         {
-            Contacts = ContactSerializer.Load();
+            Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
 
             AddCommand = new RelayCommand(obj => ExecuteAdd());
             EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null);
-            //RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null);
+            RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null);
             ApplyCommand = new RelayCommand(obj => ExecuteApply());
         }
 
@@ -131,8 +136,9 @@ namespace View.ViewModel
         /// </summary>
         private void ExecuteAdd()
         {
-            _isAdding = true;
             SelectedContact = null;
+            _isAdding = true;
+            _isEditing = false;
 
             _selectedContact = new Contact();
             OnPropertyChanged(nameof(SelectedContact));
@@ -148,6 +154,13 @@ namespace View.ViewModel
         {
             if (_isAdding)
             {
+                int newId = 1;
+                if (Contacts.Count > 0)
+                {
+                    newId = Contacts.Max(c => c.Id) + 1;
+                }
+
+                SelectedContact.Id = newId;
                 Contacts.Add(SelectedContact);
                 _isAdding = false;
             }
@@ -160,6 +173,34 @@ namespace View.ViewModel
             ContactSerializer.Save(Contacts);
             IsReadOnly = true;
             ApplyButtonVisibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Логика удаления выбранного контакта.
+        /// </summary>
+        private void ExecuteRemove()
+        {
+            if (SelectedContact == null) return;
+
+            int index = Contacts.IndexOf(SelectedContact);
+
+            Contacts.Remove(SelectedContact);
+            
+            if (Contacts.Count > 0)
+            {
+                if (index >= Contacts.Count)
+                {
+                    index = Contacts.Count - 1;
+                }
+
+                SelectedContact = Contacts[index];
+            }
+            else
+            {
+                SelectedContact = null;
+            }
+
+            ContactSerializer.Save(Contacts);
         }
 
         /// <summary>
