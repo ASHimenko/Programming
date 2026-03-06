@@ -37,7 +37,7 @@ namespace View.ViewModel
         {
             if (parameter is Contact contact)
             {
-                ContactSerializer.Save(contact);
+                //ContactSerializer.Save(contact);
             }
         }
     }

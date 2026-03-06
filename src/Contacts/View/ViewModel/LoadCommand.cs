@@ -37,7 +37,7 @@ namespace View.ViewModel
 
             if (parameter is MainVM mainVM)
             {
-                mainVM.Contact = loadedContact;
+                //mainVM.Contact = loadedContact;
             }
         }
     }

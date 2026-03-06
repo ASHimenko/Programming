@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using View.Model;
+using View.Model.Services;
 
 namespace View.ViewModel
 {
@@ -44,6 +45,11 @@ namespace View.ViewModel
         private bool _isAdding = false;
 
         /// <summary>
+        /// Флаг режима редактирования существующего контакта.
+        /// </summary>
+        private bool _isEditing = false;
+
+        /// <summary>
         /// Коллекция контактов для отображения в списке слева.
         /// </summary>
         public ObservableCollection<Contact> Contacts
@@ -60,8 +66,9 @@ namespace View.ViewModel
             get => _selectedContact;
             set
             {
-                if (_isAdding)
+                if (_isEditing || _isAdding)
                 {
+                    _isEditing = false;
                     _isAdding = false;
                 }
 
@@ -102,14 +109,20 @@ namespace View.ViewModel
         public ICommand ApplyCommand { get; }
 
         /// <summary>
+        /// Команда для перехода в режим редактирования.
+        /// </summary>
+        public ICommand EditCommand { get; }
+
+        /// <summary>
         /// Конструктор MainVM.
         /// </summary>
         public MainVM()
         {
-            Contacts = new ObservableCollection<Contact>();
+            Contacts = ContactSerializer.Load();
 
             AddCommand = new RelayCommand(obj => ExecuteAdd());
-
+            EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null);
+            //RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null);
             ApplyCommand = new RelayCommand(obj => ExecuteApply());
         }
 
@@ -133,14 +146,31 @@ namespace View.ViewModel
         /// </summary>
         private void ExecuteApply()
         {
-            if (_isAdding && SelectedContact != null)
+            if (_isAdding)
             {
                 Contacts.Add(SelectedContact);
                 _isAdding = false;
             }
 
+            if (_isEditing)
+            {
+                _isEditing = false;
+            }
+
+            ContactSerializer.Save(Contacts);
             IsReadOnly = true;
             ApplyButtonVisibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Логика нажатия кнопки Edit.
+        /// </summary>
+        private void ExecuteEdit()
+        {
+            _isEditing = true;
+            _isAdding = false;
+            IsReadOnly = false;
+            ApplyButtonVisibility = Visibility.Visible;
         }
 
         /// <summary>
