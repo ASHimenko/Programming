@@ -24,9 +24,10 @@
                 </StackPanel>
 
                 <ListBox Grid.Row="1" Margin="3" 
-                         ItemsSource="{Binding Contacts}" 
-                         SelectedItem="{Binding SelectedContact}"
-                         DisplayMemberPath="Name"/>
+                     ItemsSource="{Binding Contacts}" 
+                     SelectedItem="{Binding SelectedContact}"
+                     DisplayMemberPath="Name">  
+                </ListBox>
 
                 <UniformGrid Grid.Row="2" Columns="3">
                     <Button Content="Add" Height="25" Margin="3" Command="{Binding AddCommand}"/>
@@ -51,7 +52,7 @@
 
                 <Border Grid.Column="0" Width="100" Height="100" 
                 Background="#F0F0F0" 
-                Margin="3" VerticalAlignment="Top">
+                Margin="1,33,5,0" VerticalAlignment="Top">
                     <Path Data="M12,12C14.21,12 16,10.21 16,8C16,5.79 14.21,4 12,4C9.79,4 8,5.79 8,8C8,10.21 9.79,12 12,12M12,14C9.33,14 4,15.33 4,18V20H20V18C20,15.33 14.67,14 12,14Z" 
                   Fill="Gray" Stretch="Uniform" Margin="25"/>
                 </Border>

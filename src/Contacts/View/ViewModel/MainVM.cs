@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using View.Model;
 
@@ -17,85 +19,128 @@ namespace View.ViewModel
     public class MainVM : INotifyPropertyChanged
     {
         /// <summary>
-        /// Закрытое поле для хранения текущего контакта
+        /// Поле для хранения коллекции контактов.
         /// </summary>
-        private Contact _contact = new Contact();
+        private ObservableCollection<Contact> _contacts;
 
         /// <summary>
-        /// Свойство для доступа к объекту контакта.
+        /// Поле для хранения текущего выбранного контакта.
         /// </summary>
-        public Contact Contact
+        private Contact _selectedContact;
+
+        /// <summary>
+        /// Поле, определяющее, доступны ли поля для редактирования.
+        /// </summary>
+        private bool _isReadOnly = true;
+
+        /// <summary>
+        /// Поле, управляющее видимостью кнопки Apply.
+        /// </summary>
+        private Visibility _applyButtonVisibility = Visibility.Collapsed;
+
+        /// <summary>
+        /// Флаг, указывающий, находится ли приложение в режиме добавления нового контакта.
+        /// </summary>
+        private bool _isAdding = false;
+
+        /// <summary>
+        /// Коллекция контактов для отображения в списке слева.
+        /// </summary>
+        public ObservableCollection<Contact> Contacts
         {
-            get => _contact;
+            get => _contacts;
+            set { _contacts = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Текущий контакт, выбранный в ListBox.
+        /// </summary>
+        public Contact SelectedContact
+        {
+            get => _selectedContact;
             set
             {
-                _contact = value;
+                if (_isAdding)
+                {
+                    _isAdding = false;
+                }
 
+                _selectedContact = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(Name));
-                OnPropertyChanged(nameof(PhoneNumber));
-                OnPropertyChanged(nameof(Email));
+
+                IsReadOnly = true;
+                ApplyButtonVisibility = Visibility.Collapsed;
             }
         }
 
         /// <summary>
-        /// Прокси-свойство для Имени. Связывает TextBox с Contact.Name.
+        /// Свойство для привязки к IsReadOnly текстовых полей.
         /// </summary>
-        public string Name
+        public bool IsReadOnly
         {
-            get => Contact.Name;
-            set
-            {
-                Contact.Name = value;
-                OnPropertyChanged();
-            }
+            get => _isReadOnly;
+            set { _isReadOnly = value; OnPropertyChanged(); }
         }
 
         /// <summary>
-        /// Прокси-свойство для Номера телефона.
+        /// Свойство для привязки к Visibility кнопки Apply.
         /// </summary>
-        public string PhoneNumber
+        public Visibility ApplyButtonVisibility
         {
-            get => Contact.PhoneNumber;
-            set
-            {
-                Contact.PhoneNumber = value;
-                OnPropertyChanged();
-            }
+            get => _applyButtonVisibility;
+            set { _applyButtonVisibility = value; OnPropertyChanged(); }
         }
 
         /// <summary>
-        /// Прокси-свойство для Электронной почты.
+        /// Команда для инициации добавления нового контакта.
         /// </summary>
-        public string Email
-        {
-            get => Contact.Email;
-            set
-            {
-                Contact.Email = value;
-                OnPropertyChanged();
-            }
-        }
+        public ICommand AddCommand { get; }
 
         /// <summary>
-        /// Команда, которая будут привязана к кнопке "Сохранить".
+        /// Команда для подтверждения добавления или редактирования контакта.
         /// </summary>
-        public ICommand SaveCommand { get; }
+        public ICommand ApplyCommand { get; }
 
         /// <summary>
-        /// Команда, которая будут привязана к кнопке "Загрузить".
-        /// </summary>
-        public ICommand LoadCommand { get; }
-
-        /// <summary>
-        /// Конструктор MainVM. 
+        /// Конструктор MainVM.
         /// </summary>
         public MainVM()
         {
-            Contact = new Contact();
+            Contacts = new ObservableCollection<Contact>();
 
-            SaveCommand = new SaveCommand();
-            LoadCommand = new LoadCommand();
+            AddCommand = new RelayCommand(obj => ExecuteAdd());
+
+            ApplyCommand = new RelayCommand(obj => ExecuteApply());
+        }
+
+        /// <summary>
+        /// Логика нажатия кнопки Add. Сбрасывает выделение и готовит пустые поля.
+        /// </summary>
+        private void ExecuteAdd()
+        {
+            _isAdding = true;
+            SelectedContact = null;
+
+            _selectedContact = new Contact();
+            OnPropertyChanged(nameof(SelectedContact));
+
+            IsReadOnly = false;
+            ApplyButtonVisibility = Visibility.Visible;
+        }
+
+        /// <summary>
+        /// Логика нажатия кнопки Apply. Сохраняет новый контакт в список.
+        /// </summary>
+        private void ExecuteApply()
+        {
+            if (_isAdding && SelectedContact != null)
+            {
+                Contacts.Add(SelectedContact);
+                _isAdding = false;
+            }
+
+            IsReadOnly = true;
+            ApplyButtonVisibility = Visibility.Collapsed;
         }
 
         /// <summary>
