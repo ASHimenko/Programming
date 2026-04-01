@@ -30,9 +30,19 @@ namespace View.ViewModel
         private Contact _selectedContact;
 
         /// <summary>
+        /// Поле для редактирования текущего выбранного контакта.
+        /// </summary>
+        private Contact _editingContact;
+
+        /// <summary>
         /// Поле, определяющее, доступны ли поля для редактирования.
         /// </summary>
         private bool _isReadOnly = true;
+
+        /// <summary>
+        /// Флаг, блокирующий все кнопки во время операций.
+        /// </summary>
+        private bool _isBusy;
 
         /// <summary>
         /// Поле, управляющее видимостью кнопки Apply.
@@ -48,6 +58,25 @@ namespace View.ViewModel
         /// Флаг режима редактирования существующего контакта.
         /// </summary>
         private bool _isEditing = false;
+
+        /// <summary>
+        /// Флаг, указывающий, находится ли приложение в режиме удаления контакта.
+        /// </summary>
+        private bool _isRemove = false;
+
+        /// <summary>
+        /// Свойство для привязки IsEnabled кнопок.
+        /// </summary>
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set { _isBusy = value; OnPropertyChanged(); }
+        }
+
+        /// <summary>
+        /// Флаг, показывающий, что идет редактирование или добавление.
+        /// </summary>
+        public bool IsEditingOrAdding => _isEditing || _isAdding;
 
         /// <summary>
         /// Коллекция контактов для отображения в списке слева.
@@ -66,18 +95,60 @@ namespace View.ViewModel
             get => _selectedContact;
             set
             {
-                if (_isEditing || _isAdding)
+                if (_isAdding && value != null)
+                {
+                    _isAdding = false;
+                    IsBusy = false;
+                    EditingContact = new Contact();
+                    ApplyButtonVisibility = Visibility.Collapsed;
+                    IsReadOnly = true;
+                }
+
+                if (_isEditing && value != null && value != _selectedContact)
                 {
                     _isEditing = false;
-                    _isAdding = false;
+                    IsBusy = false;
+                    ApplyButtonVisibility = Visibility.Collapsed;
+                    IsReadOnly = true;
                 }
 
                 _selectedContact = value;
                 OnPropertyChanged();
 
+                if (_selectedContact != null && !_isEditing && !_isAdding)
+                {
+                    EditingContact = new Contact
+                    {
+                        Id = _selectedContact.Id,
+                        Name = _selectedContact.Name,
+                        PhoneNumber = _selectedContact.PhoneNumber,
+                        Email = _selectedContact.Email
+                    };
+                }
+
                 IsReadOnly = true;
                 ApplyButtonVisibility = Visibility.Collapsed;
+
+                if (_selectedContact != null && !_isEditing && !_isAdding)
+                {
+                    EditingContact = new Contact
+                    {
+                        Id = _selectedContact.Id,
+                        Name = _selectedContact.Name,
+                        PhoneNumber = _selectedContact.PhoneNumber,
+                        Email = _selectedContact.Email
+                    };
+                }
             }
+        }
+
+        /// <summary>
+        /// Временный контакт для редактирования.
+        /// </summary>
+        public Contact EditingContact
+        {
+            get => _editingContact;
+            set { _editingContact = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -124,10 +195,12 @@ namespace View.ViewModel
         public MainVM()
         {
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
+            EditingContact = new Contact();
+            IsBusy = false;
 
-            AddCommand = new RelayCommand(obj => ExecuteAdd());
-            EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null);
-            RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null);
+            AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
+            EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null && !IsBusy);
+            RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null && !IsBusy);
             ApplyCommand = new RelayCommand(obj => ExecuteApply());
         }
 
@@ -139,11 +212,13 @@ namespace View.ViewModel
             SelectedContact = null;
             _isAdding = true;
             _isEditing = false;
+            _isRemove = false;
+            IsBusy = true;
 
-            _selectedContact = new Contact();
-            OnPropertyChanged(nameof(SelectedContact));
+            EditingContact = new Contact();
 
             IsReadOnly = false;
+            CommandManager.InvalidateRequerySuggested();
             ApplyButtonVisibility = Visibility.Visible;
         }
 
@@ -160,19 +235,33 @@ namespace View.ViewModel
                     newId = Contacts.Max(c => c.Id) + 1;
                 }
 
-                SelectedContact.Id = newId;
-                Contacts.Add(SelectedContact);
+                EditingContact.Id = newId;
+                Contacts.Add(EditingContact);
+                SelectedContact = EditingContact;
                 _isAdding = false;
             }
 
             if (_isEditing)
             {
+                var originalContact = Contacts.FirstOrDefault(c => c.Id == EditingContact.Id);
+                if (originalContact != null)
+                {
+                    originalContact.Name = EditingContact.Name;
+                    originalContact.PhoneNumber = EditingContact.PhoneNumber;
+                    originalContact.Email = EditingContact.Email;
+
+                    SelectedContact = originalContact;
+                }
+
                 _isEditing = false;
             }
 
             ContactSerializer.Save(Contacts);
             IsReadOnly = true;
+            IsBusy = false;
+            CommandManager.InvalidateRequerySuggested();
             ApplyButtonVisibility = Visibility.Collapsed;
+            EditingContact = new Contact();
         }
 
         /// <summary>
@@ -182,12 +271,25 @@ namespace View.ViewModel
         {
             if (SelectedContact == null) return;
 
+            _isAdding = false;
+            _isEditing = false;
+            _isRemove = true;
+
             int index = Contacts.IndexOf(SelectedContact);
 
-            Contacts.Remove(SelectedContact);
-            
+            if (_isRemove)
+            {
+                Contacts.Remove(SelectedContact);
+            }
+
+            if (index == -1)
+            {
+                return;
+            }
+
             if (Contacts.Count > 0)
             {
+                
                 if (index >= Contacts.Count)
                 {
                     index = Contacts.Count - 1;
@@ -200,6 +302,7 @@ namespace View.ViewModel
                 SelectedContact = null;
             }
 
+            _isRemove = false;
             ContactSerializer.Save(Contacts);
         }
 
@@ -208,10 +311,23 @@ namespace View.ViewModel
         /// </summary>
         private void ExecuteEdit()
         {
+            if (SelectedContact == null) return;
+
+            EditingContact = new Contact
+            {
+                Id = SelectedContact.Id,
+                Name = SelectedContact.Name,
+                PhoneNumber = SelectedContact.PhoneNumber,
+                Email = SelectedContact.Email
+            };
+
             _isEditing = true;
             _isAdding = false;
+            _isRemove= false;
             IsReadOnly = false;
+            IsBusy = true;
             ApplyButtonVisibility = Visibility.Visible;
+            CommandManager.InvalidateRequerySuggested();
         }
 
         /// <summary>

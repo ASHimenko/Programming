@@ -60,13 +60,13 @@
                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
 
                     <Label Content="Name:" Margin="3,3,3,0"/>
-                    <TextBox Text="{Binding SelectedContact.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
+                    <TextBox Text="{Binding EditingContact.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
 
                     <Label Content="Phone Number:" Margin="3,3,3,0"/>
-                    <TextBox Text="{Binding SelectedContact.PhoneNumber, UpdateSourceTrigger=PropertyChanged }" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
+                    <TextBox Text="{Binding EditingContact.PhoneNumber, UpdateSourceTrigger=PropertyChanged }" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
 
                     <Label Content="Email:" Margin="3,3,3,0"/>
-                    <TextBox Text="{Binding SelectedContact.Email, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
+                    <TextBox Text="{Binding EditingContact.Email, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsReadOnly}" Margin="3"/>
 
                     <Button Content="Apply" 
                     Width="75" Height="25" 
