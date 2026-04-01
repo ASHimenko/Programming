@@ -69,10 +69,17 @@ namespace View.ViewModel
         /// </summary>
         public bool IsBusy
         {
-            get => _isBusy;
-            set { _isBusy = value; OnPropertyChanged(); }
+            get
+            {
+                return _isBusy;
+            }
+            set 
+            { 
+                _isBusy = value; 
+                OnPropertyChanged(); 
+            }
         }
-
+        
         /// <summary>
         /// Флаг, показывающий, что идет редактирование или добавление.
         /// </summary>
