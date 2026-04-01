@@ -95,36 +95,13 @@ namespace View.ViewModel
             get => _selectedContact;
             set
             {
-                if (_isAdding && value != null)
+                if ((_isAdding || _isEditing) && value != null && value != _selectedContact)
                 {
-                    _isAdding = false;
-                    IsBusy = false;
-                    EditingContact = new Contact();
-                    ApplyButtonVisibility = Visibility.Collapsed;
-                    IsReadOnly = true;
-                }
-
-                if (_isEditing && value != null && value != _selectedContact)
-                {
-                    _isEditing = false;
-                    IsBusy = false;
-                    ApplyButtonVisibility = Visibility.Collapsed;
-                    IsReadOnly = true;
+                    CancelCurrentOperation();
                 }
 
                 _selectedContact = value;
                 OnPropertyChanged();
-
-                if (_selectedContact != null && !_isEditing && !_isAdding)
-                {
-                    EditingContact = new Contact
-                    {
-                        Id = _selectedContact.Id,
-                        Name = _selectedContact.Name,
-                        PhoneNumber = _selectedContact.PhoneNumber,
-                        Email = _selectedContact.Email
-                    };
-                }
 
                 IsReadOnly = true;
                 ApplyButtonVisibility = Visibility.Collapsed;
@@ -140,6 +117,27 @@ namespace View.ViewModel
                     };
                 }
             }
+        }
+
+        /// <summary>
+        /// Отменяет текущую операцию.
+        /// </summary>
+        private void CancelCurrentOperation()
+        {
+            if (_isAdding)
+            {
+                _isAdding = false;
+                EditingContact = new Contact();
+            }
+
+            if (_isEditing)
+            {
+                _isEditing = false;
+            }
+
+            IsBusy = false;
+            ApplyButtonVisibility = Visibility.Collapsed;
+            IsReadOnly = true;
         }
 
         /// <summary>

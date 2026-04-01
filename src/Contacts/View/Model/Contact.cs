@@ -36,22 +36,70 @@ namespace View.Model
         /// <summary>
         /// Возвращает или задает имя контакта.
         /// </summary>
-        public string Name { get { return _name; } set { _name = value; OnPropertyChanged();} }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Возвращает или задает адрес электронной почты.
         /// </summary>
-        public string Email { get { return _email; } set { _email = value; OnPropertyChanged();} }
+        public string Email
+        {
+            get
+            {
+                return _email;
+            }
+
+            set
+            {
+                _email = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Возвращает или задает уникальный идентификатор контакта.
         /// </summary>
-        public int Id { get { return _id; } set { _id = value; OnPropertyChanged();} }
+        public int Id
+        {
+            get
+            {
+                return _id;
+            }
+
+            set
+            {
+                _id = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Возвращает или задает номер телефона.
         /// </summary>
-        public string PhoneNumber { get { return _phoneNumber; } set { _phoneNumber = value; OnPropertyChanged();} }
+        public string PhoneNumber
+        {
+            get
+            {
+                return _phoneNumber;
+            }
+
+            set
+            {
+                _phoneNumber = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Создает экземпляр класса <see cref="Contact"/> с заданными параметрами.
