@@ -214,7 +214,7 @@ namespace View.ViewModel
         /// </summary>
         private void ExecuteAdd()
         {
-            SelectedContact = null;
+            SelectedContact = new Contact();
             _isAdding = true;
             _isEditing = false;
             _isRemove = false;
