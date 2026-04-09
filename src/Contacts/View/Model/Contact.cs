@@ -33,6 +33,8 @@ namespace View.Model
         /// </summary>
         private int _id;
 
+        private bool _isValidationActive = false;
+
         /// <summary>
         /// Возвращает или задает имя контакта.
         /// </summary>
@@ -46,6 +48,7 @@ namespace View.Model
             set
             {
                 _name = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
             }
         }
@@ -63,6 +66,7 @@ namespace View.Model
             set
             {
                 _email = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
             }
         }
@@ -97,24 +101,31 @@ namespace View.Model
             set
             {
                 _phoneNumber = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
             }
         }
 
         public string Error => null;
 
+        public void ActivateValidation()
+        {
+            _isValidationActive = true;
+            OnPropertyChanged("");
+        }
+
         public string this[string columnName]
         {
             get
             {
+                if (!_isValidationActive) return string.Empty;
+
                 string error = string.Empty;
                 switch (columnName)
                 {
                     case nameof(Name):
                         if (string.IsNullOrWhiteSpace(Name))
                             error = "Имя не может быть пустым";
-                        else if (Name.Length > 100)
-                            error = "Имя не должно превышать 100 символов";
                         break;
 
                     case nameof(PhoneNumber):
@@ -122,17 +133,11 @@ namespace View.Model
                             error = "Номер телефона обязателен";
                         else if (!System.Text.RegularExpressions.Regex.IsMatch(PhoneNumber, @"^[\d\+\-\(\) ]+$"))
                             error = "Номер содержит недопустимые символы";
-                        else if (PhoneNumber.Length > 100)
-                            error = "Номер слишком длинный (макс. 100)";
                         break;
 
                     case nameof(Email):
-                        if (string.IsNullOrWhiteSpace(Email))
-                            error = "Номер телефона обязателен";
-                        else if (Email.Length > 100)
-                            error = "Email слишком длинный (макс. 100)";
-                        else if (!Email.Contains("@"))
-                            error = "Некорректный формат Email";
+                        if (!string.IsNullOrWhiteSpace(Email) && !Email.Contains("@"))
+                            error = "Некорректный Email";
                         break;
                 }
                 return error;

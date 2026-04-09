@@ -200,6 +200,7 @@ namespace View.ViewModel
         public MainVM()
         {
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
+            //EditingContact = new Contact();
             IsBusy = false;
 
             AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
@@ -333,6 +334,8 @@ namespace View.ViewModel
                 PhoneNumber = SelectedContact.PhoneNumber,
                 Email = SelectedContact.Email
             };
+
+            EditingContact.ActivateValidation();
 
             _isEditing = true;
             _isAdding = false;
