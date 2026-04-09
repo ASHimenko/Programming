@@ -335,8 +335,6 @@ namespace View.ViewModel
                 Email = SelectedContact.Email
             };
 
-            EditingContact.ActivateValidation();
-
             _isEditing = true;
             _isAdding = false;
             _isRemove= false;
