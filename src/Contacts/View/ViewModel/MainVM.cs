@@ -200,13 +200,22 @@ namespace View.ViewModel
         public MainVM()
         {
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
-            EditingContact = new Contact();
+            //EditingContact = new Contact();
             IsBusy = false;
 
             AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
             EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null && !IsBusy);
             RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null && !IsBusy);
-            ApplyCommand = new RelayCommand(obj => ExecuteApply());
+            ApplyCommand = new RelayCommand(obj => ExecuteApply(), obj => CanApply());
+        }
+
+        private bool CanApply()
+        {
+            if (EditingContact == null) return false;
+
+            return string.IsNullOrEmpty(EditingContact[nameof(Contact.Name)]) &&
+                   string.IsNullOrEmpty(EditingContact[nameof(Contact.PhoneNumber)]) &&
+                   string.IsNullOrEmpty(EditingContact[nameof(Contact.Email)]);
         }
 
         /// <summary>
@@ -266,7 +275,7 @@ namespace View.ViewModel
             IsBusy = false;
             CommandManager.InvalidateRequerySuggested();
             ApplyButtonVisibility = Visibility.Collapsed;
-            EditingContact = new Contact();
+            EditingContact = null;
         }
 
         /// <summary>
@@ -325,6 +334,8 @@ namespace View.ViewModel
                 PhoneNumber = SelectedContact.PhoneNumber,
                 Email = SelectedContact.Email
             };
+
+            EditingContact.ActivateValidation();
 
             _isEditing = true;
             _isAdding = false;

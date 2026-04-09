@@ -11,7 +11,7 @@ namespace View.Model
     /// <summary>
     /// Представляет модель данных для контакта.
     /// </summary>
-    public class Contact : INotifyPropertyChanged
+    public class Contact : INotifyPropertyChanged, IDataErrorInfo
     {
         /// <summary>
         /// Имя контакта.
@@ -33,6 +33,8 @@ namespace View.Model
         /// </summary>
         private int _id;
 
+        private bool _isValidationActive = false;
+
         /// <summary>
         /// Возвращает или задает имя контакта.
         /// </summary>
@@ -46,6 +48,7 @@ namespace View.Model
             set
             {
                 _name = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
             }
         }
@@ -63,6 +66,7 @@ namespace View.Model
             set
             {
                 _email = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
             }
         }
@@ -97,7 +101,46 @@ namespace View.Model
             set
             {
                 _phoneNumber = value;
+                _isValidationActive = true;
                 OnPropertyChanged();
+            }
+        }
+
+        public string Error => null;
+
+        public void ActivateValidation()
+        {
+            _isValidationActive = true;
+            OnPropertyChanged("");
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (!_isValidationActive) return string.Empty;
+
+                string error = string.Empty;
+                switch (columnName)
+                {
+                    case nameof(Name):
+                        if (string.IsNullOrWhiteSpace(Name))
+                            error = "Имя не может быть пустым";
+                        break;
+
+                    case nameof(PhoneNumber):
+                        if (string.IsNullOrWhiteSpace(PhoneNumber))
+                            error = "Номер телефона обязателен";
+                        else if (!System.Text.RegularExpressions.Regex.IsMatch(PhoneNumber, @"^[\d\+\-\(\) ]+$"))
+                            error = "Номер содержит недопустимые символы";
+                        break;
+
+                    case nameof(Email):
+                        if (!string.IsNullOrWhiteSpace(Email) && !Email.Contains("@"))
+                            error = "Некорректный Email";
+                        break;
+                }
+                return error;
             }
         }
 
