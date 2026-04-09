@@ -87,12 +87,12 @@
 
                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
 
-                    <cntrls:ContactControl DataContext="{Binding SelectedContact}">
+                    <cntrls:ContactControl DataContext="{Binding EditingContact}">
                         <cntrls:ContactControl.Style>
                             <Style TargetType="UserControl">
                                 <Setter Property="Visibility" Value="Visible"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding DataContext, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding  DataContext, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
