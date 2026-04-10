@@ -101,8 +101,22 @@ namespace View.Model
             }
         }
 
-        public string Error => null;
+        /// <summary>
+        /// Свойство Error
+        /// </summary>
+        public string Error
+        {
+            get
+            {
+                return null;
+            }
+        }
 
+        /// <summary>
+        /// Получает сообщение об ошибке для свойства с указанным именем.
+        /// </summary>
+        /// <param name="columnName">Имя проверяемого свойства.</param>
+        /// <returns>Строка с текстом ошибки или пустая строка, если данные верны.</returns>
         public string this[string columnName]
         {
             get

@@ -200,7 +200,6 @@ namespace View.ViewModel
         public MainVM()
         {
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
-            //EditingContact = new Contact();
             IsBusy = false;
 
             AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
@@ -209,6 +208,9 @@ namespace View.ViewModel
             ApplyCommand = new RelayCommand(obj => ExecuteApply(), obj => CanApply());
         }
 
+        /// <summary>
+        /// Проверяет, можно ли выполнить команду сохранения данных.
+        /// </summary>
         private bool CanApply()
         {
             if (EditingContact == null) return false;
