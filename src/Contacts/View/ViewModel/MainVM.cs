@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using View.Model;
 using View.Model.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace View.ViewModel
 {
@@ -17,7 +18,7 @@ namespace View.ViewModel
     /// Главная ViewModel приложения. 
     /// Связывает модель данных Contact с графическим интерфейсом (View).
     /// </summary>
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : ObservableObject
     {
         /// <summary>
         /// Поле для хранения коллекции контактов.
@@ -74,9 +75,8 @@ namespace View.ViewModel
                 return _isBusy;
             }
             set 
-            { 
-                _isBusy = value; 
-                OnPropertyChanged(); 
+            {
+                SetProperty(ref _isReadOnly, value);
             }
         }
         
@@ -88,11 +88,7 @@ namespace View.ViewModel
         /// <summary>
         /// Коллекция контактов для отображения в списке слева.
         /// </summary>
-        public ObservableCollection<Contact> Contacts
-        {
-            get => _contacts;
-            set { _contacts = value; OnPropertyChanged(); }
-        }
+        public ObservableCollection<Contact> Contacts { get; set; }
 
         /// <summary>
         /// Текущий контакт, выбранный в ListBox.
@@ -107,21 +103,21 @@ namespace View.ViewModel
                     CancelCurrentOperation();
                 }
 
-                _selectedContact = value;
-                OnPropertyChanged();
-
-                IsReadOnly = true;
-                ApplyButtonVisibility = Visibility.Collapsed;
-
-                if (_selectedContact != null && !_isEditing && !_isAdding)
+                if (SetProperty(ref _selectedContact, value))
                 {
-                    EditingContact = new Contact
+                    IsReadOnly = true;
+                    ApplyButtonVisibility = Visibility.Collapsed;
+
+                    if (_selectedContact != null && !_isEditing && !_isAdding)
                     {
-                        Id = _selectedContact.Id,
-                        Name = _selectedContact.Name,
-                        PhoneNumber = _selectedContact.PhoneNumber,
-                        Email = _selectedContact.Email
-                    };
+                        EditingContact = new Contact
+                        {
+                            Id = _selectedContact.Id,
+                            Name = _selectedContact.Name,
+                            PhoneNumber = _selectedContact.PhoneNumber,
+                            Email = _selectedContact.Email
+                        };
+                    }
                 }
             }
         }
@@ -153,7 +149,10 @@ namespace View.ViewModel
         public Contact EditingContact
         {
             get => _editingContact;
-            set { _editingContact = value; OnPropertyChanged(); }
+            set
+            {
+                SetProperty(ref _editingContact, value);
+            }
         }
 
         /// <summary>
@@ -162,7 +161,10 @@ namespace View.ViewModel
         public bool IsReadOnly
         {
             get => _isReadOnly;
-            set { _isReadOnly = value; OnPropertyChanged(); }
+            set 
+            { 
+                SetProperty(ref _isReadOnly, value); 
+            }
         }
 
         /// <summary>
@@ -171,7 +173,10 @@ namespace View.ViewModel
         public Visibility ApplyButtonVisibility
         {
             get => _applyButtonVisibility;
-            set { _applyButtonVisibility = value; OnPropertyChanged(); }
+            set
+            { 
+                SetProperty(ref _applyButtonVisibility, value);
+            }
         }
 
         /// <summary>
@@ -344,20 +349,6 @@ namespace View.ViewModel
             IsBusy = true;
             ApplyButtonVisibility = Visibility.Visible;
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        /// <summary>
-        /// Событие, которое сообщает интерфейсу, что какое-то свойство изменилось.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод для вызова события обновления интерфейса.
-        /// [CallerMemberName] автоматически подставляет имя свойства, из которого вызван метод.
-        /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

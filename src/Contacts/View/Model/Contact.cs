@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace View.Model
     /// <summary>
     /// Представляет модель данных для контакта.
     /// </summary>
-    public class Contact : INotifyPropertyChanged, IDataErrorInfo
+    public class Contact : ObservableObject, IDataErrorInfo
     {
         /// <summary>
         /// Имя контакта.
@@ -45,8 +46,7 @@ namespace View.Model
 
             set
             {
-                _name = value;
-                OnPropertyChanged();
+                SetProperty(ref _name, value);
             }
         }
 
@@ -62,8 +62,7 @@ namespace View.Model
 
             set
             {
-                _email = value;
-                OnPropertyChanged();
+                SetProperty(ref _email, value);
             }
         }
 
@@ -79,8 +78,7 @@ namespace View.Model
 
             set
             {
-                _id = value;
-                OnPropertyChanged();
+                SetProperty(ref _id, value);
             }
         }
 
@@ -96,8 +94,7 @@ namespace View.Model
 
             set
             {
-                _phoneNumber = value;
-                OnPropertyChanged();
+                SetProperty(ref _phoneNumber, value);
             }
         }
 
@@ -137,7 +134,7 @@ namespace View.Model
                         else if (!System.Text.RegularExpressions.Regex.IsMatch(PhoneNumber, @"^[\d\+\-\(\) ]+$"))
                             error = "Номер содержит недопустимые символы";
                         else if (PhoneNumber.Length > 100)
-                            error = "Номер слишком длинный (макс. 100)";
+                            error = "Номер телефона не должен превышать 100 символов";
                         break;
 
                     case nameof(Email):
@@ -146,7 +143,7 @@ namespace View.Model
                         else if (!string.IsNullOrWhiteSpace(Email) && !Email.Contains("@"))
                             error = "Некорректный Email";
                         else if (Email.Length > 100)
-                            error = "Почта слишком длинная (макс. 100)";
+                            error = "Почта не должна превышать 100 символов";
                         break;
                 }
                 return error;
