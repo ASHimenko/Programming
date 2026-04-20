@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace View.Model
+namespace Contacts.Model
 {
     /// <summary>
     /// Представляет модель данных для контакта.
@@ -167,19 +167,5 @@ namespace View.Model
         /// Создает пустой экземпляр класса <see cref="Contact"/>.
         /// </summary>
         public Contact() { }
-
-        /// <summary>
-        /// Событие, возникающее при изменении значения свойства.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Уведомляет систему привязок об изменении свойства.
-        /// </summary>
-        /// <param name="propertyName">Имя изменившегося свойства.</param>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }
