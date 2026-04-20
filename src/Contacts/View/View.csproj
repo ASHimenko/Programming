@@ -91,7 +91,6 @@
     </Compile>
     <Compile Include="Model\Services\ContactSerializer.cs" />
     <Compile Include="ViewModel\MainVM.cs" />
-    <Compile Include="ViewModel\RelayCommand.cs" />
     <Page Include="Controls\ContactControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

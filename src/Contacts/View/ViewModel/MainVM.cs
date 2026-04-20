@@ -11,6 +11,7 @@ using System.Windows.Input;
 using View.Model;
 using View.Model.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace View.ViewModel
 {
@@ -107,6 +108,8 @@ namespace View.ViewModel
                 {
                     IsReadOnly = true;
                     ApplyButtonVisibility = Visibility.Collapsed;
+                    ((RelayCommand)EditCommand).NotifyCanExecuteChanged();
+                    ((RelayCommand)RemoveCommand).NotifyCanExecuteChanged();
 
                     if (_selectedContact != null && !_isEditing && !_isAdding)
                     {
@@ -207,10 +210,17 @@ namespace View.ViewModel
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
             IsBusy = false;
 
-            AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
-            EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null && !IsBusy);
-            RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null && !IsBusy);
-            ApplyCommand = new RelayCommand(obj => ExecuteApply(), obj => CanApply());
+            AddCommand = new RelayCommand(ExecuteAdd, () => !IsBusy);
+            EditCommand = new RelayCommand(ExecuteEdit, () => SelectedContact != null && !IsBusy);
+            RemoveCommand = new RelayCommand(ExecuteRemove, () => SelectedContact != null && !IsBusy);
+            ApplyCommand = new RelayCommand(ExecuteApply, CanApply);
+            CommandManager.RequerySuggested += (s, e) =>
+            {
+                ((RelayCommand)ApplyCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)EditCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)RemoveCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)AddCommand).NotifyCanExecuteChanged();
+            };
         }
 
         /// <summary>
