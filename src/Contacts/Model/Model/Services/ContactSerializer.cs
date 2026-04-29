@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace View.Model.Services
+namespace Contacts.Model.Services
 {
     /// <summary>
     /// Сервис для сохранения и загрузки данных контакта.

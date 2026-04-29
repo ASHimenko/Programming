@@ -8,16 +8,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using View.Model;
-using View.Model.Services;
+using Contacts.Model;
+using Contacts.Model.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
-namespace View.ViewModel
+namespace Contacts.ViewModel
 {
     /// <summary>
     /// Главная ViewModel приложения. 
     /// Связывает модель данных Contact с графическим интерфейсом (View).
     /// </summary>
-    public class MainVM : INotifyPropertyChanged
+    public class MainVM : ObservableObject
     {
         /// <summary>
         /// Поле для хранения коллекции контактов.
@@ -74,9 +76,8 @@ namespace View.ViewModel
                 return _isBusy;
             }
             set 
-            { 
-                _isBusy = value; 
-                OnPropertyChanged(); 
+            {
+                SetProperty(ref _isReadOnly, value);
             }
         }
         
@@ -88,11 +89,7 @@ namespace View.ViewModel
         /// <summary>
         /// Коллекция контактов для отображения в списке слева.
         /// </summary>
-        public ObservableCollection<Contact> Contacts
-        {
-            get => _contacts;
-            set { _contacts = value; OnPropertyChanged(); }
-        }
+        public ObservableCollection<Contact> Contacts { get; set; }
 
         /// <summary>
         /// Текущий контакт, выбранный в ListBox.
@@ -107,21 +104,23 @@ namespace View.ViewModel
                     CancelCurrentOperation();
                 }
 
-                _selectedContact = value;
-                OnPropertyChanged();
-
-                IsReadOnly = true;
-                ApplyButtonVisibility = Visibility.Collapsed;
-
-                if (_selectedContact != null && !_isEditing && !_isAdding)
+                if (SetProperty(ref _selectedContact, value))
                 {
-                    EditingContact = new Contact
+                    IsReadOnly = true;
+                    ApplyButtonVisibility = Visibility.Collapsed;
+                    ((RelayCommand)EditCommand).NotifyCanExecuteChanged();
+                    ((RelayCommand)RemoveCommand).NotifyCanExecuteChanged();
+
+                    if (_selectedContact != null && !_isEditing && !_isAdding)
                     {
-                        Id = _selectedContact.Id,
-                        Name = _selectedContact.Name,
-                        PhoneNumber = _selectedContact.PhoneNumber,
-                        Email = _selectedContact.Email
-                    };
+                        EditingContact = new Contact
+                        {
+                            Id = _selectedContact.Id,
+                            Name = _selectedContact.Name,
+                            PhoneNumber = _selectedContact.PhoneNumber,
+                            Email = _selectedContact.Email
+                        };
+                    }
                 }
             }
         }
@@ -153,7 +152,10 @@ namespace View.ViewModel
         public Contact EditingContact
         {
             get => _editingContact;
-            set { _editingContact = value; OnPropertyChanged(); }
+            set
+            {
+                SetProperty(ref _editingContact, value);
+            }
         }
 
         /// <summary>
@@ -162,7 +164,10 @@ namespace View.ViewModel
         public bool IsReadOnly
         {
             get => _isReadOnly;
-            set { _isReadOnly = value; OnPropertyChanged(); }
+            set 
+            { 
+                SetProperty(ref _isReadOnly, value); 
+            }
         }
 
         /// <summary>
@@ -171,7 +176,10 @@ namespace View.ViewModel
         public Visibility ApplyButtonVisibility
         {
             get => _applyButtonVisibility;
-            set { _applyButtonVisibility = value; OnPropertyChanged(); }
+            set
+            { 
+                SetProperty(ref _applyButtonVisibility, value);
+            }
         }
 
         /// <summary>
@@ -200,13 +208,31 @@ namespace View.ViewModel
         public MainVM()
         {
             Contacts = ContactSerializer.Load() ?? new ObservableCollection<Contact>(); ;
-            EditingContact = new Contact();
             IsBusy = false;
 
-            AddCommand = new RelayCommand(obj => ExecuteAdd(), obj => !IsBusy);
-            EditCommand = new RelayCommand(obj => ExecuteEdit(), obj => SelectedContact != null && !IsBusy);
-            RemoveCommand = new RelayCommand(obj => ExecuteRemove(), obj => SelectedContact != null && !IsBusy);
-            ApplyCommand = new RelayCommand(obj => ExecuteApply());
+            AddCommand = new RelayCommand(ExecuteAdd, () => !IsBusy);
+            EditCommand = new RelayCommand(ExecuteEdit, () => SelectedContact != null && !IsBusy);
+            RemoveCommand = new RelayCommand(ExecuteRemove, () => SelectedContact != null && !IsBusy);
+            ApplyCommand = new RelayCommand(ExecuteApply, CanApply);
+            CommandManager.RequerySuggested += (s, e) =>
+            {
+                ((RelayCommand)ApplyCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)EditCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)RemoveCommand).NotifyCanExecuteChanged();
+                ((RelayCommand)AddCommand).NotifyCanExecuteChanged();
+            };
+        }
+
+        /// <summary>
+        /// Проверяет, можно ли выполнить команду сохранения данных.
+        /// </summary>
+        private bool CanApply()
+        {
+            if (EditingContact == null) return false;
+
+            return string.IsNullOrEmpty(EditingContact[nameof(Contact.Name)]) &&
+                   string.IsNullOrEmpty(EditingContact[nameof(Contact.PhoneNumber)]) &&
+                   string.IsNullOrEmpty(EditingContact[nameof(Contact.Email)]);
         }
 
         /// <summary>
@@ -214,7 +240,7 @@ namespace View.ViewModel
         /// </summary>
         private void ExecuteAdd()
         {
-            SelectedContact = null;
+            SelectedContact = new Contact();
             _isAdding = true;
             _isEditing = false;
             _isRemove = false;
@@ -266,7 +292,7 @@ namespace View.ViewModel
             IsBusy = false;
             CommandManager.InvalidateRequerySuggested();
             ApplyButtonVisibility = Visibility.Collapsed;
-            EditingContact = new Contact();
+            EditingContact = null;
         }
 
         /// <summary>
@@ -333,20 +359,6 @@ namespace View.ViewModel
             IsBusy = true;
             ApplyButtonVisibility = Visibility.Visible;
             CommandManager.InvalidateRequerySuggested();
-        }
-
-        /// <summary>
-        /// Событие, которое сообщает интерфейсу, что какое-то свойство изменилось.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Метод для вызова события обновления интерфейса.
-        /// [CallerMemberName] автоматически подставляет имя свойства, из которого вызван метод.
-        /// </summary>
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
